@@ -149,7 +149,12 @@ class MapClass{
         void initMap();
         int randomRange(int min, int max);
         void visit(Cell cell);
+        void visitHomeCell(int row, int column,int value);
 
+        void createHome();
+        void connectHome();
+        void findcorridor(Cell homeDoor);
+        
         void generateRandomMap();
 
         Cell checkNeighbours();

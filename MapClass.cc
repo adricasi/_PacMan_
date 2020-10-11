@@ -35,12 +35,12 @@ void MapClass::createMap(){
     srand((unsigned) time(&t));
 
     initMap();
-    //createHome();
-
+    createHome();
     //Generate random map
     m_currentCell = m_map[1][1];
     generateRandomMap();
 
+    connectHome();
 }
 
 void MapClass::printMap(){
@@ -57,16 +57,6 @@ void MapClass::printMap(){
 
     }
     printf("\n");
-    /*
-    for(int row=0; row<m_rows; row++){
-        for(int column=0; column<m_columns; column++){
-            neighbour neighbour = m_map[row][column].get_neighbour(RIGHT);
-            printf(" exist:%d r:%d c:%d ||",neighbour.exists,neighbour.row,neighbour.column);
-        }
-        printf("\n");
-    }
-    printf("\n");
-    */
 }
 
 //-------------------------------------------------------------------------
@@ -85,6 +75,38 @@ void MapClass::initMap(){
 
 int MapClass::randomRange(int min, int max){
     return rand() % (max - min + 1) + min;
+}
+
+void MapClass::createHome(){
+    for(int iHomeRow=0; iHomeRow<HOMEROWS; iHomeRow++){
+        for(int iHomeColumn=0; iHomeColumn<HOMECOLUMNS; iHomeColumn++){
+            int row = m_initialCellHome.get_row() + iHomeRow;
+            int column = m_initialCellHome.get_column() + iHomeColumn;
+            visitHomeCell(row,column,home[iHomeRow][iHomeColumn]);
+        }
+    }
+}
+
+void MapClass::visitHomeCell(int row, int column, int value){
+    if(!m_map[row][column].get_visited()){
+        m_cellsToVisit = m_cellsToVisit-2;
+    }
+    m_map[row][column].set_visited(true);
+    m_map[row][column].set_value(value);
+    //Write right map part
+    m_map[row][m_columns-1-column].set_visited(true);
+    m_map[row][m_columns-1-column].set_value(value);
+}
+
+void MapClass::connectHome(){
+    Cell homeDoor = m_initialCellHome;
+    homeDoor.set_column(m_initialCellHome.get_column()+3);
+    findcorridor(homeDoor);    
+}
+void MapClass::findcorridor(Cell homeDoor){
+    if(m_map[homeDoor.get_row()-1][homeDoor.get_column()].get_value() == WALL){
+        m_map[homeDoor.get_row()-1][homeDoor.get_column()].set_value(CORRIDOR);
+    }
 }
 
 void MapClass::visit(Cell cell){
@@ -109,8 +131,6 @@ void MapClass::visit(Cell cell){
 void MapClass::generateRandomMap(){   
     if(m_cellsToVisit > 0){
         visit(m_currentCell);
-        printf("stack top %d \n",m_stack.get_top());
-        printf("tovisit %d \n",m_cellsToVisit);
 
         //Step1
         Cell nextCell = checkNeighbours();
