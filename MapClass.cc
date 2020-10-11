@@ -89,11 +89,19 @@ int MapClass::randomRange(int min, int max){
 
 void MapClass::visit(Cell cell){
     if(!m_map[cell.get_row()][cell.get_column()].get_visited()){
-        m_cellsToVisit = m_cellsToVisit-2;
+        m_cellsToVisit = m_cellsToVisit-1;
+        if(!(cell.get_neighbour(RIGHT).column > (m_columns/2)) || m_columns%2 == 0){
+            //Write right map part
+            m_cellsToVisit = m_cellsToVisit-1;
+        }
     }
+    
     m_map[cell.get_row()][cell.get_column()].visit();
-    //Write right map part
-    m_map[cell.get_row()][m_columns-1-cell.get_column()].visit();
+
+    if(!(cell.get_neighbour(RIGHT).column > (m_columns/2)) || cell.get_row()%2 == 0 || m_columns%2 == 0){
+        //Write right map part
+        m_map[cell.get_row()][m_columns-1-cell.get_column()].visit();
+    }
 }
 
 //---------------Generate Random Map -------------------------------------------------------------
@@ -204,7 +212,7 @@ void Cell::initCell(int totalRows, int totalColumns, int cellRow, int cellColumn
 
 void Cell::defineNeighbour(int totalRows, int totalColumns, int cellRow, int cellColumn, int neighbour){
     int exists = true;
-    if(cellRow < 0 || cellColumn < 0 || cellRow > totalRows-1 || cellColumn > (totalColumns/2)){
+    if(cellRow < 0 || cellColumn < 0 || cellRow > totalRows-1 || cellColumn > (totalColumns/2)+1){
         exists = false;
     }
 
