@@ -34,9 +34,10 @@ class Cell{
 
     public:
       void initCell(int totalRows, int totalColumns, int cellRow, int cellColumn);
-      void checkNeighbour();
       void defineNeighbour(int totalRows, int totalColumns, int cellRow, int cellColumn, int neighbour);
+      void visit();
 
+    // get/set----------------------------------
       void set_row(int row){
         m_row = row;
       }
@@ -73,8 +74,17 @@ class Cell{
           return cell_path_left;
         }
       }
+
+      bool equal(Cell cell){
+        if(m_row == cell.get_row() && m_column == cell.get_column()){
+          return true;
+        }else{
+          return false;
+        }
+      }
 };
 
+//------------------------------------------------------------------------------------------
 class MapClass{
     
     private:
@@ -83,6 +93,7 @@ class MapClass{
         int m_columns;
         int m_visitedCells;
         Cell** m_map;
+        Cell m_currentCell;
         Cell m_initialCellHome;
         // Home definition
         int home[HOMEROWS][HOMECOLUMNS] = {{WALL,WALL,WALL,CORRIDOR},
@@ -100,13 +111,18 @@ class MapClass{
         void printMap();
         
         void initMap();
-        void createHome();
-        void defineBordersWalls();
-        void writeCell(int row, int column, int value);
-
         int randomRange(int min, int max);
+        void visit(Cell cell);
 
         void generateRandomMap();
+
+        Cell checkNeighbours();
+        
+        // get/set------------------------------------
+        Cell getCell(Cell cell){
+          return m_map[cell.get_row()][cell.get_column()];
+        }
+
 };
 
 #endif
