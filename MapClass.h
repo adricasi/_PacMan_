@@ -19,6 +19,8 @@ struct neighbour{
   int column;
 };
 
+//---------------------Cell of Cells-----------------------------------------------------------------------
+
 class Cell{
    private:
         //Variables
@@ -34,9 +36,10 @@ class Cell{
 
     public:
       void initCell(int totalRows, int totalColumns, int cellRow, int cellColumn);
-      void checkNeighbour();
       void defineNeighbour(int totalRows, int totalColumns, int cellRow, int cellColumn, int neighbour);
+      void visit();
 
+    // get/set----------------------------------
       void set_row(int row){
         m_row = row;
       }
@@ -73,17 +76,61 @@ class Cell{
           return cell_path_left;
         }
       }
+
+      bool equal(Cell cell){
+        if(m_row == cell.get_row() && m_column == cell.get_column()){
+          return true;
+        }else{
+          return false;
+        }
+      }
 };
 
+//---------------------Stack of Cells-----------------------------------------------------------------------
+
+class Stack {
+private:
+  int item, i;
+  Cell* arr_stack;
+  int top;
+  int m_max_size;
+public:
+
+  void initStack(int maxSize);
+
+void push(Cell cell) {
+  if(top != m_max_size){
+    arr_stack[top] = cell;
+    top = top+1;
+  }
+}
+
+Cell pop() {
+  if (top != 0){
+    top = top-1;
+    return arr_stack[top];
+  }
+}
+
+  int get_top(){
+    return top;
+  }
+};
+
+
+//------------------------------------------------------------------------------------------
 class MapClass{
     
     private:
         //Variables
         int m_rows;
         int m_columns;
-        int m_visitedCells;
+        int m_cellsToVisit;
         Cell** m_map;
+        Cell m_currentCell;
         Cell m_initialCellHome;
+        Stack m_stack;
+
         // Home definition
         int home[HOMEROWS][HOMECOLUMNS] = {{WALL,WALL,WALL,CORRIDOR},
                                   {WALL,CORRIDOR,CORRIDOR,CORRIDOR},
@@ -100,13 +147,24 @@ class MapClass{
         void printMap();
         
         void initMap();
-        void createHome();
-        void defineBordersWalls();
-        void writeCell(int row, int column, int value);
-
         int randomRange(int min, int max);
+        void visit(Cell cell);
+        void visitHomeCell(int row, int column,int value);
 
+        void createHome();
+        void connectHome();
+        void findcorridor(Cell homeDoor);
+        
         void generateRandomMap();
+
+        Cell checkNeighbours();
+        void removeWalls(Cell nextCell);
+
+        // get/set------------------------------------
+        Cell getCell(Cell cell){
+          return m_map[cell.get_row()][cell.get_column()];
+        }
+
 };
 
 #endif
