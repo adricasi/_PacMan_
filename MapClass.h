@@ -19,6 +19,8 @@ struct neighbour{
   int column;
 };
 
+//---------------------Cell of Cells-----------------------------------------------------------------------
+
 class Cell{
    private:
         //Variables
@@ -84,6 +86,38 @@ class Cell{
       }
 };
 
+//---------------------Stack of Cells-----------------------------------------------------------------------
+
+class Stack {
+private:
+  int item, i;
+  Cell* arr_stack;
+  int top;
+  int m_max_size;
+public:
+
+  void initStack(int maxSize);
+
+void push(Cell cell) {
+  if(top != m_max_size){
+    arr_stack[top] = cell;
+    top = top+1;
+  }
+}
+
+Cell pop() {
+  if (top != 0){
+    top = top-1;
+    return arr_stack[top];
+  }
+}
+
+  int get_top(){
+    return top;
+  }
+};
+
+
 //------------------------------------------------------------------------------------------
 class MapClass{
     
@@ -91,10 +125,12 @@ class MapClass{
         //Variables
         int m_rows;
         int m_columns;
-        int m_visitedCells;
+        int m_cellsToVisit;
         Cell** m_map;
         Cell m_currentCell;
         Cell m_initialCellHome;
+        Stack m_stack;
+
         // Home definition
         int home[HOMEROWS][HOMECOLUMNS] = {{WALL,WALL,WALL,CORRIDOR},
                                   {WALL,CORRIDOR,CORRIDOR,CORRIDOR},
@@ -117,7 +153,8 @@ class MapClass{
         void generateRandomMap();
 
         Cell checkNeighbours();
-        
+        void removeWalls(Cell nextCell);
+
         // get/set------------------------------------
         Cell getCell(Cell cell){
           return m_map[cell.get_row()][cell.get_column()];
