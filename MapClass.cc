@@ -34,10 +34,9 @@ void MapClass::createMap(){
     srand((unsigned) time(&t));
 
     initMap();
-    defineBordersWalls();
-    createHome();
+    //createHome();
     //Generate random map
-    generateRandomMap();
+    //generateRandomMap();
 
 }
 
@@ -52,8 +51,19 @@ void MapClass::printMap(){
             }
         }
         printf("\n");
+
     }
     printf("\n");
+    /*
+    for(int row=0; row<m_rows; row++){
+        for(int column=0; column<m_columns; column++){
+            neighbour neighbour = m_map[row][column].get_neighbour(RIGHT);
+            printf(" exist:%d r:%d c:%d ||",neighbour.exists,neighbour.row,neighbour.column);
+        }
+        printf("\n");
+    }
+    printf("\n");
+    */
 }
 
 //-------------------------------------------------------------------------
@@ -78,19 +88,6 @@ void MapClass::createHome(){
     }
 }
 
-void MapClass::defineBordersWalls(){
-    for(int row = 0; row<m_rows; row++){
-        int column=0;
-        if(row == 0 || row == m_rows-1){
-            for(column=0;column<(m_columns/2)+1; column++){
-                //writeValue(row,column,WALL);
-            }
-        }else{
-            //writeValue(row,column,WALL);
-        }
-    }
-}
-
 void MapClass::writeCell(int row, int column, int value){
     m_map[row][column].set_value(value);
     m_map[row][column].set_visited(true);
@@ -108,38 +105,48 @@ void MapClass::generateRandomMap(){
 }
 
 //---------------Cell Class-------------------------------
-void Cell::initCell(int rows, int columns, int cellRow, int cellColumn){
-    if(cellRow%2 != 0 && cellColumn%2 !=0){
-        m_row = cellRow;
-        m_column = cellColumn;
+void Cell::initCell(int totalRows, int totalColumns, int cellRow, int cellColumn){
+    m_row = cellRow;
+    m_column = cellColumn;
+
+    if(m_row%2 != 0 && m_column%2 !=0){
+        //Define corridors
         m_value = CORRIDOR;
         m_visited = false;
-        
-        if(cellRow+2 >= rows){
-            cell_path_n[0]=-1;
-            cell_path_n[1]=-1;
-        }else{
-            cell_path_n[0]=cellRow+2;
-            cell_path_n[1]=cellColumn;
-        }
-        
-        cell_path_s[0]=cellRow-2;
-        cell_path_s[1]=cellColumn;
-
-        cell_path_w[0]=cellRow;
-        cell_path_w[1]=cellColumn-2;
-
-
-        if(cellColumn+2 > columns/2){
-            cell_path_e[0]=-1;
-            cell_path_e[1]=-1;
-        }else{
-            cell_path_e[0]=cellRow;
-            cell_path_e[1]=cellColumn+2;
-        }
-        
     }else{
+        //Define walls
         m_value=WALL;
         m_visited=true; 
+    }
+
+    //Define neightbours
+    defineNeighbour(totalRows, totalColumns, m_row-2, m_column, TOP);
+    defineNeighbour(totalRows, totalColumns, m_row, m_column+2, RIGHT);
+    defineNeighbour(totalRows, totalColumns, m_row+2, m_column, BOT);
+    defineNeighbour(totalRows, totalColumns, m_row, m_column-2, LEFT);
+}
+
+void Cell::defineNeighbour(int totalRows, int totalColumns, int cellRow, int cellColumn, int neighbour){
+    int exists = true;
+    if(cellRow < 0 || cellColumn < 0 || cellRow > totalRows-1 || cellColumn > totalColumns/2){
+        exists = false;
+    }
+
+    if(neighbour == TOP){
+        cell_path_top.row = cellRow;
+        cell_path_top.column = cellColumn;
+        cell_path_top.exists = exists;
+    }else if(neighbour == RIGHT){
+        cell_path_right.row = cellRow;
+        cell_path_right.column = cellColumn;
+        cell_path_right.exists = exists;
+    }else if(neighbour == BOT){
+        cell_path_bot.row = cellRow;
+        cell_path_bot.column = cellColumn;
+        cell_path_bot.exists = exists;
+    }else if(neighbour == LEFT){
+        cell_path_left.row = cellRow;
+        cell_path_left.column = cellColumn;
+        cell_path_left.exists = exists;
     }
 }

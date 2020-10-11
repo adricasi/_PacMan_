@@ -8,16 +8,16 @@
 #define HOMECOLUMNS 4
 #define CORRIDORTYPES 5
 
-#define TOPLEFT 0
-#define TOP 1
-#define TOPRIGHT 2
+#define TOP 0
+#define LEFT 1
+#define RIGHT 2
+#define BOT 3
 
-#define LEFT 3
-#define RIGHT 4
-
-#define BOTLEFT 5
-#define BOT 6
-#define BOTRIGHT 7
+struct neighbour{
+  bool exists;
+  int row;
+  int column;
+};
 
 class Cell{
    private:
@@ -27,13 +27,16 @@ class Cell{
         int m_value;
         bool m_visited;
 
-        int cell_path_n[2];
-        int cell_path_e[2];
-        int cell_path_s[2];
-        int cell_path_w[2];
+        neighbour cell_path_top;
+        neighbour cell_path_right;
+        neighbour cell_path_bot;
+        neighbour cell_path_left;
 
     public:
-      void initCell(int rows, int columns, int cellRow, int cellColumn);
+      void initCell(int totalRows, int totalColumns, int cellRow, int cellColumn);
+      void checkNeighbour();
+      void defineNeighbour(int totalRows, int totalColumns, int cellRow, int cellColumn, int neighbour);
+
       void set_row(int row){
         m_row = row;
       }
@@ -58,6 +61,17 @@ class Cell{
       }
       bool get_visited(){
         return m_visited;
+      }
+      neighbour get_neighbour(int neighbour){
+        if(neighbour == TOP){
+          return cell_path_top;
+        }else if(neighbour == RIGHT){
+          return cell_path_right;
+        }else if(neighbour == BOT){
+          return cell_path_bot;
+        }else if(neighbour == LEFT){
+          return cell_path_left;
+        }
       }
 };
 
