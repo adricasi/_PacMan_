@@ -1,47 +1,57 @@
 #include "MapClass.h"
+#include <stdio.h>
 
 void Cell::initCell(int totalRows, int totalColumns, int cellRow, int cellColumn){
+    /*
+        ----Initialize the cell----
+        
+        If it is an par cell, it will be treated as a wall, we do not need to visit the cell at the execution of the algorithm
+        
+        If it is a odd cell it will be treated as a Corridor, we must visit the cell at the exectuion of the algorithm
+
+        The cell must know their neighbours
+    */
+
     m_row = cellRow;
     m_column = cellColumn;
     m_value = WALL;
 
-    if(m_row%2 != 0 && m_column%2 !=0){
+    if(m_row%2!=0 && m_column%2!=0 && m_row<totalRows-1 && m_column<=(totalColumns/2)){
         //Define corridors
         m_visited = false;
     }else{
         //Define walls
         m_visited=true; 
     }
-
-    //Define neightbours
-    defineNeighbour(totalRows, totalColumns, m_row-2, m_column, TOP);
-    defineNeighbour(totalRows, totalColumns, m_row, m_column+2, RIGHT);
-    defineNeighbour(totalRows, totalColumns, m_row+2, m_column, BOT);
-    defineNeighbour(totalRows, totalColumns, m_row, m_column-2, LEFT);
+        //Define neightbours
+        defineNeighbour(totalRows, totalColumns, m_row-2, m_column, TOP);
+        defineNeighbour(totalRows, totalColumns, m_row, m_column+2, RIGHT);
+        defineNeighbour(totalRows, totalColumns, m_row+2, m_column, BOT);
+        defineNeighbour(totalRows, totalColumns, m_row, m_column-2, LEFT);
 }
 
 
-void Cell::defineNeighbour(int totalRows, int totalColumns, int cellRow, int cellColumn, int neighbour){
+void Cell::defineNeighbour(int totalRows, int totalColumns, int neighbourRow, int neighbourColumn, int neighbour){
     int exists = true;
-    if(cellRow < 0 || cellColumn < 0 || cellRow > totalRows-1 || cellColumn > (totalColumns/2)+1){
-        exists = false;
+    if(neighbourRow<0 || neighbourColumn<0 || neighbourRow>=totalRows || neighbourColumn>totalColumns/2){
+            exists = false;
     }
 
     if(neighbour == TOP){
-        cell_path_top.row = cellRow;
-        cell_path_top.column = cellColumn;
+        cell_path_top.row = neighbourRow;
+        cell_path_top.column = neighbourColumn;
         cell_path_top.exists = exists;
     }else if(neighbour == RIGHT){
-        cell_path_right.row = cellRow;
-        cell_path_right.column = cellColumn;
+        cell_path_right.column = neighbourColumn;
+        cell_path_right.row = neighbourRow;
         cell_path_right.exists = exists;
     }else if(neighbour == BOT){
-        cell_path_bot.row = cellRow;
-        cell_path_bot.column = cellColumn;
+        cell_path_bot.row = neighbourRow;
+        cell_path_bot.column = neighbourColumn;
         cell_path_bot.exists = exists;
     }else if(neighbour == LEFT){
-        cell_path_left.row = cellRow;
-        cell_path_left.column = cellColumn;
+        cell_path_left.column = neighbourColumn;
+        cell_path_left.row = neighbourRow;
         cell_path_left.exists = exists;
     }
 }
@@ -49,6 +59,10 @@ void Cell::defineNeighbour(int totalRows, int totalColumns, int cellRow, int cel
 void Cell::visit(){
     m_visited=true;
     m_value=CORRIDOR;
+}
+void Cell::visitHomeCell(int value){ 
+    m_visited=true;
+    m_value=value;
 }
 
 //Get/Set

@@ -36,8 +36,9 @@ class Cell{
 
   public:
     void initCell(int totalRows, int totalColumns, int cellRow, int cellColumn);
-    void defineNeighbour(int totalRows, int totalColumns, int cellRow, int cellColumn, int neighbour);
+    void defineNeighbour(int totalRows, int totalColumns, int neighbourRow, int neighbourColumn, int neighbour);
     void visit();
+    void visitHomeCell(int value);
 
     // get/set----------------------------------
     void set_row(int row);
