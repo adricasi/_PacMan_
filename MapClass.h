@@ -22,68 +22,37 @@ struct neighbour{
 //---------------------Cell of Cells-----------------------------------------------------------------------
 
 class Cell{
-   private:
-        //Variables
-        int m_row;
-        int m_column;
-        int m_value;
-        bool m_visited;
+  private:
+    //Variables
+    int m_row;
+    int m_column;
+    int m_value;
+    bool m_visited;
 
-        neighbour cell_path_top;
-        neighbour cell_path_right;
-        neighbour cell_path_bot;
-        neighbour cell_path_left;
+    neighbour cell_path_top;
+    neighbour cell_path_right;
+    neighbour cell_path_bot;
+    neighbour cell_path_left;
 
-    public:
-      void initCell(int totalRows, int totalColumns, int cellRow, int cellColumn);
-      void defineNeighbour(int totalRows, int totalColumns, int cellRow, int cellColumn, int neighbour);
-      void visit();
+  public:
+    void initCell(int totalRows, int totalColumns, int cellRow, int cellColumn);
+    void defineNeighbour(int totalRows, int totalColumns, int neighbourRow, int neighbourColumn, int neighbour);
+    void visit();
+    void visitHomeCell(int value);
 
     // get/set----------------------------------
-      void set_row(int row){
-        m_row = row;
-      }
-      void set_column(int column){
-        m_column = column;
-      }
-      void set_value(int value){
-        m_value = value;
-      }
-      void set_visited(bool visited){
-        m_visited = visited;
-      }
+    void set_row(int row);
+    void set_column(int column);
+    void set_value(int value);
+    void set_visited(bool visited);
 
-      int get_row(){
-        return m_row;
-      }
-      int get_column(){
-        return m_column;
-      }
-      int get_value(){
-        return m_value;
-      }
-      bool get_visited(){
-        return m_visited;
-      }
-      neighbour get_neighbour(int neighbour){
-        if(neighbour == TOP){
-          return cell_path_top;
-        }else if(neighbour == RIGHT){
-          return cell_path_right;
-        }else if(neighbour == BOT){
-          return cell_path_bot;
-        }else if(neighbour == LEFT){
-          return cell_path_left;
-        }
-      }
+    int get_row();
+    int get_column();
+    int get_value();
+    bool get_visited();
+    neighbour get_neighbour(int neighbour);
 
-      bool equal(Cell cell){
-        if(m_row == cell.get_row() && m_column == cell.get_column()){
-          return true;
-        }else{
-          return false;
-        }
-      }
+    bool equal(Cell cell);
 };
 
 //---------------------Stack of Cells-----------------------------------------------------------------------
@@ -94,27 +63,12 @@ private:
   Cell* arr_stack;
   int top;
   int m_max_size;
+
 public:
-
   void initStack(int maxSize);
-
-void push(Cell cell) {
-  if(top != m_max_size){
-    arr_stack[top] = cell;
-    top = top+1;
-  }
-}
-
-Cell pop() {
-  if (top != 0){
-    top = top-1;
-    return arr_stack[top];
-  }
-}
-
-  int get_top(){
-    return top;
-  }
+  void push(Cell cell);
+  Cell pop();
+  int get_top();
 };
 
 

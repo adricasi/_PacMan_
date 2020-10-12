@@ -42,7 +42,7 @@ int main(int argc,char *argv[])
 
 void display()
 {
-  struct MapClass* map = newMapClass(21,21);
+  struct MapClass* map = newMapClass(81,81);
   MapClass_createMap(map);
   MapClass_printMap(map);
 
