@@ -103,7 +103,9 @@ class MapClass{
         //Functions
         void createMap();
         void printMap();
+        int getValue(int row, int column);
         
+        //--------
         void initMap();
         int randomRange(int min, int max);
         void visit(Cell cell);

@@ -53,6 +53,10 @@ void MapClass::printMap(){
     printf("\n");
 }
 
+int MapClass::getValue(int row, int column){
+    return m_map[row][column].get_value();
+}
+
 //-------------------------------------------------------------------------
 
 

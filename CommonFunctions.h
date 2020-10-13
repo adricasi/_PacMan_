@@ -1,3 +1,3 @@
-bool isPar(int number){
-    return number%2 == 0;
-}
+_Bool isPar(int number);
+
+int getMargin(int minimumNumber);
