@@ -16,22 +16,23 @@ void Cell::initCell(int totalRows, int totalColumns, int cellRow, int cellColumn
     m_column = cellColumn;
     m_value = WALL;
 
-    if(m_row%2!=0 && m_column%2!=0 && m_row<totalRows-1 && m_column<=(totalColumns/2)){
-        //Define corridors
+    if(!isPar(m_row) && !isPar(m_column) && m_row<totalRows-1 && m_column<=totalColumns/2){
+        //Define cells to visit (corridors)
         m_visited = false;
-    }else{
-        //Define walls
-        m_visited=true; 
-    }
-        //Define neightbours
+        //Define the neighbour beetween cells to visit
         defineNeighbour(totalRows, totalColumns, m_row-2, m_column, TOP);
         defineNeighbour(totalRows, totalColumns, m_row, m_column+2, RIGHT);
         defineNeighbour(totalRows, totalColumns, m_row+2, m_column, BOT);
         defineNeighbour(totalRows, totalColumns, m_row, m_column-2, LEFT);
+    }else{
+        //Define walls
+        m_visited=true; 
+    }
 }
 
 
 void Cell::defineNeighbour(int totalRows, int totalColumns, int neighbourRow, int neighbourColumn, int neighbour){
+    //Define the existing neighbours of the cell
     int exists = true;
     if(neighbourRow<0 || neighbourColumn<0 || neighbourRow>=totalRows || neighbourColumn>totalColumns/2){
             exists = false;

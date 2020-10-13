@@ -1,9 +1,12 @@
 #include <GL/glut.h>
 #include "Wrapper.h"
-#define COLUMNS 21
-#define ROWS 21
-#define WIDTH 300
-#define HEIGHT 300
+#include "CommonFunctions.h"
+#include <stdio.h>
+
+#define MINIMUM_NUMBER 10
+
+#define WIDTH 800
+#define HEIGHT 800
 
 //-----------------------------------------------
 
@@ -23,7 +26,7 @@ int main(int argc,char *argv[])
 
   glutInit(&argc, argv);
   glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
-  glutInitWindowPosition(50, 50);
+  glutInitWindowPosition(1500, 500);
   glutInitWindowSize(WIDTH, HEIGHT);
   glutCreateWindow("Chess board");
 
@@ -42,33 +45,38 @@ int main(int argc,char *argv[])
 
 void display()
 {
-  struct MapClass* map = newMapClass(81,81);
+  int rows=21, columns = 21;
+  printf("---Rows---- \n");
+  //int rows = getMargin(MINIMUM_NUMBER);
+  printf("---Columns--- \n");
+  //int columns = getMargin(MINIMUM_NUMBER);
+
+  struct MapClass* map = newMapClass(rows,columns);
   MapClass_createMap(map);
   MapClass_printMap(map);
 
-
-  int i,j;
-
-  glClearColor(0.0,0.0,0.0,0.0);
+  glClearColor(0.0,0.0,0.2,0.0);
   glClear(GL_COLOR_BUFFER_BIT);
 
-  for(i=0;i<WIDTH;i++)
-    for(j=0;j<HEIGHT;j++)
-      if( (keyflag==0 && (i+j)%2==0) || (keyflag==1 && (i+j)%2==1) ) 
-	{
-	  glColor3f(0.8,0.8,0.8);
-	  glBegin(GL_QUADS);
+  for(int column=0;column<columns;column++){
+    int i = column;
+    int j = rows;
+    for(int row=0;row<rows;row++){
+      j = j-1;
+      //if( (keyflag==0 && (i+j)%2==0) || (keyflag==1 && (i+j)%2==1) ) 
+      if( MapClass_getValue(map,row,column) == 1 ) {
+        glColor3f(0.8,0.8,0.8);
+        glBegin(GL_QUADS);
+        glVertex2i(i*WIDTH/columns,j*HEIGHT/rows); 
+        glVertex2i((i+1)*WIDTH/columns,j*HEIGHT/rows); 
+        glVertex2i((i+1)*WIDTH/columns,(j+1)*HEIGHT/rows); 
+        glVertex2i(i*WIDTH/columns,(j+1)*HEIGHT/rows); 
 
-	  glVertex2i(i*WIDTH/COLUMNS,j*HEIGHT/ROWS); 
-	  glVertex2i((i+1)*WIDTH/COLUMNS,j*HEIGHT/ROWS); 
-	  glVertex2i((i+1)*WIDTH/COLUMNS,(j+1)*HEIGHT/ROWS); 
-	  glVertex2i(i*WIDTH/COLUMNS,(j+1)*HEIGHT/ROWS); 
-
-	  glEnd();
-	}
-
+        glEnd();
+      }
+    }
+  }
   glutSwapBuffers();
-
 }
 
 //-----------------------------------------------

@@ -14,6 +14,8 @@ void MapClass_createMap(MapClass* v);
 
 void MapClass_printMap(MapClass* v);
 
+int MapClass_getValue(MapClass* v, int row, int column);
+
 #ifdef __cplusplus
 }
 #endif

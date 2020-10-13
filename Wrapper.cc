@@ -13,4 +13,8 @@ extern "C" {
         void MapClass_printMap(MapClass* v){
             v->printMap();
         }
+
+        int MapClass_getValue(MapClass* v, int row, int column){
+            v->getValue(row, column);
+        }
 }

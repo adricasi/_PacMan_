@@ -13,6 +13,9 @@
 #define RIGHT 2
 #define BOT 3
 
+#define INITIAL_ROW 1
+#define INITIAL_COLUMN 1
+
 struct neighbour{
   bool exists;
   int row;
@@ -53,6 +56,10 @@ class Cell{
     neighbour get_neighbour(int neighbour);
 
     bool equal(Cell cell);
+ 
+    bool isPar(int number){
+    return number%2 == 0;
+}
 };
 
 //---------------------Stack of Cells-----------------------------------------------------------------------
@@ -80,6 +87,8 @@ class MapClass{
         int m_rows;
         int m_columns;
         int m_cellsToVisit;
+        bool m_breackWallToConnect = false;
+        
         Cell** m_map;
         Cell m_currentCell;
         Cell m_initialCellHome;
@@ -99,7 +108,9 @@ class MapClass{
         //Functions
         void createMap();
         void printMap();
+        int getValue(int row, int column);
         
+        //--------
         void initMap();
         int randomRange(int min, int max);
         void visit(Cell cell);
@@ -113,12 +124,20 @@ class MapClass{
 
         Cell checkNeighbours();
         void removeWalls(Cell nextCell);
+        void removeWallToSecondConnection();
+        bool isInHomeRange(Cell cell);
+        bool isAConnection(Cell cell, int neighbour);
 
         // get/set------------------------------------
         Cell getCell(Cell cell){
           return m_map[cell.get_row()][cell.get_column()];
         }
 
+        bool isPar(int number){
+          return number%2 == 0;
+        }
+
 };
 
 #endif
+
