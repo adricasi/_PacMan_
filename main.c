@@ -45,7 +45,7 @@ int main(int argc,char *argv[])
 
 void display()
 {
-  int rows=31, columns = 31;
+  int rows=21, columns = 21;
   printf("---Rows---- \n");
   //int rows = getMargin(MINIMUM_NUMBER);
   printf("---Columns--- \n");
