@@ -16,7 +16,7 @@ void Cell::initCell(int totalRows, int totalColumns, int cellRow, int cellColumn
     m_column = cellColumn;
     m_value = WALL;
 
-    if(m_row%2!=0 && m_column%2!=0 && m_row<totalRows-1 && m_column<=(totalColumns/2)){
+    if(!isPar(m_row) && !isPar(m_column) && m_row<totalRows-1 && m_column<=totalColumns/2){
         //Define corridors
         m_visited = false;
     }else{

@@ -53,6 +53,10 @@ class Cell{
     neighbour get_neighbour(int neighbour);
 
     bool equal(Cell cell);
+ 
+    bool isPar(int number){
+    return number%2 == 0;
+}
 };
 
 //---------------------Stack of Cells-----------------------------------------------------------------------
@@ -119,6 +123,11 @@ class MapClass{
           return m_map[cell.get_row()][cell.get_column()];
         }
 
+        bool isPar(int number){
+          return number%2 == 0;
+        }
+
 };
 
 #endif
+

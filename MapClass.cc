@@ -51,34 +51,6 @@ void MapClass::printMap(){
 
     }
     printf("\n");
-/*
-    for(int row=0; row<m_rows; row++){
-        for(int column=0; column<m_columns; column++){
-            if(m_map[row][column].get_visited()==1){
-                printf("%d",m_map[row][column].get_visited());
-            }else{
-                printf(" ");
-            }
-        }
-        printf("\n");
-
-    }
-    printf("\n");
-
-    for(int row=0; row<m_rows; row++){
-        for(int column=0; column<m_columns; column++){
-            Cell thisC = m_map[row][column];
-            neighbour nR = thisC.get_neighbour(RIGHT);
-            neighbour nL = thisC.get_neighbour(LEFT);
-
-            //printf("right r: %d c: %d ||", nR.row, nR.column );
-            printf("left r: %d c: %d ||", nL.row, nL.column );
-
-        }
-    printf("\n");
-
-    }
-    printf("\n");*/
 }
 
 //-------------------------------------------------------------------------
@@ -146,13 +118,12 @@ void MapClass::visit(Cell cell){
     
     m_map[cell.get_row()][cell.get_column()].visit();
 
-    //Write right map part
+    //visit right map part
     m_map[cell.get_row()][m_columns-1-cell.get_column()].visit();
 
-    //Write midle map part
-    if(cell.get_row()%2!=0 && (m_columns/2)%2==0 && cell.get_column()==(m_columns/2)-1){
+    //visit midle map part when in the middle we have a wall when m_columns/2 is a par number, this column is a wall
+    if(!isPar(cell.get_row()) && isPar(m_columns/2) && cell.get_column()==(m_columns/2)-1){
         m_map[cell.get_row()][m_columns/2].visit();
-
     }
 }
 
@@ -236,3 +207,5 @@ void MapClass::removeWalls(Cell nextCell){
         visit(m_map[m_currentCell.get_row()][m_currentCell.get_column()-1]);
     }
 }
+
+
