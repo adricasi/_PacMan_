@@ -5,8 +5,8 @@
 
 #define MINIMUM_NUMBER 10
 
-#define WIDTH 800
-#define HEIGHT 800
+#define WIDTH 500
+#define HEIGHT 500
 
 //-----------------------------------------------
 
@@ -26,7 +26,7 @@ int main(int argc,char *argv[])
 
   glutInit(&argc, argv);
   glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
-  glutInitWindowPosition(1500, 500);
+  glutInitWindowPosition(1000, 100);
   glutInitWindowSize(WIDTH, HEIGHT);
   glutCreateWindow("Chess board");
 
@@ -45,11 +45,10 @@ int main(int argc,char *argv[])
 
 void display()
 {
-  int rows=21, columns = 21;
   printf("---Rows---- \n");
-  //int rows = getMargin(MINIMUM_NUMBER);
+  int rows = getMargin(MINIMUM_NUMBER);
   printf("---Columns--- \n");
-  //int columns = getMargin(MINIMUM_NUMBER);
+  int columns = getMargin(MINIMUM_NUMBER);
 
   struct MapClass* map = newMapClass(rows,columns);
   MapClass_createMap(map);

@@ -135,7 +135,7 @@ void MapClass::visit(Cell cell){
     //visit right map part
     m_map[cell.get_row()][m_columns-1-cell.get_column()].visit();
 
-    //visit midle map part when in the middle we have a wall when m_columns/2 is a par number, this column is a wall
+    //visit midle map part when in the middle we have a wall. When m_columns is a odd number and m_columns/2 is a par number, this column is a wall
     if(!isPar(cell.get_row()) && isPar(m_columns/2) && cell.get_column()==(m_columns/2)-1){
         m_map[cell.get_row()][m_columns/2].visit();
     }
@@ -221,17 +221,21 @@ Cell MapClass::checkNeighbours(){
 
 void MapClass::removeWalls(Cell nextCell){
     //Remove the wall to make the connection with the neighbour to visit
+    neighbour top = m_currentCell.get_neighbour(TOP);
+    neighbour right = m_currentCell.get_neighbour(RIGHT);
+    neighbour bot = m_currentCell.get_neighbour(BOT);
+    neighbour left = m_currentCell.get_neighbour(LEFT);
 
-    if(m_currentCell.get_neighbour(TOP).row==nextCell.get_row() && m_currentCell.get_neighbour(TOP).column==nextCell.get_column()){
+    if(top.row==nextCell.get_row() && top.column==nextCell.get_column()){
         visit(m_map[m_currentCell.get_row()-1][m_currentCell.get_column()]);
     }
-    if(m_currentCell.get_neighbour(RIGHT).row==nextCell.get_row() && m_currentCell.get_neighbour(RIGHT).column==nextCell.get_column()){
+    if(right.row==nextCell.get_row() && right.column==nextCell.get_column()){
         visit(m_map[m_currentCell.get_row()][m_currentCell.get_column()+1]);
     }
-    if(m_currentCell.get_neighbour(BOT).row==nextCell.get_row() && m_currentCell.get_neighbour(BOT).column==nextCell.get_column()){
+    if(bot.row==nextCell.get_row() && bot.column==nextCell.get_column()){
         visit(m_map[m_currentCell.get_row()+1][m_currentCell.get_column()]);
     }
-    if(m_currentCell.get_neighbour(LEFT).row==nextCell.get_row() && m_currentCell.get_neighbour(LEFT).column==nextCell.get_column()){
+    if(left.row==nextCell.get_row() && left.column==nextCell.get_column()){
         visit(m_map[m_currentCell.get_row()][m_currentCell.get_column()-1]);
     }
 }
