@@ -9,7 +9,7 @@ void Cell::initCell(int totalRows, int totalColumns, int cellRow, int cellColumn
         
         If it is a odd cell it will be treated as a Corridor, we must visit the cell at the exectuion of the algorithm
 
-        The cell must know their neighbours
+        The cell must know their neighbours, their neighbours will be the other cells around it that the algorithm must visit.
     */
 
     m_row = cellRow;
