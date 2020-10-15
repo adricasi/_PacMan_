@@ -24,3 +24,8 @@ Cell Stack::pop() {
 int Stack::get_top(){
   return top;
 }
+
+void Stack::freeStack(){
+  free(arr_stack);
+  arr_stack = NULL;
+}

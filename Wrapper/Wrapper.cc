@@ -1,4 +1,4 @@
-#include "MapClass.h"
+#include "../MapConstruction/MapClass.h"
 #include "Wrapper.h"
 
 extern "C" {
@@ -16,5 +16,8 @@ extern "C" {
 
         int MapClass_getValue(MapClass* v, int row, int column){
             v->getValue(row, column);
+        }
+        void MapClass_freeMap(MapClass* v){
+            v->freeMap();
         }
 }

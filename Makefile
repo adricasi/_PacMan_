@@ -1,11 +1,16 @@
 chess: main.c
-	gcc -c CommonFunctions.c -o CommonFunctions.o
-	g++ -c Cell.cc -o Cell.o
-	g++ -c Stack.cc -o Stack.o
-	g++ -c MapClass.cc -o MapClass.o
-	g++ -c Wrapper.cc -o Wrapper.o
-	gcc -c main.c -o main.o
-	g++ main.o Wrapper.o MapClass.o Cell.o Stack.o CommonFunctions.o -o main -lglut -lGLU -lGL -lm 
+	gcc -c CommonFunctions/CommonFunctions.c -o CompiledFiles/CommonFunctions.o
+	g++ -c MapConstruction/Cell.cc -o CompiledFiles/Cell.o
+	g++ -c MapConstruction/Stack.cc -o CompiledFiles/Stack.o
+	g++ -c MapConstruction/MapClassMainFunctions.cc -o CompiledFiles/MapClassMainFunctions.o
+	g++ -c MapConstruction/MapClassConstruction.cc -o CompiledFiles/MapClassConstruction.o
+	g++ -c MapConstruction/MapClassHomeConstruction.cc -o CompiledFiles/MapClassHomeConstruction.o
+	g++ -c Wrapper/Wrapper.cc -o CompiledFiles/Wrapper.o
+	gcc -c main.c -o CompiledFiles/main.o
+
+	g++ CompiledFiles/main.o CompiledFiles/Wrapper.o CompiledFiles/MapClassMainFunctions.o CompiledFiles/MapClassConstruction.o CompiledFiles/MapClassHomeConstruction.o CompiledFiles/Cell.o CompiledFiles/Stack.o CompiledFiles/CommonFunctions.o -o main -lglut -lGLU -lGL -lm 
+
 	./main
 clean:
 	rm main
+	rm CompiledFiles/*o

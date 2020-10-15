@@ -6,7 +6,6 @@
 
 #define HOMEROWS 5
 #define HOMECOLUMNS 4
-#define CORRIDORTYPES 5
 
 #define TOP 0
 #define LEFT 1
@@ -22,7 +21,7 @@ struct neighbour{
   int column;
 };
 
-//---------------------Cell of Cells-----------------------------------------------------------------------
+//---------------------Cell class-----------------------------------------------------------------------
 
 class Cell{
   private:
@@ -76,10 +75,11 @@ public:
   void push(Cell cell);
   Cell pop();
   int get_top();
+  void freeStack();
 };
 
 
-//------------------------------------------------------------------------------------------
+//----------------------Map class---------------------------------------------------------------------
 class MapClass{
     
     private:
@@ -109,6 +109,7 @@ class MapClass{
         void createMap();
         void printMap();
         int getValue(int row, int column);
+        void freeMap();
         
         //--------
         void initMap();
