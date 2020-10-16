@@ -12,10 +12,13 @@
 
 void display();;
 void keyboard(unsigned char c,int x,int y);
+void generateMap();
 
 //-----------------------------------------------
 
 struct MapClass* map;
+int rows;
+int columns;
 
 //-----------------------------------------------
 // -- MAIN PROCEDURE
@@ -45,36 +48,11 @@ int main(int argc,char *argv[])
 
 void display()
 {
-  printf("---Rows---- \n");
-  int rows = getMargin(MINIMUM_NUMBER);
-  printf("---Columns--- \n");
-  int columns = getMargin(MINIMUM_NUMBER);
-
-  map = newMapClass(rows,columns);
-  MapClass_createMap(map);
-  MapClass_printMap(map);
-
+  generateMap();
+  
   glClearColor(0.0,0.0,0.2,0.0);
   glClear(GL_COLOR_BUFFER_BIT);
-
-  for(int column=0;column<columns;column++){
-    int i = column;
-    int j = rows;
-    for(int row=0;row<rows;row++){
-      j = j-1;
-
-      if( MapClass_getValue(map,row,column) == 1 ) {
-        glColor3f(0.8,0.8,0.8);
-        glBegin(GL_QUADS);
-        glVertex2i(i*WIDTH/columns,j*HEIGHT/rows); 
-        glVertex2i((i+1)*WIDTH/columns,j*HEIGHT/rows); 
-        glVertex2i((i+1)*WIDTH/columns,(j+1)*HEIGHT/rows); 
-        glVertex2i(i*WIDTH/columns,(j+1)*HEIGHT/rows); 
-
-        glEnd();
-      }
-    }
-  }
+  MapClass_drawMap(map,WIDTH,HEIGHT);  
   glutSwapBuffers();
 }
 
@@ -86,5 +64,18 @@ void keyboard(unsigned char c,int x,int y)
   MapClass_freeMap(map);
   glutPostRedisplay();
 };
+
+
+//---------------------------
+void generateMap(){
+  printf("---Rows---- \n");
+  rows = getMargin(MINIMUM_NUMBER);
+  printf("---Columns--- \n");
+  columns = getMargin(MINIMUM_NUMBER);
+
+  map = newMapClass(rows,columns);
+  MapClass_createMap(map);
+  MapClass_printMap(map);
+}
 
 

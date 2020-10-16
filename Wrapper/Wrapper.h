@@ -18,6 +18,8 @@ int MapClass_getValue(MapClass* v, int row, int column);
 
 void MapClass_freeMap(MapClass* v);
 
+void MapClass_drawMap(MapClass* v, int WIDTH, int HEIGHT);
+
 #ifdef __cplusplus
 }
 #endif

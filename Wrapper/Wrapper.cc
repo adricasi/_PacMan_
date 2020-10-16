@@ -20,4 +20,8 @@ extern "C" {
         void MapClass_freeMap(MapClass* v){
             v->freeMap();
         }
+
+        void MapClass_drawMap(MapClass* v, int WIDTH, int HEIGHT){
+            v->drawMap(WIDTH, HEIGHT);
+        }
 }
