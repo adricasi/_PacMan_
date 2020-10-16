@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <GL/glut.h>
 
 time_t t;
 
@@ -68,4 +69,14 @@ void MapClass::freeMap(){
     free(m_map);
     m_map = NULL;
     m_stack.freeStack();
+}
+
+void MapClass::drawMap(int WIDTH, int HEIGHT){
+    for(int column=0;column<m_columns;column++){
+        for(int row=0;row<m_rows;row++){
+            if( m_map[row][column].get_value() == CORRIDOR ) {
+                m_map[row][column].drawCell(m_rows, m_columns, WIDTH, HEIGHT);
+            }
+        }
+    }
 }

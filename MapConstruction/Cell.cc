@@ -1,5 +1,18 @@
 #include "MapClass.h"
 #include <stdio.h>
+#include <GL/glut.h>
+
+void Cell::drawCell(int maxRows, int maxColumns, int WIDTH, int HEIGHT){
+    int row = maxRows-1 - m_row;
+    glColor3f(0.8,0.8,0.8);
+    glBegin(GL_QUADS);
+    glVertex2i(m_column*WIDTH/maxColumns,row*HEIGHT/maxRows); 
+    glVertex2i((m_column+1)*WIDTH/maxColumns,row*HEIGHT/maxRows); 
+    glVertex2i((m_column+1)*WIDTH/maxColumns,(row+1)*HEIGHT/maxRows); 
+    glVertex2i(m_column*WIDTH/maxColumns,(row+1)*HEIGHT/maxRows); 
+    glEnd();
+    m_food.drawFood(maxRows, maxColumns, row, m_column, WIDTH, HEIGHT);
+}
 
 void Cell::initCell(int totalRows, int totalColumns, int cellRow, int cellColumn){
     /*

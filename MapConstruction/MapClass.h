@@ -21,6 +21,16 @@ struct neighbour{
   int column;
 };
 
+//---------------------Food class-----------------------------------------------------------------------
+class Food{
+  private:
+    int size = 10;
+  public:
+    void drawFood(int maxRows, int maxColumns, int cellRow, int cellColumn, int WIDTH, int HEIGHT);
+    void deleteFood();
+};
+
+
 //---------------------Cell class-----------------------------------------------------------------------
 
 class Cell{
@@ -30,6 +40,7 @@ class Cell{
     int m_column;
     int m_value;
     bool m_visited;
+    Food m_food;
 
     neighbour cell_path_top;
     neighbour cell_path_right;
@@ -37,6 +48,7 @@ class Cell{
     neighbour cell_path_left;
 
   public:
+    void drawCell(int maxRows, int maxColumns, int WIDTH, int HEIGHT);
     void initCell(int totalRows, int totalColumns, int cellRow, int cellColumn);
     void defineNeighbour(int totalRows, int totalColumns, int neighbourRow, int neighbourColumn, int neighbour);
     void visit();
@@ -58,7 +70,7 @@ class Cell{
  
     bool isPar(int number){
     return number%2 == 0;
-}
+    }
 };
 
 //---------------------Stack of Cells-----------------------------------------------------------------------
@@ -110,6 +122,7 @@ class MapClass{
         void printMap();
         int getValue(int row, int column);
         void freeMap();
+        void drawMap(int WIDTH, int HEIGHT);
         
         //--------
         void initMap();
