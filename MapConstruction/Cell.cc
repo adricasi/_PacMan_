@@ -2,16 +2,23 @@
 #include <stdio.h>
 #include <GL/glut.h>
 
-void Cell::drawCell(int maxRows, int maxColumns, int WIDTH, int HEIGHT){
-    int row = maxRows-1 - m_row;
+void Cell::drawCell(bool isHomeRange){
+
     glColor3f(0.8,0.8,0.8);
     glBegin(GL_QUADS);
-    glVertex2i(m_column*WIDTH/maxColumns,row*HEIGHT/maxRows); 
-    glVertex2i((m_column+1)*WIDTH/maxColumns,row*HEIGHT/maxRows); 
-    glVertex2i((m_column+1)*WIDTH/maxColumns,(row+1)*HEIGHT/maxRows); 
-    glVertex2i(m_column*WIDTH/maxColumns,(row+1)*HEIGHT/maxRows); 
+    glVertex2i(m_x-m_sizeX,m_y-m_sizeY); 
+    glVertex2i(m_x+m_sizeX,m_y-m_sizeY); 
+    glVertex2i(m_x+m_sizeX,m_y+m_sizeY); 
+    glVertex2i(m_x-m_sizeX,m_y+m_sizeY); 
     glEnd();
-    m_food.drawFood(maxRows, maxColumns, row, m_column, WIDTH, HEIGHT);
+
+
+    if(!isHomeRange){
+        m_food.set_position(m_x,m_y);
+        m_food.set_size(m_sizeX/2,m_sizeY/2);
+        m_food.drawFood();
+        m_food.deleteFood();
+    }
 }
 
 void Cell::initCell(int totalRows, int totalColumns, int cellRow, int cellColumn){
@@ -80,6 +87,15 @@ void Cell::visitHomeCell(int value){
 }
 
 //Get/Set
+
+void Cell::set_position(float x,float y){
+    m_x = x;
+    m_y = y;
+}  
+void Cell::set_size(float sizeX, float sizeY){
+    m_sizeX = sizeX;
+    m_sizeY = sizeY;
+}
 void Cell::set_row(int row){
     m_row = row;
 }

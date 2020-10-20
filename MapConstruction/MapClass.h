@@ -24,10 +24,21 @@ struct neighbour{
 //---------------------Food class-----------------------------------------------------------------------
 class Food{
   private:
-    int size = 10;
+    float m_sizeX,m_sizeY;
+    float m_x,m_y;   //-- Draw position
   public:
-    void drawFood(int maxRows, int maxColumns, int cellRow, int cellColumn, int WIDTH, int HEIGHT);
+    void drawFood();
     void deleteFood();
+    void set_position(int x,int y)
+    {
+      m_x = x;
+      m_y = y;
+    }
+    void set_size(float sizeX, float sizeY)
+    {
+      m_sizeX = sizeX;
+      m_sizeY = sizeY;
+    }
 };
 
 
@@ -36,25 +47,28 @@ class Food{
 class Cell{
   private:
     //Variables
-    int m_row;
-    int m_column;
+    float m_x, m_y;   //-- Draw position
+    float m_sizeX,m_sizeY;
+    int m_row, m_column; //-- Cell position
     int m_value;
     bool m_visited;
     Food m_food;
-
+    
     neighbour cell_path_top;
     neighbour cell_path_right;
     neighbour cell_path_bot;
     neighbour cell_path_left;
 
   public:
-    void drawCell(int maxRows, int maxColumns, int WIDTH, int HEIGHT);
+    void drawCell(bool isHomeRange);
     void initCell(int totalRows, int totalColumns, int cellRow, int cellColumn);
     void defineNeighbour(int totalRows, int totalColumns, int neighbourRow, int neighbourColumn, int neighbour);
     void visit();
     void visitHomeCell(int value);
 
     // get/set----------------------------------
+    void set_position(float x,float y);
+    void set_size(float sizeX, float sizeY);
     void set_row(int row);
     void set_column(int column);
     void set_value(int value);

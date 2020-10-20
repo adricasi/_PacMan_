@@ -31,7 +31,7 @@ int main(int argc,char *argv[])
   glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
   glutInitWindowPosition(500, 100);
   glutInitWindowSize(WIDTH, HEIGHT);
-  glutCreateWindow("Chess board");
+  glutCreateWindow("PacMan board");
 
   glutDisplayFunc(display);
   glutKeyboardFunc(keyboard);
