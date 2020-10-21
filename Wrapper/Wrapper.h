@@ -24,6 +24,8 @@ float MapClass_getCellPositionX(MapClass* v, int row, int column);
 
 float MapClass_getCellPositionY(MapClass* v, int row, int column);
 
+bool MapClass_availableCell(MapClass* v, int row, int column, int neighbour);
+
 //--------------------------------------------------------------
 
 typedef struct PacMan PacMan;

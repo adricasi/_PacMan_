@@ -141,6 +141,7 @@ class MapClass{
         int getValue(int row, int column);
         void freeMap();
         void drawMap(int WIDTH, int HEIGHT);
+        bool availableCell(int row, int column, int neighbour);
         
         //--------
         void initMap();
@@ -159,6 +160,7 @@ class MapClass{
         void removeWallToSecondConnection();
         bool isInHomeRange(Cell cell);
         bool isAConnection(Cell cell, int neighbour);
+        
 
         // get/set------------------------------------
         Cell getCell(Cell cell){

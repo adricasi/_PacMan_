@@ -91,3 +91,30 @@ void MapClass::drawMap(int WIDTH, int HEIGHT){
         }
     }
 }
+
+
+bool MapClass::availableCell(int row, int column, int neighbour){
+    int value;
+    bool homeRange;
+    if(neighbour == TOP){
+        Cell top = m_map[row-1][column];
+        value = top.get_value();
+        homeRange = isInHomeRange(top);
+
+    }if(neighbour == RIGHT){
+        Cell right = m_map[row][column+1];
+        value = right.get_value();
+        homeRange = isInHomeRange(right);
+
+    }if(neighbour == BOT){
+        Cell bot = m_map[row+1][column];
+        value = bot.get_value();
+        homeRange = isInHomeRange(bot);
+
+    }if(neighbour == LEFT){
+        Cell left = m_map[row][column-1];
+        value = left.get_value();
+        homeRange = isInHomeRange(left);
+    }
+    return !homeRange && value==CORRIDOR;
+}

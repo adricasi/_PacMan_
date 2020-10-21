@@ -7,7 +7,13 @@
 
 #define WIDTH 600
 #define HEIGHT 600
-#define MOVEMENT_DURATION 1000
+#define MOVEMENT_DURATION 200
+
+#define TOP 0
+#define LEFT 1
+#define RIGHT 2
+#define BOT 3
+
 
 //-----------------------------------------------
 
@@ -72,24 +78,20 @@ void keyboard(unsigned char c,int x,int y)
 {
   //free map memory
   //MapClass_freeMap(map);
-  if (c=='w')
-  {
+  if (c=='w' && MapClass_availableCell(map,PacMan_getRow(pacMan),PacMan_getColumn(pacMan),TOP)){
     PacMan_initMovement(pacMan, PacMan_getRow(pacMan)-1, PacMan_getColumn(pacMan), MOVEMENT_DURATION);
   }
-  if (c=='s')
-  {
+  
+  if (c=='s'&& MapClass_availableCell(map,PacMan_getRow(pacMan),PacMan_getColumn(pacMan),BOT)){
     PacMan_initMovement(pacMan, PacMan_getRow(pacMan)+1, PacMan_getColumn(pacMan), MOVEMENT_DURATION);
-
   }
-  if (c=='a')
-  {
+  
+  if (c=='a'&& MapClass_availableCell(map,PacMan_getRow(pacMan),PacMan_getColumn(pacMan),LEFT)){
     PacMan_initMovement(pacMan, PacMan_getRow(pacMan), PacMan_getColumn(pacMan)-1, MOVEMENT_DURATION);
-
   }
-  if (c=='d')
-  {
+  
+  if (c=='d'&& MapClass_availableCell(map,PacMan_getRow(pacMan),PacMan_getColumn(pacMan),RIGHT)){
     PacMan_initMovement(pacMan, PacMan_getRow(pacMan), PacMan_getColumn(pacMan)+1, MOVEMENT_DURATION);
-
   }
 
   glutPostRedisplay();

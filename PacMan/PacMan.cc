@@ -28,19 +28,23 @@ void PacMan::set_size(float sizeX, float sizeY){
 
 void PacMan::init_movement(int destination_row,int destination_column,int duration)
 {
-    m_destinationRow = destination_row;
-    m_destinationColumn = destination_column;
-    float destination_x = get_cellPositonX(destination_column,m_maxColumns,m_width);
-    float destination_y = get_cellPositonY(destination_row,m_maxRows,m_height);
+    if(time_remaining<=0){
+        m_destinationRow = destination_row;
+        m_destinationColumn = destination_column;
 
-    printf("dr:%d, dc:%d, dx: %f, dy: %f| x:%f y:%f\n",destination_row,destination_column, destination_x,destination_y,m_x,m_y);
+        float destination_x = get_cellPositonX(destination_column,m_maxColumns,m_width);
+        float destination_y = get_cellPositonY(destination_row,m_maxRows,m_height);
 
-    vx = (destination_x - m_x)/duration;
-    vy = (destination_y - m_y)/duration;
-    printf("vx:%f vy:%f\n",vx,vy);
+        printf("dr:%d, dc:%d, dx: %f, dy: %f| x:%f y:%f\n",destination_row,destination_column, destination_x,destination_y,m_x,m_y);
 
-    state=MOVE;
-    time_remaining=duration;
+        vx = (destination_x - m_x)/duration;
+        vy = (destination_y - m_y)/duration;
+        printf("vx:%f vy:%f\n",vx,vy);
+
+        state=MOVE;
+        
+        time_remaining=duration;
+    }
 }
 
 void PacMan::integrate(long t)
@@ -59,7 +63,9 @@ void PacMan::integrate(long t)
         printf("mx=%f my=%f newx:%f,newy:%f tr:%ld\n",m_x,m_y, m_x + vx*time_remaining,m_y + vy*time_remaining,time_remaining);
         m_x = m_x + vx*time_remaining;
         m_y = m_y + vy*time_remaining;
-        state=QUIET;       
+        state=QUIET;
+
+        time_remaining=0;
         m_row = m_destinationRow;
         m_column = m_destinationColumn;
     }

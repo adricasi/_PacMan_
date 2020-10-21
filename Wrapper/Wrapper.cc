@@ -27,6 +27,10 @@ extern "C" {
             v->drawMap(WIDTH, HEIGHT);
         }
 
+        bool MapClass_availableCell(MapClass* v, int row, int column, int neighbour){
+            v->availableCell(row, column, neighbour);
+        }
+
         //---------------------------------------------
 
         PacMan* newPacMan(int maxRows, int maxColumns, int height, int width){
