@@ -7,6 +7,7 @@
 
 #define WIDTH 600
 #define HEIGHT 600
+#define MOVEMENT_DURATION 1000
 
 //-----------------------------------------------
 
@@ -73,21 +74,21 @@ void keyboard(unsigned char c,int x,int y)
   //MapClass_freeMap(map);
   if (c=='w')
   {
-    PacMan_initMovement(pacMan, PacMan_getRow(pacMan)-1, PacMan_getColumn(pacMan), 500);
+    PacMan_initMovement(pacMan, PacMan_getRow(pacMan)-1, PacMan_getColumn(pacMan), MOVEMENT_DURATION);
   }
   if (c=='s')
   {
-    PacMan_initMovement(pacMan, PacMan_getRow(pacMan)+1, PacMan_getColumn(pacMan), 500);
+    PacMan_initMovement(pacMan, PacMan_getRow(pacMan)+1, PacMan_getColumn(pacMan), MOVEMENT_DURATION);
 
   }
   if (c=='a')
   {
-    PacMan_initMovement(pacMan, PacMan_getRow(pacMan), PacMan_getColumn(pacMan)-1, 500);
+    PacMan_initMovement(pacMan, PacMan_getRow(pacMan), PacMan_getColumn(pacMan)-1, MOVEMENT_DURATION);
 
   }
   if (c=='d')
   {
-    PacMan_initMovement(pacMan, PacMan_getRow(pacMan), PacMan_getColumn(pacMan)+1, 500);
+    PacMan_initMovement(pacMan, PacMan_getRow(pacMan), PacMan_getColumn(pacMan)+1, MOVEMENT_DURATION);
 
   }
 
