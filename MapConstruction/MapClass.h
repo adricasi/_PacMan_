@@ -74,6 +74,10 @@ class Cell{
     void set_value(int value);
     void set_visited(bool visited);
 
+    float get_position_x();
+    float get_position_y();
+    float get_size_x();
+    float get_size_y();
     int get_row();
     int get_column();
     int get_value();

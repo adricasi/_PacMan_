@@ -1,4 +1,5 @@
 #include "MapClass.h"
+#include "../CommonFunctions/CommonFunctionsC++.h"
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -76,13 +77,13 @@ void MapClass::drawMap(int WIDTH, int HEIGHT){
         for(int row=0;row<m_rows;row++){
             Cell cell = m_map[row][column];
             if( cell.get_value() == CORRIDOR ) {
-                int inversRow = m_rows-1 - row;
-                float x = (column+0.5)*WIDTH/m_columns;    
-                float y = (inversRow+0.5)*HEIGHT/m_rows;                    
+                float x = get_cellPositonX(column, m_columns,WIDTH);
+                float y = get_cellPositonY(row, m_rows, HEIGHT);
+                   
                 m_map[row][column].set_position(x, y);
 
-                float sizeX = ((column+1)*WIDTH/m_columns-column*WIDTH/m_columns)/2.0;
-                float sizeY = ((inversRow+1)*HEIGHT/m_rows-inversRow*HEIGHT/m_rows)/2.0;
+                float sizeX = get_cellSizeX(column, m_columns,WIDTH);
+                float sizeY = get_cellSizeY(row, m_rows, HEIGHT);
                 m_map[row][column].set_size(sizeX,sizeY);
 
                 m_map[row][column].drawCell(isInHomeRange(cell));
