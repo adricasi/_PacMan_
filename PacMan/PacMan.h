@@ -12,7 +12,6 @@ class PacMan {
 
     int m_movementDuration;
     int m_movementDirection;
-    //int m_movementNextDirection;
 
     MapClass* m_map;
     int m_row,m_column;   //-- Current position

@@ -14,7 +14,7 @@ PacMan::PacMan(MapClass* map, int init_row, int init_column, int duration)
     m_movementDuration = duration;
 
     //------------------------
-    printf("PACMAN INI \n");
+;
     int num_columns = m_map->get_numColumns();
     int num_rows = m_map->get_numRows();
     int height = m_map->get_height();
@@ -25,7 +25,6 @@ PacMan::PacMan(MapClass* map, int init_row, int init_column, int duration)
     float sizeX = get_cellSizeX(init_column, num_columns, width)/1.5;
     float sizeY = get_cellSizeY(init_row, num_rows, height)/1.5;
 
-    printf("x:%f, y:%f, sx: %f sy:%f\n", positionX,positionY,sizeX,sizeY);
 
     set_position(init_row, init_column, positionX, positionY);
     set_size(sizeX, sizeY);
@@ -63,11 +62,9 @@ void PacMan::init_movement(){
             float destination_x = get_cellPositonX(m_destinationColumn, num_columns, width);
             float destination_y = get_cellPositonY(m_destinationRow, num_rows, height);
 
-            //printf("dr:%d, dc:%d, dx: %f, dy: %f| x:%f y:%f\n",destination_row, destination_column, destination_x,destination_y,m_x,m_y);
 
             vx = (destination_x - m_x)/m_movementDuration;
             vy = (destination_y - m_y)/m_movementDuration;
-            //printf("vx:%f vy:%f\n",vx,vy);
 
             state=MOVE;
             
@@ -81,15 +78,12 @@ void PacMan::integrate(long t)
     
     if(state==MOVE && t<time_remaining)
     {
-        //printf("t:%ld\n",t);
-        //printf("newx:%f,newy:%f tr:%ld\n", m_x + vx*t,m_y + vy*t,time_remaining);
         m_x = m_x + vx*t;
         m_y = m_y + vy*t;
         time_remaining-=t;
     }
     else if(state==MOVE && t>=time_remaining)
     {
-        //printf("mx=%f my=%f newx:%f,newy:%f tr:%ld\n",m_x,m_y, m_x + vx*time_remaining,m_y + vy*time_remaining,time_remaining);
         m_x = m_x + vx*time_remaining;
         m_y = m_y + vy*time_remaining;
         state=QUIET;
@@ -103,7 +97,7 @@ void PacMan::integrate(long t)
 }
 
 void PacMan::nextCell(){
-    printf("NEXT CELL direction%d\n",m_movementDirection);
+
     if(m_movementDirection==TOP){
         m_destinationRow = m_row-1;
         m_destinationColumn = m_column;
@@ -120,7 +114,7 @@ void PacMan::nextCell(){
 }
 
 void PacMan::set_movementDirection(int direction){
-    printf("SET direction%d\n",m_movementDirection);
+
     m_movementDirection = direction;
 }
 
