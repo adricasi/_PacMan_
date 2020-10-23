@@ -64,4 +64,8 @@ extern "C" {
         int PacMan_getColumn(PacMan* v){
             v->get_column();
         }
+
+        bool game_finished(PacMan* v){
+            v->objectiveCompleted();
+        }
 }

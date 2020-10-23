@@ -80,6 +80,7 @@ class Cell{
     //-----------------------------------------
 
     void eatFood();
+    bool haveFood();
 
     // get/set----------------------------------
     void set_position(float x,float y);
@@ -179,6 +180,7 @@ class MapClass{
 
         //--------
         void eatFood(int row, int column);
+        bool allFoodEated();
 
         // get/set------------------------------------
         Cell getCell(Cell cell){

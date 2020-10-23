@@ -1,3 +1,4 @@
+#include <GL/glut.h>
 #include "CommonFunctionsC.h"
 #include <stdio.h>
 #include <stdbool.h>
@@ -38,4 +39,10 @@ float get_cellSizeY(int row, int maxRows, int HEIGHT){
     int inversRow = maxRows-1 - row;
     float sizeY = ((inversRow+1)*HEIGHT/maxRows-inversRow*HEIGHT/maxRows)/2.0;
     return sizeY;
+}
+
+void drawWin(){
+    glClearColor(0.0,0.3,0.0,0.0);
+    glClear(GL_COLOR_BUFFER_BIT);
+    glutSwapBuffers();
 }

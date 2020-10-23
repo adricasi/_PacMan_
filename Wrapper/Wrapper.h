@@ -46,6 +46,9 @@ int PacMan_getRow(PacMan* v);
 
 int PacMan_getColumn(PacMan* v);
 
+//------------------------Game--------------------------------------
+bool game_finished(PacMan* v);
+
 #ifdef __cplusplus
 }
 #endif

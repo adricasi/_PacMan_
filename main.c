@@ -80,23 +80,25 @@ void keyboard(unsigned char c,int x,int y)
 {
   //free map memory
   //MapClass_freeMap(map);
-  if (c=='w' && MapClass_availableCell(map,PacMan_getRow(pacMan),PacMan_getColumn(pacMan),TOP)){
-    PacMan_initMovement(pacMan, PacMan_getRow(pacMan)-1, PacMan_getColumn(pacMan), MOVEMENT_DURATION);
-  }
-  
-  if (c=='s'&& MapClass_availableCell(map,PacMan_getRow(pacMan),PacMan_getColumn(pacMan),BOT)){
-    PacMan_initMovement(pacMan, PacMan_getRow(pacMan)+1, PacMan_getColumn(pacMan), MOVEMENT_DURATION);
-  }
-  
-  if (c=='a'&& MapClass_availableCell(map,PacMan_getRow(pacMan),PacMan_getColumn(pacMan),LEFT)){
-    PacMan_initMovement(pacMan, PacMan_getRow(pacMan), PacMan_getColumn(pacMan)-1, MOVEMENT_DURATION);
-  }
-  
-  if (c=='d'&& MapClass_availableCell(map,PacMan_getRow(pacMan),PacMan_getColumn(pacMan),RIGHT)){
-    PacMan_initMovement(pacMan, PacMan_getRow(pacMan), PacMan_getColumn(pacMan)+1, MOVEMENT_DURATION);
-  }
+  if(!game_finished(pacMan)){
+    if (c=='w' && MapClass_availableCell(map,PacMan_getRow(pacMan),PacMan_getColumn(pacMan),TOP)){
+      PacMan_initMovement(pacMan, PacMan_getRow(pacMan)-1, PacMan_getColumn(pacMan), MOVEMENT_DURATION);
+    }
+    
+    if (c=='s'&& MapClass_availableCell(map,PacMan_getRow(pacMan),PacMan_getColumn(pacMan),BOT)){
+      PacMan_initMovement(pacMan, PacMan_getRow(pacMan)+1, PacMan_getColumn(pacMan), MOVEMENT_DURATION);
+    }
+    
+    if (c=='a'&& MapClass_availableCell(map,PacMan_getRow(pacMan),PacMan_getColumn(pacMan),LEFT)){
+      PacMan_initMovement(pacMan, PacMan_getRow(pacMan), PacMan_getColumn(pacMan)-1, MOVEMENT_DURATION);
+    }
+    
+    if (c=='d'&& MapClass_availableCell(map,PacMan_getRow(pacMan),PacMan_getColumn(pacMan),RIGHT)){
+      PacMan_initMovement(pacMan, PacMan_getRow(pacMan), PacMan_getColumn(pacMan)+1, MOVEMENT_DURATION);
+    }
 
-  glutPostRedisplay();
+    glutPostRedisplay();
+  }
 };
 
 
@@ -104,25 +106,29 @@ void keyboard(unsigned char c,int x,int y)
 //-----------------------------------------------
 void idle()
 {
-  long t;
+  if(game_finished(pacMan)){
+    drawWin();
+  }else{
+    long t;
 
-  t=glutGet(GLUT_ELAPSED_TIME); 
+    t=glutGet(GLUT_ELAPSED_TIME); 
 
-  if(last_t==0)
-    last_t=t;
-  else
-    {
-      PacMan_integrate(pacMan,t-last_t);
+    if(last_t==0)
       last_t=t;
-    }
-  glutPostRedisplay();
+    else
+      {
+        PacMan_integrate(pacMan,t-last_t);
+        last_t=t;
+      }
+    glutPostRedisplay();
+  }
 }
 
 
 //---------------------------
 void generateMap(){
-  rows =21;
-  columns =21;/*
+  rows =11;
+  columns =11;/*
   printf("---Rows---- \n");
   rows = getMargin(MINIMUM_NUMBER);
   printf("---Columns--- \n");

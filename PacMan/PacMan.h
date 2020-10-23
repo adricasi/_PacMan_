@@ -29,6 +29,7 @@ public:
     void integrate(long t);
     void draw();
     void eatFood();
+    bool objectiveCompleted();
 
     int get_row(){
         return m_row;

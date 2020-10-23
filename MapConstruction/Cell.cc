@@ -147,3 +147,7 @@ void Cell::drawCell(bool isHomeRange){
 void Cell::eatFood(){
     m_food.set_exist(false);
 }
+
+bool Cell::haveFood(){
+    return m_food.get_exist();
+}

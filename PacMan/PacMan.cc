@@ -94,6 +94,7 @@ void PacMan::integrate(long t)
         m_row = m_destinationRow;
         m_column = m_destinationColumn;
         eatFood();
+        objectiveCompleted();
     }
 }
 
@@ -101,6 +102,12 @@ void PacMan::eatFood(){
     m_map->eatFood(m_row,m_column);
 }
 
+bool PacMan::objectiveCompleted(){
+    if(m_map->allFoodEated()){
+        return true;
+    }
+    return false;
+}
 
 void PacMan::draw()
 {
