@@ -14,6 +14,8 @@
 #define RIGHT 2
 #define BOT 3
 
+#define INIT_PACMAN_ROW 1
+#define INIT_PACMAN_COLUMN 1
 
 //-----------------------------------------------
 
@@ -126,26 +128,15 @@ void generateMap(){
   printf("---Columns--- \n");
   columns = getMargin(MINIMUM_NUMBER);*/
 
-  map = newMapClass(rows,columns);
+  map = newMapClass(rows,columns,HEIGHT,WIDTH);
   MapClass_createMap(map);
   MapClass_printMap(map);
 }
 
 //--------------------------------------
 void generatePacMan(){
-  pacMan = newPacMan(rows,columns,HEIGHT,WIDTH);
-  printf("PACMAN GENERATION \n");
-  int init_row = 1;
-  int init_column = 1;
-  float positionX = get_cellPositonX(init_column, columns, WIDTH);
-  float positionY = get_cellPositonY(init_row, rows, HEIGHT);
-  float sizeX = get_cellSizeX(init_column, columns, WIDTH)/1.5;
-  float sizeY = get_cellSizeY(init_row, rows, HEIGHT)/1.5;
 
-  printf("x:%f, y:%f, sx: %f sy:%f\n", positionX,positionY,sizeX,sizeY);
-
-  PacMan_setPosition(pacMan, init_row, init_column, positionX, positionY);
-  PacMan_setSize(pacMan, sizeX, sizeY);
+  pacMan = newPacMan(map, INIT_PACMAN_ROW, INIT_PACMAN_COLUMN);
   PacMan_draw(pacMan);
 }
 

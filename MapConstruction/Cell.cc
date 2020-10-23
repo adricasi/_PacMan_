@@ -2,24 +2,6 @@
 #include <stdio.h>
 #include <GL/glut.h>
 
-void Cell::drawCell(bool isHomeRange){
-
-    glColor3f(0.8,0.8,0.8);
-    glBegin(GL_QUADS);
-    glVertex2i(m_x-m_sizeX,m_y-m_sizeY); 
-    glVertex2i(m_x+m_sizeX,m_y-m_sizeY); 
-    glVertex2i(m_x+m_sizeX,m_y+m_sizeY); 
-    glVertex2i(m_x-m_sizeX,m_y+m_sizeY); 
-    glEnd();
-
-
-    if(!isHomeRange){
-        m_food.set_position(m_x,m_y);
-        m_food.set_size(m_sizeX/2,m_sizeY/2);
-        m_food.drawFood();
-    }
-}
-
 void Cell::initCell(int totalRows, int totalColumns, int cellRow, int cellColumn){
     /*
         ----Initialize the cell----
@@ -30,7 +12,7 @@ void Cell::initCell(int totalRows, int totalColumns, int cellRow, int cellColumn
 
         The cell must know their neighbours, their neighbours will be the other cells around it that the algorithm must visit.
     */
-
+    m_food.init_food();
     m_row = cellRow;
     m_column = cellColumn;
     m_value = WALL;
@@ -139,4 +121,29 @@ bool Cell::equal(Cell cell){
     }else{
         return false;
     }
+}
+
+
+//-----------------Draw-------------------------------------
+
+
+void Cell::drawCell(bool isHomeRange){
+
+    glColor3f(0.8,0.8,0.8);
+    glBegin(GL_QUADS);
+    glVertex2i(m_x-m_sizeX,m_y-m_sizeY); 
+    glVertex2i(m_x+m_sizeX,m_y-m_sizeY); 
+    glVertex2i(m_x+m_sizeX,m_y+m_sizeY); 
+    glVertex2i(m_x-m_sizeX,m_y+m_sizeY); 
+    glEnd();
+
+    if(!isHomeRange && m_food.get_exist()){
+        m_food.set_position(m_x,m_y);
+        m_food.set_size(m_sizeX/2,m_sizeY/2);
+        m_food.drawFood();
+    }
+}
+
+void Cell::eatFood(){
+    m_food.set_exist(false);
 }

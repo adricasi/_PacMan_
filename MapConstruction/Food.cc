@@ -13,7 +13,3 @@ void Food::drawFood(){
 
     glEnd();
 }
-
-void Food::deleteFood(){
-    glColor3f(0.8,0.8,0.8);
-}

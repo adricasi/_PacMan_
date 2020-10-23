@@ -9,9 +9,11 @@
 time_t t;
 
 //Constructor
-MapClass::MapClass(int rows, int columns){
+MapClass::MapClass(int rows, int columns,int height, int width){
     m_rows = rows;
     m_columns = columns;
+    m_height = height;
+    m_width = width;
     m_cellsToVisit = 0;
 
     m_initialCellHome.set_row( m_rows/2 - (1 - HOMEROWS%2 + HOMEROWS/2));

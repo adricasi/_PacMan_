@@ -8,7 +8,7 @@ extern "C" {
 
 typedef struct MapClass MapClass;
 
-MapClass* newMapClass(int rows, int columns);
+MapClass* newMapClass(int rows, int columns, int height, int width);
 
 void MapClass_createMap(MapClass* v);
 
@@ -30,7 +30,7 @@ bool MapClass_availableCell(MapClass* v, int row, int column, int neighbour);
 
 typedef struct PacMan PacMan;
 
-PacMan* newPacMan(int maxRows, int maxColumns, int height, int width);
+PacMan* newPacMan(MapClass* map, int init_row, int init_column);
 
 void PacMan_setPosition(PacMan* v, int row, int column, float x, float y);
 

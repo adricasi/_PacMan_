@@ -1,16 +1,35 @@
 
 #include "PacMan.h"
+#include "../MapConstruction/MapClass.h"
 #include "../CommonFunctions/CommonFunctionsC++.h"
 #include <stdio.h>
 #include <GL/glut.h>
 
-PacMan::PacMan(int maxRows, int maxColumns, int height, int width)
+PacMan::PacMan(MapClass* map, int init_row, int init_column)
 {
-    m_maxRows = maxRows;
-    m_maxColumns = maxColumns;
-    m_height = height;
-    m_width = width;
+    m_map = map;
+    m_row = init_row;
+    m_column = init_column;
     state=QUIET;
+
+    //------------------------
+    printf("PACMAN INI \n");
+    int num_columns = m_map->get_numColumns();
+    int num_rows = m_map->get_numRows();
+    int height = m_map->get_height();
+    int width = m_map->get_width();
+
+    float positionX = get_cellPositonX(init_column, num_columns, width);
+    float positionY = get_cellPositonY(init_row, num_rows, height);
+    float sizeX = get_cellSizeX(init_column, num_columns, width)/1.5;
+    float sizeY = get_cellSizeY(init_row, num_rows, height)/1.5;
+
+    printf("x:%f, y:%f, sx: %f sy:%f\n", positionX,positionY,sizeX,sizeY);
+
+    set_position(init_row, init_column, positionX, positionY);
+    set_size(sizeX, sizeY);
+    eatFood();
+
 }
 
 void PacMan::set_position(int row, int column, float x, float y)
@@ -32,14 +51,20 @@ void PacMan::init_movement(int destination_row,int destination_column,int durati
         m_destinationRow = destination_row;
         m_destinationColumn = destination_column;
 
-        float destination_x = get_cellPositonX(destination_column,m_maxColumns,m_width);
-        float destination_y = get_cellPositonY(destination_row,m_maxRows,m_height);
+        int num_columns = m_map->get_numColumns();
+        int num_rows = m_map->get_numRows();
+        int height = m_map->get_height();
+        int width = m_map->get_width();
 
-        printf("dr:%d, dc:%d, dx: %f, dy: %f| x:%f y:%f\n",destination_row,destination_column, destination_x,destination_y,m_x,m_y);
+
+        float destination_x = get_cellPositonX(destination_column, num_columns, width);
+        float destination_y = get_cellPositonY(destination_row, num_rows, height);
+
+        //printf("dr:%d, dc:%d, dx: %f, dy: %f| x:%f y:%f\n",destination_row, destination_column, destination_x,destination_y,m_x,m_y);
 
         vx = (destination_x - m_x)/duration;
         vy = (destination_y - m_y)/duration;
-        printf("vx:%f vy:%f\n",vx,vy);
+        //printf("vx:%f vy:%f\n",vx,vy);
 
         state=MOVE;
         
@@ -52,15 +77,15 @@ void PacMan::integrate(long t)
     
     if(state==MOVE && t<time_remaining)
     {
-        printf("t:%ld\n",t);
-        printf("newx:%f,newy:%f tr:%ld\n", m_x + vx*t,m_y + vy*t,time_remaining);
+        //printf("t:%ld\n",t);
+        //printf("newx:%f,newy:%f tr:%ld\n", m_x + vx*t,m_y + vy*t,time_remaining);
         m_x = m_x + vx*t;
         m_y = m_y + vy*t;
         time_remaining-=t;
     }
     else if(state==MOVE && t>=time_remaining)
     {
-        printf("mx=%f my=%f newx:%f,newy:%f tr:%ld\n",m_x,m_y, m_x + vx*time_remaining,m_y + vy*time_remaining,time_remaining);
+        //printf("mx=%f my=%f newx:%f,newy:%f tr:%ld\n",m_x,m_y, m_x + vx*time_remaining,m_y + vy*time_remaining,time_remaining);
         m_x = m_x + vx*time_remaining;
         m_y = m_y + vy*time_remaining;
         state=QUIET;
@@ -68,7 +93,12 @@ void PacMan::integrate(long t)
         time_remaining=0;
         m_row = m_destinationRow;
         m_column = m_destinationColumn;
+        eatFood();
     }
+}
+
+void PacMan::eatFood(){
+    m_map->eatFood(m_row,m_column);
 }
 
 

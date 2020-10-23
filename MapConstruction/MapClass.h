@@ -26,7 +26,12 @@ class Food{
   private:
     float m_sizeX,m_sizeY;
     float m_x,m_y;   //-- Draw position
+    bool m_exist;
   public:
+    void init_food(){
+      m_exist = true;
+    }
+
     void drawFood();
     void deleteFood();
     void set_position(int x,int y)
@@ -38,6 +43,12 @@ class Food{
     {
       m_sizeX = sizeX;
       m_sizeY = sizeY;
+    }
+    void set_exist(bool exist){
+      m_exist = exist;
+    }
+    bool get_exist(){
+      return m_exist;
     }
 };
 
@@ -65,6 +76,10 @@ class Cell{
     void defineNeighbour(int totalRows, int totalColumns, int neighbourRow, int neighbourColumn, int neighbour);
     void visit();
     void visitHomeCell(int value);
+
+    //-----------------------------------------
+
+    void eatFood();
 
     // get/set----------------------------------
     void set_position(float x,float y);
@@ -114,8 +129,9 @@ class MapClass{
     
     private:
         //Variables
-        int m_rows;
-        int m_columns;
+        int m_rows, m_columns;
+        int m_height,m_width;
+
         int m_cellsToVisit;
         bool m_breackWallToConnect = false;
         
@@ -133,7 +149,7 @@ class MapClass{
 
     public:
         //Constructor
-        MapClass(int rows, int columns);    
+        MapClass(int rows, int columns,int height, int width);    
 
         //Functions
         void createMap();
@@ -160,7 +176,9 @@ class MapClass{
         void removeWallToSecondConnection();
         bool isInHomeRange(Cell cell);
         bool isAConnection(Cell cell, int neighbour);
-        
+
+        //--------
+        void eatFood(int row, int column);
 
         // get/set------------------------------------
         Cell getCell(Cell cell){
@@ -171,6 +189,18 @@ class MapClass{
           return number%2 == 0;
         }
 
+        int get_numRows(){
+          return m_rows;
+        }
+        int get_numColumns(){
+          return m_columns;
+        }
+        int get_height(){
+          return m_height;
+        }
+        int get_width(){
+          return m_width;
+        }
 };
 
 #endif

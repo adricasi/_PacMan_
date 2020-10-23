@@ -3,8 +3,8 @@
 #include "Wrapper.h"
 
 extern "C" {
-        MapClass* newMapClass(int row, int columns) {
-                return new MapClass(row, columns);
+        MapClass* newMapClass(int row, int columns, int height, int width) {
+                return new MapClass(row, columns, height, width);
         }
 
         void MapClass_createMap(MapClass* v){
@@ -33,8 +33,8 @@ extern "C" {
 
         //---------------------------------------------
 
-        PacMan* newPacMan(int maxRows, int maxColumns, int height, int width){
-            return new PacMan(maxRows, maxColumns, height, width);
+        PacMan* newPacMan(MapClass* map, int init_row, int init_column){
+            return new PacMan(map, init_row, init_column);
         }
 
         void PacMan_setPosition(PacMan* v, int row, int column, float x, float y){
