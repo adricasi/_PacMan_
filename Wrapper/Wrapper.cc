@@ -33,8 +33,8 @@ extern "C" {
 
         //---------------------------------------------
 
-        PacMan* newPacMan(MapClass* map, int init_row, int init_column){
-            return new PacMan(map, init_row, init_column);
+        PacMan* newPacMan(MapClass* map, int init_row, int init_column, int duration){
+            return new PacMan(map, init_row, init_column, duration);
         }
 
         void PacMan_setPosition(PacMan* v, int row, int column, float x, float y){
@@ -45,8 +45,8 @@ extern "C" {
             v->set_size(sizeX,sizeY);
         }
 
-        void PacMan_initMovement(PacMan* v, int destination_row,int destination_column, int duration){
-            v->init_movement(destination_row, destination_column,duration);
+        void PacMan_initMovement(PacMan* v){
+            v->init_movement();
         }
 
         void PacMan_integrate(PacMan* v, long t){
@@ -63,6 +63,10 @@ extern "C" {
 
         int PacMan_getColumn(PacMan* v){
             v->get_column();
+        }
+
+        void PacMan_setMovementDirection(PacMan* v, int direction){
+            v->set_movementDirection(direction);
         }
 
         bool game_finished(PacMan* v){

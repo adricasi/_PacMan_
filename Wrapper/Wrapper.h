@@ -30,13 +30,13 @@ bool MapClass_availableCell(MapClass* v, int row, int column, int neighbour);
 
 typedef struct PacMan PacMan;
 
-PacMan* newPacMan(MapClass* map, int init_row, int init_column);
+PacMan* newPacMan(MapClass* map, int init_row, int init_column, int duration);
 
 void PacMan_setPosition(PacMan* v, int row, int column, float x, float y);
 
 void PacMan_setSize(PacMan* v, float sizeX, float sizeY);
 
-void PacMan_initMovement(PacMan* v, int destination_row,int destination_column, int duration);
+void PacMan_initMovement(PacMan* v);
 
 void PacMan_integrate(PacMan* v, long t);
 
@@ -45,6 +45,8 @@ void PacMan_draw(PacMan* v);
 int PacMan_getRow(PacMan* v);
 
 int PacMan_getColumn(PacMan* v);
+
+void PacMan_setMovementDirection(PacMan* v, int direction);
 
 //------------------------Game--------------------------------------
 bool game_finished(PacMan* v);

@@ -7,7 +7,7 @@
 
 #define WIDTH 600
 #define HEIGHT 600
-#define MOVEMENT_DURATION 200
+#define MOVEMENT_DURATION 400
 
 #define TOP 0
 #define LEFT 1
@@ -82,19 +82,26 @@ void keyboard(unsigned char c,int x,int y)
   //MapClass_freeMap(map);
   if(!game_finished(pacMan)){
     if (c=='w' && MapClass_availableCell(map,PacMan_getRow(pacMan),PacMan_getColumn(pacMan),TOP)){
-      PacMan_initMovement(pacMan, PacMan_getRow(pacMan)-1, PacMan_getColumn(pacMan), MOVEMENT_DURATION);
+      PacMan_setMovementDirection(pacMan,TOP);
+      PacMan_initMovement(pacMan);
     }
     
     if (c=='s'&& MapClass_availableCell(map,PacMan_getRow(pacMan),PacMan_getColumn(pacMan),BOT)){
-      PacMan_initMovement(pacMan, PacMan_getRow(pacMan)+1, PacMan_getColumn(pacMan), MOVEMENT_DURATION);
+      PacMan_setMovementDirection(pacMan,BOT);
+      PacMan_initMovement(pacMan);
+
     }
     
     if (c=='a'&& MapClass_availableCell(map,PacMan_getRow(pacMan),PacMan_getColumn(pacMan),LEFT)){
-      PacMan_initMovement(pacMan, PacMan_getRow(pacMan), PacMan_getColumn(pacMan)-1, MOVEMENT_DURATION);
+      PacMan_setMovementDirection(pacMan,LEFT);
+      PacMan_initMovement(pacMan);
+
     }
     
     if (c=='d'&& MapClass_availableCell(map,PacMan_getRow(pacMan),PacMan_getColumn(pacMan),RIGHT)){
-      PacMan_initMovement(pacMan, PacMan_getRow(pacMan), PacMan_getColumn(pacMan)+1, MOVEMENT_DURATION);
+      PacMan_setMovementDirection(pacMan,RIGHT);
+      PacMan_initMovement(pacMan);
+
     }
 
     glutPostRedisplay();
@@ -127,8 +134,8 @@ void idle()
 
 //---------------------------
 void generateMap(){
-  rows =11;
-  columns =11;/*
+  rows =21;
+  columns =21;/*
   printf("---Rows---- \n");
   rows = getMargin(MINIMUM_NUMBER);
   printf("---Columns--- \n");
@@ -142,7 +149,7 @@ void generateMap(){
 //--------------------------------------
 void generatePacMan(){
 
-  pacMan = newPacMan(map, INIT_PACMAN_ROW, INIT_PACMAN_COLUMN);
+  pacMan = newPacMan(map, INIT_PACMAN_ROW, INIT_PACMAN_COLUMN, MOVEMENT_DURATION);
   PacMan_draw(pacMan);
 }
 
