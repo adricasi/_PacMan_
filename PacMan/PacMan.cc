@@ -14,7 +14,6 @@ PacMan::PacMan(MapClass* map, int init_row, int init_column, int duration)
     m_movementDuration = duration;
 
     //------------------------
-;
     int num_columns = m_map->get_numColumns();
     int num_rows = m_map->get_numRows();
     int height = m_map->get_height();

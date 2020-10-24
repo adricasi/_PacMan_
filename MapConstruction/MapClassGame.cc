@@ -21,3 +21,27 @@ bool MapClass::allFoodEated(){
     }
     return true;
 }
+
+Cell MapClass::chooseRandomCellHome(){
+    // Return all the cells corridors of the home
+
+    Cell homeCells[HOMEROWS*HOMECOLUMNS];
+    int homeCellsSize = 0;
+
+    //Check all home cells
+    for(int iHomeRow=0; iHomeRow<HOMEROWS; iHomeRow++){
+        for(int iHomeColumn=0; iHomeColumn<HOMECOLUMNS; iHomeColumn++){
+            int row = m_initialCellHome.get_row() + iHomeRow;
+            int column = m_initialCellHome.get_column() + iHomeColumn;
+            Cell homeCell = m_map[row][column];
+
+            if(homeCell.get_value() == CORRIDOR && homeCell.get_row() != m_initialCellHome.get_row()){
+                homeCells[homeCellsSize] = homeCell;
+                homeCellsSize++;
+            }
+        }
+    }
+
+    int random=randomRange(0,homeCellsSize-1);
+    return homeCells[random];
+}

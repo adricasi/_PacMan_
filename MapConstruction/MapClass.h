@@ -177,6 +177,7 @@ class MapClass{
         void removeWallToSecondConnection();
         bool isInHomeRange(Cell cell);
         bool isAConnection(Cell cell, int neighbour);
+        Cell chooseRandomCellHome();
 
         //--------
         void eatFood(int row, int column);

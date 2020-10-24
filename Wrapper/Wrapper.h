@@ -24,7 +24,7 @@ float MapClass_getCellPositionY(MapClass* v, int row, int column);
 
 bool MapClass_availableCell(MapClass* v, int row, int column, int neighbour);
 
-//--------------------------------------------------------------
+//----------------------PacMan----------------------------------------
 
 typedef struct PacMan PacMan;
 
@@ -42,8 +42,18 @@ int PacMan_getColumn(PacMan* v);
 
 void PacMan_setMovementDirection(PacMan* v, int direction);
 
-//------------------------Game--------------------------------------
 bool game_finished(PacMan* v);
+
+
+//---------------------EnemiesController---------------------------------------
+
+typedef struct EnemiesController EnemiesController;
+
+EnemiesController* newEnemiesController(MapClass* map, int numEnemies, int duration);
+
+void EnemiesController_spawnEnemies(EnemiesController* v);
+
+void EnemiesController_drawEnemies(EnemiesController* v);
 
 #ifdef __cplusplus
 }

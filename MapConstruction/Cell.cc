@@ -139,7 +139,7 @@ void Cell::drawCell(bool isHomeRange){
 
     if(!isHomeRange && m_food.get_exist()){
         m_food.set_position(m_x,m_y);
-        m_food.set_size(m_sizeX/2,m_sizeY/2);
+        m_food.set_size(m_sizeX/2.0,m_sizeY/2.0);
         m_food.drawFood();
     }
 }

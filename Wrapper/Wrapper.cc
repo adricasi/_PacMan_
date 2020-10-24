@@ -1,5 +1,6 @@
 #include "../MapConstruction/MapClass.h"
 #include "../PacMan/PacMan.h"
+#include "../Enemies/Enemies.h"
 #include "Wrapper.h"
 
 extern "C" {
@@ -59,5 +60,19 @@ extern "C" {
 
         bool game_finished(PacMan* v){
             v->objectiveCompleted();
+        }
+
+        //---------------------EnemiesController---------------------------------------
+
+        EnemiesController* newEnemiesController(MapClass* map, int numEnemies, int duration){
+            return new EnemiesController(map, numEnemies, duration);
+        }
+
+        void EnemiesController_spawnEnemies(EnemiesController* v){
+            v->spawnEnemies();
+        }
+
+        void EnemiesController_drawEnemies(EnemiesController* v){
+            v->drawEnemies();
         }
 }

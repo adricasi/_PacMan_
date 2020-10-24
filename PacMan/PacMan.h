@@ -7,9 +7,6 @@
 
 typedef struct MapClass MapClass;
 class PacMan {
-    int m_maxRows,m_maxColumns;
-    int m_height,m_width;
-
     int m_movementDuration;
     int m_movementDirection;
 
@@ -26,14 +23,18 @@ class PacMan {
 public:
 
     PacMan(MapClass* map, int init_row, int init_column, int duration);
-    void set_position(int row, int column, float x, float y);
-    void set_size(float sizeX, float sizeY);
+    
     void init_movement();
     void integrate(long t);
     void nextCell();
+    
     void draw();
     void eatFood();
     bool objectiveCompleted();
+
+    void set_position(int row, int column, float x, float y);
+    void set_size(float sizeX, float sizeY);
+    void set_movementDirection(int direction);
 
     int get_row(){
         return m_row;
@@ -41,8 +42,6 @@ public:
     int get_column(){
         return m_column;
     }
-
-    void set_movementDirection(int direction);
 };
 
 #endif

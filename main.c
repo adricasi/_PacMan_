@@ -7,7 +7,9 @@
 
 #define WIDTH 600
 #define HEIGHT 600
+
 #define MOVEMENT_DURATION 400
+#define NUMENEMIES 4
 
 #define TOP 0
 #define LEFT 1
@@ -24,11 +26,13 @@ void keyboard(unsigned char c,int x,int y);
 void idle();
 void generateMap();
 void generatePacMan();
+void generateEnemies();
 
 //-----------------------------------------------
 
 struct PacMan* pacMan;
 struct MapClass* map;
+struct EnemiesController* enemiesController;
 int rows;
 int columns;
 long last_t=0;
@@ -42,6 +46,7 @@ int main(int argc,char *argv[])
 
   generateMap();
   generatePacMan();
+  generateEnemies();
 
   glutInit(&argc, argv);
   glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
@@ -70,6 +75,7 @@ void display()
   glClear(GL_COLOR_BUFFER_BIT);
   MapClass_drawMap(map);  
   PacMan_draw(pacMan);
+  EnemiesController_drawEnemies(enemiesController);
 
   glutSwapBuffers();
 }
@@ -148,8 +154,13 @@ void generateMap(){
 
 //--------------------------------------
 void generatePacMan(){
-
   pacMan = newPacMan(map, INIT_PACMAN_ROW, INIT_PACMAN_COLUMN, MOVEMENT_DURATION);
+}
+
+//-------------------------------------
+void  generateEnemies(){
+  enemiesController = newEnemiesController(map, NUMENEMIES, MOVEMENT_DURATION);
+  EnemiesController_spawnEnemies(enemiesController);
 }
 
 
