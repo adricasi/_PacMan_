@@ -157,7 +157,7 @@ class MapClass{
         void printMap();
         int getValue(int row, int column);
         void freeMap();
-        void drawMap(int WIDTH, int HEIGHT);
+        void drawMap();
         bool availableCell(int row, int column, int neighbour);
         
         //--------

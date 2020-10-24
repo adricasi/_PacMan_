@@ -14,11 +14,9 @@ void MapClass_createMap(MapClass* v);
 
 void MapClass_printMap(MapClass* v);
 
-int MapClass_getValue(MapClass* v, int row, int column);
-
 void MapClass_freeMap(MapClass* v);
 
-void MapClass_drawMap(MapClass* v, int WIDTH, int HEIGHT);
+void MapClass_drawMap(MapClass* v);
 
 float MapClass_getCellPositionX(MapClass* v, int row, int column);
 
@@ -31,10 +29,6 @@ bool MapClass_availableCell(MapClass* v, int row, int column, int neighbour);
 typedef struct PacMan PacMan;
 
 PacMan* newPacMan(MapClass* map, int init_row, int init_column, int duration);
-
-void PacMan_setPosition(PacMan* v, int row, int column, float x, float y);
-
-void PacMan_setSize(PacMan* v, float sizeX, float sizeY);
 
 void PacMan_initMovement(PacMan* v);
 

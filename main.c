@@ -68,7 +68,7 @@ void display()
   
   glClearColor(0.0,0.0,0.2,0.0);
   glClear(GL_COLOR_BUFFER_BIT);
-  MapClass_drawMap(map,WIDTH,HEIGHT);  
+  MapClass_drawMap(map);  
   PacMan_draw(pacMan);
 
   glutSwapBuffers();
@@ -150,7 +150,6 @@ void generateMap(){
 void generatePacMan(){
 
   pacMan = newPacMan(map, INIT_PACMAN_ROW, INIT_PACMAN_COLUMN, MOVEMENT_DURATION);
-  PacMan_draw(pacMan);
 }
 
 

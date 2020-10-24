@@ -15,16 +15,12 @@ extern "C" {
             v->printMap();
         }
 
-        int MapClass_getValue(MapClass* v, int row, int column){
-            v->getValue(row, column);
-        }
-
         void MapClass_freeMap(MapClass* v){
             v->freeMap();
         }
 
-        void MapClass_drawMap(MapClass* v, int WIDTH, int HEIGHT){
-            v->drawMap(WIDTH, HEIGHT);
+        void MapClass_drawMap(MapClass* v){
+            v->drawMap();
         }
 
         bool MapClass_availableCell(MapClass* v, int row, int column, int neighbour){
@@ -35,14 +31,6 @@ extern "C" {
 
         PacMan* newPacMan(MapClass* map, int init_row, int init_column, int duration){
             return new PacMan(map, init_row, init_column, duration);
-        }
-
-        void PacMan_setPosition(PacMan* v, int row, int column, float x, float y){
-            v->set_position(row, column, x, y);
-        }
-
-        void PacMan_setSize(PacMan* v, float sizeX, float sizeY){
-            v->set_size(sizeX,sizeY);
         }
 
         void PacMan_initMovement(PacMan* v){
