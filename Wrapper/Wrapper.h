@@ -55,6 +55,8 @@ void EnemiesController_spawnEnemies(EnemiesController* v);
 
 void EnemiesController_drawEnemies(EnemiesController* v);
 
+void EnemiesController_integrateEnemies(EnemiesController* v, long t);
+
 #ifdef __cplusplus
 }
 #endif

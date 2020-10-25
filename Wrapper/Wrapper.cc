@@ -75,4 +75,8 @@ extern "C" {
         void EnemiesController_drawEnemies(EnemiesController* v){
             v->drawEnemies();
         }
+
+        void EnemiesController_integrateEnemies(EnemiesController* v, long t){
+            v->integrateEnemies(t);
+        } 
 }

@@ -24,3 +24,9 @@ void EnemiesController::drawEnemies(){
         m_ghostEnemies[i].draw();
     }
 }
+
+void EnemiesController::integrateEnemies(long t){
+    for(int i=0; i<m_numEnemies; i++){
+        m_ghostEnemies[i].integrate(t);
+    }
+}

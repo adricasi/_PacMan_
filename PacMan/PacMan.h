@@ -16,6 +16,8 @@ class PacMan {
     float m_x,m_y;   //-- Current position
     float vx,vy; //-- Velocity vector
     int state;
+
+    float m_sizeBase;
     float m_sizeX,m_sizeY;
 
     long time_remaining;
@@ -27,7 +29,7 @@ public:
     void init_movement();
     void integrate(long t);
     void nextCell();
-    
+
     void draw();
     void eatFood();
     bool objectiveCompleted();

@@ -9,7 +9,7 @@
 #define HEIGHT 600
 
 #define MOVEMENT_DURATION 400
-#define NUMENEMIES 4
+#define NUMENEMIES 8
 
 #define TOP 0
 #define LEFT 1
@@ -130,7 +130,8 @@ void idle()
       last_t=t;
     else
       {
-        PacMan_integrate(pacMan,t-last_t);
+        PacMan_integrate(pacMan, t-last_t);
+        EnemiesController_integrateEnemies(enemiesController, t-last_t);
         last_t=t;
       }
     glutPostRedisplay();

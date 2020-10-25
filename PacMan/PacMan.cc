@@ -12,6 +12,7 @@ PacMan::PacMan(MapClass* map, int init_row, int init_column, int duration)
     m_column = init_column;
     state=QUIET;
     m_movementDuration = duration;
+    m_sizeBase = 1.5;
 
     //------------------------
     int num_columns = m_map->get_numColumns();
@@ -21,8 +22,8 @@ PacMan::PacMan(MapClass* map, int init_row, int init_column, int duration)
 
     float positionX = get_cellPositonX(init_column, num_columns, width);
     float positionY = get_cellPositonY(init_row, num_rows, height);
-    float sizeX = get_cellSizeX(init_column, num_columns, width)/1.5;
-    float sizeY = get_cellSizeY(init_row, num_rows, height)/1.5;
+    float sizeX = get_cellSizeX(init_column, num_columns, width)/m_sizeBase;
+    float sizeY = get_cellSizeY(init_row, num_rows, height)/m_sizeBase;
 
 
     set_position(init_row, init_column, positionX, positionY);
@@ -31,18 +32,7 @@ PacMan::PacMan(MapClass* map, int init_row, int init_column, int duration)
 
 }
 
-void PacMan::set_position(int row, int column, float x, float y)
-{
-  m_x = x;
-  m_y = y;
-  m_row = row;
-  m_column = column;
-}
-
-void PacMan::set_size(float sizeX, float sizeY){
-    m_sizeX = sizeX;
-    m_sizeY = sizeY;
-}
+//-------------Movement--------------------------------
 
 void PacMan::init_movement(){
 
@@ -117,6 +107,8 @@ void PacMan::set_movementDirection(int direction){
     m_movementDirection = direction;
 }
 
+//---------------------------------------------------------
+
 void PacMan::eatFood(){
     m_map->eatFood(m_row,m_column);
 }
@@ -137,4 +129,18 @@ void PacMan::draw()
     glVertex2i(m_x+m_sizeX,m_y+m_sizeY);
     glVertex2i(m_x-m_sizeX,m_y+m_sizeY);
     glEnd();
+}
+
+
+void PacMan::set_position(int row, int column, float x, float y)
+{
+  m_x = x;
+  m_y = y;
+  m_row = row;
+  m_column = column;
+}
+
+void PacMan::set_size(float sizeX, float sizeY){
+    m_sizeX = sizeX;
+    m_sizeY = sizeY;
 }
