@@ -53,12 +53,28 @@ extern "C" {
         int PacMan_getColumn(PacMan* v){
             v->get_column();
         }
+        
+        float PacMan_getX(PacMan* v){
+            v->get_x();
+        }
+        
+        float PacMan_getY(PacMan* v){
+            v->get_y();
+        }
+
+        float PacMan_getSizeX(PacMan* v){
+            v->get_sizeX();
+        }
+        
+        float PacMan_getSizeY(PacMan* v){
+            v->get_sizeY();
+        }
 
         void PacMan_setMovementDirection(PacMan* v, int direction){
             v->set_movementDirection(direction);
         }
 
-        bool game_finished(PacMan* v){
+        bool PacMan_gameFinished(PacMan* v){
             v->objectiveCompleted();
         }
 
@@ -79,4 +95,8 @@ extern "C" {
         void EnemiesController_integrateEnemies(EnemiesController* v, long t){
             v->integrateEnemies(t);
         } 
+
+        bool EnemiesController_gameFinished(EnemiesController* v, float pacmanX, float pacmanY, float pacmanSizeX, float pacmanSizeY){
+            v->enemiesObjectiveCompleted(pacmanX, pacmanY, pacmanSizeX, pacmanSizeY);
+        }
 }

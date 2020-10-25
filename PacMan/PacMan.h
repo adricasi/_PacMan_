@@ -44,6 +44,18 @@ public:
     int get_column(){
         return m_column;
     }
+    float get_y(){
+        return m_y;
+    }
+    float get_x(){
+        return m_x;
+    }
+    float get_sizeX(){
+        return m_sizeX;
+    }
+    float get_sizeY(){
+        return m_sizeY;
+    }
 };
 
 #endif

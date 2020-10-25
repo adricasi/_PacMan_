@@ -80,7 +80,6 @@ void PacMan::integrate(long t)
         time_remaining=0;
 
         eatFood();
-        objectiveCompleted();
         init_movement();
     }
 }

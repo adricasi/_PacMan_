@@ -77,8 +77,7 @@ void GhostEnemy::integrate(long t)
         state=QUIET;
 
         time_remaining=0;
-
-        //objectiveCompleted();
+        
         init_movement();
     }
 }
@@ -140,6 +139,19 @@ void GhostEnemy::set_movementDirection(int direction){
 }
 
 //---------------------------------------
+
+bool GhostEnemy::objectiveCompleted(float pacmanX, float pacmanY, float pacmanSizeX, float pacmanSizeY){
+    //If the enemy position is the same as the position of pacman enemies win
+
+    float pacmanLeftRange = pacmanX-pacmanSizeX;
+    float pacmanRightRange = pacmanX+pacmanSizeX;
+    float pacmanBotRange = pacmanY-pacmanSizeY;
+    float pacmanTopRange = pacmanY+pacmanSizeY;
+
+    //return (m_row == pacmanRow && m_column == pacmanColumn);
+    return ((m_x>=pacmanLeftRange && m_x<=pacmanRightRange) && (m_y>=pacmanBotRange && m_y<=pacmanTopRange));
+}
+
 
 void GhostEnemy::draw()
 {

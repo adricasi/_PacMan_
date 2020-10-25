@@ -46,3 +46,9 @@ void drawWin(){
     glClear(GL_COLOR_BUFFER_BIT);
     glutSwapBuffers();
 }
+
+void drawLose(){
+    glClearColor(0.3,0.0,0.0,0.0);
+    glClear(GL_COLOR_BUFFER_BIT);
+    glutSwapBuffers();
+}

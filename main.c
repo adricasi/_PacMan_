@@ -43,7 +43,6 @@ long last_t=0;
 
 int main(int argc,char *argv[])
 {
-
   generateMap();
   generatePacMan();
   generateEnemies();
@@ -86,7 +85,7 @@ void keyboard(unsigned char c,int x,int y)
 {
   //free map memory
   //MapClass_freeMap(map);
-  if(!game_finished(pacMan)){
+  if(!PacMan_gameFinished(pacMan) && !EnemiesController_gameFinished(enemiesController, PacMan_getX(pacMan), PacMan_getY(pacMan), PacMan_getSizeX(pacMan), PacMan_getSizeY(pacMan))){
     if (c=='w' && MapClass_availableCell(map,PacMan_getRow(pacMan),PacMan_getColumn(pacMan),TOP)){
       PacMan_setMovementDirection(pacMan,TOP);
       PacMan_initMovement(pacMan);
@@ -119,8 +118,10 @@ void keyboard(unsigned char c,int x,int y)
 //-----------------------------------------------
 void idle()
 {
-  if(game_finished(pacMan)){
+  if(PacMan_gameFinished(pacMan)){
     drawWin();
+  }else if(EnemiesController_gameFinished(enemiesController, PacMan_getX(pacMan), PacMan_getY(pacMan), PacMan_getSizeX(pacMan), PacMan_getSizeY(pacMan))){
+    drawLose();
   }else{
     long t;
 

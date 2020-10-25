@@ -32,7 +32,7 @@ class GhostEnemy {
         void chooseMovementDirection();
 
         void draw();
-        bool objectiveCompleted();
+        bool objectiveCompleted(float pacmanX, float pacmanY, float pacmanSizeX, float pacmanSizeY);
 
         void set_movementDirection(int direction);
         void set_position(int row, int column, float x, float y);
@@ -44,7 +44,6 @@ class GhostEnemy {
         int get_column(){
             return m_column;
         }
-
 };
 
 class EnemiesController {
@@ -58,6 +57,7 @@ class EnemiesController {
         void spawnEnemies();
         void drawEnemies();
         void integrateEnemies(long t);
+        bool enemiesObjectiveCompleted(float pacmanX, float pacmanY, float pacmanSizeX, float pacmanSizeY);
 };
 
 

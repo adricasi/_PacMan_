@@ -30,3 +30,12 @@ void EnemiesController::integrateEnemies(long t){
         m_ghostEnemies[i].integrate(t);
     }
 }
+
+bool EnemiesController::enemiesObjectiveCompleted(float pacmanX, float pacmanY, float pacmanSizeX, float pacmanSizeY){
+    for(int i=0; i<m_numEnemies; i++){
+        if(m_ghostEnemies[i].objectiveCompleted(pacmanX,pacmanY,pacmanSizeX,pacmanSizeY)){
+           return true; 
+        }
+    }
+    return false;
+}

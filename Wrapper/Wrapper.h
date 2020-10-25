@@ -40,9 +40,17 @@ int PacMan_getRow(PacMan* v);
 
 int PacMan_getColumn(PacMan* v);
 
+float PacMan_getX(PacMan* v);
+
+float PacMan_getY(PacMan* v);
+
+float PacMan_getSizeX(PacMan* v);
+
+float PacMan_getSizeY(PacMan* v);
+
 void PacMan_setMovementDirection(PacMan* v, int direction);
 
-bool game_finished(PacMan* v);
+bool PacMan_gameFinished(PacMan* v);
 
 
 //---------------------EnemiesController---------------------------------------
@@ -56,6 +64,8 @@ void EnemiesController_spawnEnemies(EnemiesController* v);
 void EnemiesController_drawEnemies(EnemiesController* v);
 
 void EnemiesController_integrateEnemies(EnemiesController* v, long t);
+
+bool EnemiesController_gameFinished(EnemiesController* v, float pacmanX, float pacmanY, float pacmanSizeX, float pacmanSizeY);
 
 #ifdef __cplusplus
 }
