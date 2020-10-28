@@ -18,7 +18,7 @@ class GhostEnemy {
     float m_x,m_y;   //-- Current position
     float vx,vy; //-- Velocity vector
     int state;
-    float m_sizeBase;
+    float m_sizeDivision;
     float m_sizeX,m_sizeY;
 
     long time_remaining;

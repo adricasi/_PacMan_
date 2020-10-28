@@ -3,21 +3,22 @@
 #include "CommonFunctions/CommonFunctionsC.h"
 #include <stdio.h>
 
-#define MINIMUM_NUMBER 10
+
+#define NUM_ENEMIES 8
+#define MOVEMENT_DURATION 400
+
+#define ROWS_COLUMNS_MINIMUM_NUMBER 10
+
+#define INIT_PACMAN_ROW 1
+#define INIT_PACMAN_COLUMN 1
 
 #define WIDTH 600
 #define HEIGHT 600
-
-#define MOVEMENT_DURATION 400
-#define NUMENEMIES 8
 
 #define TOP 0
 #define LEFT 1
 #define RIGHT 2
 #define BOT 3
-
-#define INIT_PACMAN_ROW 1
-#define INIT_PACMAN_COLUMN 1
 
 //-----------------------------------------------
 
@@ -75,7 +76,7 @@ void reset(){
   generateEnemies();
 }
 
-//------------------------------------------------------------
+
 //------------------------------------------------------------
 
 void display()
@@ -90,7 +91,6 @@ void display()
   glutSwapBuffers();
 }
 
-//-----------------------------------------------
 //-----------------------------------------------
 void keyboard(unsigned char c,int x,int y)
 {
@@ -125,7 +125,6 @@ void keyboard(unsigned char c,int x,int y)
 };
 
 
-//-----------------------------------------------
 //-----------------------------------------------
 void idle()
 {
@@ -169,9 +168,9 @@ void idle()
 //---------------------------
 void generateMap(){
   printf("---Rows---- \n");
-  rows = getMargin(MINIMUM_NUMBER);
+  rows = getMargin(ROWS_COLUMNS_MINIMUM_NUMBER);
   printf("---Columns--- \n");
-  columns = getMargin(MINIMUM_NUMBER);
+  columns = getMargin(ROWS_COLUMNS_MINIMUM_NUMBER);
 
   map = newMapClass(rows,columns,HEIGHT,WIDTH);
   MapClass_createMap(map);
@@ -185,6 +184,6 @@ void generatePacMan(){
 
 //-------------------------------------
 void  generateEnemies(){
-  enemiesController = newEnemiesController(map, NUMENEMIES, MOVEMENT_DURATION);
+  enemiesController = newEnemiesController(map, NUM_ENEMIES, MOVEMENT_DURATION);
   EnemiesController_spawnEnemies(enemiesController);
 }

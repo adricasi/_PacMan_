@@ -8,6 +8,7 @@
 typedef struct MapClass MapClass;
 class PacMan {
     int m_movementDuration;
+
     int m_currentMovementDirection;
     int m_nextMovementDirection;
 
@@ -18,7 +19,7 @@ class PacMan {
     float vx,vy; //-- Velocity vector
     int state;
 
-    float m_sizeBase;
+    float m_sizeDivision;
     float m_sizeX,m_sizeY;
 
     long time_remaining;

@@ -33,7 +33,6 @@ class Food{
     }
 
     void drawFood();
-    void deleteFood();
     void set_position(int x,int y)
     {
       m_x = x;
@@ -110,100 +109,103 @@ class Cell{
 //---------------------Stack of Cells-----------------------------------------------------------------------
 
 class Stack {
-private:
-  int item, i;
-  Cell* arr_stack;
-  int top;
-  int m_max_size;
+  private:
+    int item, i;
+    Cell* arr_stack;
+    int top;
+    int m_max_size;
 
-public:
-  void initStack(int maxSize);
-  void push(Cell cell);
-  Cell pop();
-  int get_top();
-  void freeStack();
+  public:
+    void initStack(int maxSize);
+    void push(Cell cell);
+    Cell pop();
+    int get_top();
+    void freeStack();
 };
 
 
 //----------------------Map class---------------------------------------------------------------------
 class MapClass{
     
-    private:
-        //Variables
-        int m_rows, m_columns;
-        int m_height,m_width;
+  private:
+    //Variables
+    int m_rows, m_columns;
+    int m_height,m_width;
 
-        int m_cellsToVisit;
-        bool m_breackWallToConnect = false;
-        
-        Cell** m_map;
-        Cell m_currentCell;
-        Cell m_initialCellHome;
-        Stack m_stack;
+    int m_cellsToVisit;
+    bool m_breackWallToConnect = false;
+    
+    Cell** m_map;
+    Cell m_currentCell;
+    Cell m_initialCellHome;
+    Stack m_stack;
 
-        // Home definition
-        int home[HOMEROWS][HOMECOLUMNS] = {{WALL,WALL,WALL,CORRIDOR},
-                                  {WALL,CORRIDOR,CORRIDOR,CORRIDOR},
-                                  {WALL,CORRIDOR,CORRIDOR,CORRIDOR},
-                                  {WALL,CORRIDOR,CORRIDOR,CORRIDOR},
-                                  {WALL,WALL,WALL,WALL}};
+    // Home definition
+    int home[HOMEROWS][HOMECOLUMNS] = {{WALL,WALL,WALL,CORRIDOR},
+                              {WALL,CORRIDOR,CORRIDOR,CORRIDOR},
+                              {WALL,CORRIDOR,CORRIDOR,CORRIDOR},
+                              {WALL,CORRIDOR,CORRIDOR,CORRIDOR},
+                              {WALL,WALL,WALL,WALL}};
 
-    public:
-        //Constructor
-        MapClass(int rows, int columns,int height, int width);    
+  public:
+    //Constructor
+    MapClass(int rows, int columns,int height, int width);    
 
-        //Functions
-        void createMap();
-        void printMap();
-        int getValue(int row, int column);
-        void freeMap();
-        void drawMap();
-        bool availableCell(int row, int column, int neighbour);
-        
-        //--------
-        void initMap();
-        int randomRange(int min, int max);
-        void visit(Cell cell);
-        void visitHomeCell(int row, int column,int value);
+    //-------Main Functions-----------------------------
+    void createMap();
+    void printMap();
+    int getValue(int row, int column);
+    void freeMap();
+    void drawMap();
+    bool availableCell(int row, int column, int neighbour);
+    
+    //-------Map construction----------------------------
+    void initMap();
+    int randomRange(int min, int max);
+    void visit(Cell cell);
+    void visitHomeCell(int row, int column,int value);
 
-        void createHome();
-        void connectHome();
-        void findcorridor(Cell homeDoor);
-        
-        void generateRandomMap();
+    void createHome();
+    void connectHome();
+    void findcorridor(Cell homeDoor);
+    
+    void generateRandomMap();
 
-        Cell checkNeighbours();
-        void removeWalls(Cell nextCell);
-        void removeWallToSecondConnection();
-        bool isInHomeRange(Cell cell);
-        bool isAConnection(Cell cell, int neighbour);
-        Cell chooseRandomCellHome();
+    Cell checkNeighbours();
+    void removeWalls(Cell nextCell);
+    void removeWallToSecondConnection();
+    bool isInHomeRange(Cell cell);
+    bool isAConnection(Cell cell, int neighbour);
+    Cell chooseRandomCellHome();
 
-        //--------
-        void eatFood(int row, int column);
-        bool allFoodEated();
+    //---------MapClass Game-------------------------------
+    void eatFood(int row, int column);
+    bool allFoodEated();
 
-        // get/set------------------------------------
-        Cell getCell(Cell cell){
-          return m_map[cell.get_row()][cell.get_column()];
-        }
+    //---------get/set-------------------------------------
+    Cell getCell(Cell cell){
+      return m_map[cell.get_row()][cell.get_column()];
+    }
 
-        bool isPar(int number){
-          return number%2 == 0;
-        }
+    bool isPar(int number){
+      return number%2 == 0;
+    }
 
-        int get_numRows(){
-          return m_rows;
-        }
-        int get_numColumns(){
-          return m_columns;
-        }
-        int get_height(){
-          return m_height;
-        }
-        int get_width(){
-          return m_width;
-        }
+    int get_numRows(){
+      return m_rows;
+    }
+
+    int get_numColumns(){
+      return m_columns;
+    }
+
+    int get_height(){
+      return m_height;
+    }
+    
+    int get_width(){
+      return m_width;
+    }
 };
 
 #endif

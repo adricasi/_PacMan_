@@ -5,15 +5,13 @@
 #include <stdio.h>
 #include <GL/glut.h>
 
-PacMan::PacMan(MapClass* map, int init_row, int init_column, int duration)
-{
+PacMan::PacMan(MapClass* map, int init_row, int init_column, int duration){
     m_map = map;
-    m_row = init_row;
-    m_column = init_column;
     state=QUIET;
     time_remaining = 0;
     m_movementDuration = duration;
-    m_sizeBase = 1.5;
+
+    m_sizeDivision = 1.5;
 
     //------------------------
     int num_columns = m_map->get_numColumns();
@@ -23,8 +21,8 @@ PacMan::PacMan(MapClass* map, int init_row, int init_column, int duration)
 
     float positionX = get_cellPositonX(init_column, num_columns, width);
     float positionY = get_cellPositonY(init_row, num_rows, height);
-    float sizeX = get_cellSizeX(init_column, num_columns, width)/m_sizeBase;
-    float sizeY = get_cellSizeY(init_row, num_rows, height)/m_sizeBase;
+    float sizeX = get_cellSizeX(init_column, num_columns, width)/m_sizeDivision;
+    float sizeY = get_cellSizeY(init_row, num_rows, height)/m_sizeDivision;
 
 
     set_position(init_row, init_column, positionX, positionY);
@@ -47,10 +45,8 @@ void PacMan::init_movement(){
         int height = m_map->get_height();
         int width = m_map->get_width();
 
-
         float destination_x = get_cellPositonX(m_destinationColumn, num_columns, width);
         float destination_y = get_cellPositonY(m_destinationRow, num_rows, height);
-
 
         vx = (destination_x - m_x)/m_movementDuration;
         vy = (destination_y - m_y)/m_movementDuration;
@@ -77,7 +73,6 @@ void PacMan::integrate(long t)
         state=QUIET;
 
         time_remaining=0;
-
         eatFood();
         init_movement();
     }
@@ -97,16 +92,20 @@ bool PacMan::defineNextMovement(){
 }
 
 void PacMan::nextCell(){
+    //Obtain the next cell 
 
     if(m_currentMovementDirection==TOP){
         m_destinationRow = m_row-1;
         m_destinationColumn = m_column;
+
     }else if(m_currentMovementDirection==RIGHT){
         m_destinationRow = m_row;
         m_destinationColumn = m_column+1;
+
     }else if(m_currentMovementDirection==BOT){
         m_destinationRow = m_row+1;
         m_destinationColumn = m_column;
+
     }else if(m_currentMovementDirection==LEFT){
         m_destinationRow = m_row;
         m_destinationColumn = m_column-1;
@@ -124,6 +123,7 @@ void PacMan::eatFood(){
 }
 
 bool PacMan::objectiveCompleted(){
+    //Pacman wins when there is not more food on the map
     if(m_map->allFoodEated()){
         return true;
     }
@@ -142,12 +142,12 @@ void PacMan::draw()
 }
 
 
-void PacMan::set_position(int row, int column, float x, float y)
-{
-  m_x = x;
-  m_y = y;
-  m_row = row;
-  m_column = column;
+void PacMan::set_position(int row, int column, float x, float y){
+    // row and column defines the position in the map and x and y defines the position in the canvas
+    m_x = x;
+    m_y = y;
+    m_row = row;
+    m_column = column;
 }
 
 void PacMan::set_size(float sizeX, float sizeY){
