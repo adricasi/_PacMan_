@@ -16,7 +16,7 @@ extern "C" {
             v->printMap();
         }
 
-        void MapClass_freeMap(MapClass* v){
+        void MapClass_freeMemory(MapClass* v){
             v->freeMap();
         }
 
@@ -24,9 +24,6 @@ extern "C" {
             v->drawMap();
         }
 
-        bool MapClass_availableCell(MapClass* v, int row, int column, int neighbour){
-            v->availableCell(row, column, neighbour);
-        }
 
         //---------------------------------------------
 
@@ -98,5 +95,8 @@ extern "C" {
 
         bool EnemiesController_gameFinished(EnemiesController* v, float pacmanX, float pacmanY, float pacmanSizeX, float pacmanSizeY){
             v->enemiesObjectiveCompleted(pacmanX, pacmanY, pacmanSizeX, pacmanSizeY);
+        }
+        void EnemiesController_freeMemory(EnemiesController* v){
+            v->freeEnemies();
         }
 }

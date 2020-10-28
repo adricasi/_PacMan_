@@ -39,3 +39,7 @@ bool EnemiesController::enemiesObjectiveCompleted(float pacmanX, float pacmanY, 
     }
     return false;
 }
+
+void EnemiesController::freeEnemies(){
+    free(m_ghostEnemies);
+}

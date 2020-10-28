@@ -8,7 +8,8 @@ void GhostEnemy::initGhostEnemy( MapClass* map, int init_row, int init_column, i
     m_map = map;
     m_row = init_row;
     m_column = init_column;
-    state=QUIET;
+    state = QUIET;
+    time_remaining = 0;
     m_movementDuration = duration;
     m_sizeBase = 1.5;
 
@@ -35,7 +36,6 @@ void GhostEnemy::initGhostEnemy( MapClass* map, int init_row, int init_column, i
 
 
 void GhostEnemy::init_movement(){
-
     if(time_remaining<=0){
         chooseMovementDirection();
         nextCell();
@@ -62,8 +62,7 @@ void GhostEnemy::init_movement(){
 }
 
 void GhostEnemy::integrate(long t)
-{
-    
+{        
     if(state==MOVE && t<time_remaining)
     {
         m_x = m_x + vx*t;

@@ -69,9 +69,11 @@ int MapClass::getValue(int row, int column){
 }
 
 void MapClass::freeMap(){
-    free(m_map);
-    m_map = NULL;
     m_stack.freeStack();
+    for (int i=0; i<m_rows; i++){
+        free(m_map[i]); 
+    }
+    free(m_map);
 }
 
 void MapClass::drawMap(){

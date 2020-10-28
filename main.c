@@ -27,6 +27,7 @@ void idle();
 void generateMap();
 void generatePacMan();
 void generateEnemies();
+void reset();
 
 //-----------------------------------------------
 
@@ -35,7 +36,9 @@ struct MapClass* map;
 struct EnemiesController* enemiesController;
 int rows;
 int columns;
-long last_t=0;
+long last_t;
+bool gameFinished;
+bool memoryFree;
 
 //-----------------------------------------------
 // -- MAIN PROCEDURE
@@ -43,9 +46,7 @@ long last_t=0;
 
 int main(int argc,char *argv[])
 {
-  generateMap();
-  generatePacMan();
-  generateEnemies();
+  reset();
 
   glutInit(&argc, argv);
   glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
@@ -62,6 +63,16 @@ int main(int argc,char *argv[])
 
   glutMainLoop();
   return 0;
+}
+
+void reset(){
+  last_t=0;
+  gameFinished = false;
+  memoryFree = false;
+
+  generateMap();
+  generatePacMan();
+  generateEnemies();
 }
 
 //------------------------------------------------------------
@@ -83,33 +94,33 @@ void display()
 //-----------------------------------------------
 void keyboard(unsigned char c,int x,int y)
 {
-  //free map memory
-  //MapClass_freeMap(map);
-  if(!PacMan_gameFinished(pacMan) && !EnemiesController_gameFinished(enemiesController, PacMan_getX(pacMan), PacMan_getY(pacMan), PacMan_getSizeX(pacMan), PacMan_getSizeY(pacMan))){
-    if (c=='w' && MapClass_availableCell(map,PacMan_getRow(pacMan),PacMan_getColumn(pacMan),TOP)){
+  // r to reset the game when the game has finsihed
+
+  //Pacman movement w-top s-bot a-left d-right
+  if(!gameFinished){
+    if (c=='w'){
       PacMan_setMovementDirection(pacMan,TOP);
       PacMan_initMovement(pacMan);
     }
     
-    if (c=='s'&& MapClass_availableCell(map,PacMan_getRow(pacMan),PacMan_getColumn(pacMan),BOT)){
+    if (c=='s'){
       PacMan_setMovementDirection(pacMan,BOT);
       PacMan_initMovement(pacMan);
-
     }
     
-    if (c=='a'&& MapClass_availableCell(map,PacMan_getRow(pacMan),PacMan_getColumn(pacMan),LEFT)){
+    if (c=='a'){
       PacMan_setMovementDirection(pacMan,LEFT);
       PacMan_initMovement(pacMan);
-
     }
     
-    if (c=='d'&& MapClass_availableCell(map,PacMan_getRow(pacMan),PacMan_getColumn(pacMan),RIGHT)){
+    if (c=='d'){
       PacMan_setMovementDirection(pacMan,RIGHT);
       PacMan_initMovement(pacMan);
-
     }
 
     glutPostRedisplay();
+  }else if(c=='r'){
+    reset();
   }
 };
 
@@ -118,11 +129,19 @@ void keyboard(unsigned char c,int x,int y)
 //-----------------------------------------------
 void idle()
 {
-  if(PacMan_gameFinished(pacMan)){
-    drawWin();
-  }else if(EnemiesController_gameFinished(enemiesController, PacMan_getX(pacMan), PacMan_getY(pacMan), PacMan_getSizeX(pacMan), PacMan_getSizeY(pacMan))){
-    drawLose();
-  }else{
+  //Check if game finished
+  if(!memoryFree){
+    if(PacMan_gameFinished(pacMan)){
+      gameFinished = true;
+      drawWin();
+    }else if(EnemiesController_gameFinished(enemiesController, PacMan_getX(pacMan), PacMan_getY(pacMan), PacMan_getSizeX(pacMan), PacMan_getSizeY(pacMan))){
+      gameFinished = true;
+      drawLose();
+    }
+  }
+
+  //integrations
+  if(!gameFinished){
     long t;
 
     t=glutGet(GLUT_ELAPSED_TIME); 
@@ -137,17 +156,22 @@ void idle()
       }
     glutPostRedisplay();
   }
+
+  //free memory
+  if(gameFinished && !memoryFree){
+    memoryFree = true; 
+    EnemiesController_freeMemory(enemiesController);
+    MapClass_freeMemory(map);
+  }
 }
 
 
 //---------------------------
 void generateMap(){
-  rows =21;
-  columns =21;/*
   printf("---Rows---- \n");
   rows = getMargin(MINIMUM_NUMBER);
   printf("---Columns--- \n");
-  columns = getMargin(MINIMUM_NUMBER);*/
+  columns = getMargin(MINIMUM_NUMBER);
 
   map = newMapClass(rows,columns,HEIGHT,WIDTH);
   MapClass_createMap(map);
@@ -164,5 +188,3 @@ void  generateEnemies(){
   enemiesController = newEnemiesController(map, NUMENEMIES, MOVEMENT_DURATION);
   EnemiesController_spawnEnemies(enemiesController);
 }
-
-

@@ -58,6 +58,7 @@ class EnemiesController {
         void drawEnemies();
         void integrateEnemies(long t);
         bool enemiesObjectiveCompleted(float pacmanX, float pacmanY, float pacmanSizeX, float pacmanSizeY);
+        void freeEnemies();
 };
 
 

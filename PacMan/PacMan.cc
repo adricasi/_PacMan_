@@ -11,6 +11,7 @@ PacMan::PacMan(MapClass* map, int init_row, int init_column, int duration)
     m_row = init_row;
     m_column = init_column;
     state=QUIET;
+    time_remaining = 0;
     m_movementDuration = duration;
     m_sizeBase = 1.5;
 
@@ -36,29 +37,27 @@ PacMan::PacMan(MapClass* map, int init_row, int init_column, int duration)
 
 void PacMan::init_movement(){
 
-    if(time_remaining<=0){
-        if(m_map->availableCell(get_row(),get_column(),m_movementDirection)){
-            nextCell();
-            m_row = m_destinationRow;
-            m_column = m_destinationColumn;
+    if(time_remaining<=0 && defineNextMovement()){
+        //init movement
+        m_row = m_destinationRow;
+        m_column = m_destinationColumn;
+    
+        int num_columns = m_map->get_numColumns();
+        int num_rows = m_map->get_numRows();
+        int height = m_map->get_height();
+        int width = m_map->get_width();
+
+
+        float destination_x = get_cellPositonX(m_destinationColumn, num_columns, width);
+        float destination_y = get_cellPositonY(m_destinationRow, num_rows, height);
+
+
+        vx = (destination_x - m_x)/m_movementDuration;
+        vy = (destination_y - m_y)/m_movementDuration;
+
+        state=MOVE;
         
-            int num_columns = m_map->get_numColumns();
-            int num_rows = m_map->get_numRows();
-            int height = m_map->get_height();
-            int width = m_map->get_width();
-
-
-            float destination_x = get_cellPositonX(m_destinationColumn, num_columns, width);
-            float destination_y = get_cellPositonY(m_destinationRow, num_rows, height);
-
-
-            vx = (destination_x - m_x)/m_movementDuration;
-            vy = (destination_y - m_y)/m_movementDuration;
-
-            state=MOVE;
-            
-            time_remaining=m_movementDuration;
-        }
+        time_remaining=m_movementDuration;
     }
 }
 
@@ -84,26 +83,38 @@ void PacMan::integrate(long t)
     }
 }
 
+bool PacMan::defineNextMovement(){
+    //Define next movement, if next movement ordered is not available continue with the current movement if it is possible
+
+    if(m_map->availableCell(get_row(),get_column(),m_nextMovementDirection)){
+        m_currentMovementDirection = m_nextMovementDirection;
+    }else if(!(m_map->availableCell(get_row(),get_column(),m_currentMovementDirection))){
+        //Movement not available
+        return false;
+    }
+    nextCell();
+    return true;
+}
+
 void PacMan::nextCell(){
 
-    if(m_movementDirection==TOP){
+    if(m_currentMovementDirection==TOP){
         m_destinationRow = m_row-1;
         m_destinationColumn = m_column;
-    }else if(m_movementDirection==RIGHT){
+    }else if(m_currentMovementDirection==RIGHT){
         m_destinationRow = m_row;
         m_destinationColumn = m_column+1;
-    }else if(m_movementDirection==BOT){
+    }else if(m_currentMovementDirection==BOT){
         m_destinationRow = m_row+1;
         m_destinationColumn = m_column;
-    }else if(m_movementDirection==LEFT){
+    }else if(m_currentMovementDirection==LEFT){
         m_destinationRow = m_row;
         m_destinationColumn = m_column-1;
     }
 }
 
 void PacMan::set_movementDirection(int direction){
-
-    m_movementDirection = direction;
+    m_nextMovementDirection = direction;
 }
 
 //---------------------------------------------------------

@@ -8,7 +8,8 @@
 typedef struct MapClass MapClass;
 class PacMan {
     int m_movementDuration;
-    int m_movementDirection;
+    int m_currentMovementDirection;
+    int m_nextMovementDirection;
 
     MapClass* m_map;
     int m_row,m_column;   //-- Current position
@@ -29,6 +30,7 @@ public:
     void init_movement();
     void integrate(long t);
     void nextCell();
+    bool defineNextMovement();
 
     void draw();
     void eatFood();
