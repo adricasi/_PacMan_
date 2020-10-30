@@ -1,4 +1,5 @@
 #include "MapClass.h"
+#include "../CommonFunctions/CommonFunctionsC++.h"
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -8,9 +9,11 @@
 time_t t;
 
 //Constructor
-MapClass::MapClass(int rows, int columns){
+MapClass::MapClass(int rows, int columns,int height, int width){
     m_rows = rows;
     m_columns = columns;
+    m_height = height;
+    m_width = width;
     m_cellsToVisit = 0;
 
     m_initialCellHome.set_row( m_rows/2 - (1 - HOMEROWS%2 + HOMEROWS/2));
@@ -66,17 +69,56 @@ int MapClass::getValue(int row, int column){
 }
 
 void MapClass::freeMap(){
-    free(m_map);
-    m_map = NULL;
     m_stack.freeStack();
+    for (int i=0; i<m_rows; i++){
+        free(m_map[i]); 
+    }
+    free(m_map);
 }
 
-void MapClass::drawMap(int WIDTH, int HEIGHT){
+void MapClass::drawMap(){
     for(int column=0;column<m_columns;column++){
         for(int row=0;row<m_rows;row++){
-            if( m_map[row][column].get_value() == CORRIDOR ) {
-                m_map[row][column].drawCell(m_rows, m_columns, WIDTH, HEIGHT);
+            Cell cell = m_map[row][column];
+            if( cell.get_value() == CORRIDOR ) {
+                float x = get_cellPositonX(column, m_columns,m_width);
+                float y = get_cellPositonY(row, m_rows, m_height);
+                   
+                m_map[row][column].set_position(x, y);
+
+                float sizeX = get_cellSizeX(column, m_columns,m_width);
+                float sizeY = get_cellSizeY(row, m_rows, m_height);
+                m_map[row][column].set_size(sizeX,sizeY);
+
+                m_map[row][column].drawCell(isInHomeRange(cell));
             }
         }
     }
+}
+
+
+bool MapClass::availableCell(int row, int column, int neighbour){
+    int value;
+    bool homeRange;
+    if(neighbour == TOP){
+        Cell top = m_map[row-1][column];
+        value = top.get_value();
+        homeRange = isInHomeRange(top);
+
+    }if(neighbour == RIGHT){
+        Cell right = m_map[row][column+1];
+        value = right.get_value();
+        homeRange = isInHomeRange(right);
+
+    }if(neighbour == BOT){
+        Cell bot = m_map[row+1][column];
+        value = bot.get_value();
+        homeRange = isInHomeRange(bot);
+
+    }if(neighbour == LEFT){
+        Cell left = m_map[row][column-1];
+        value = left.get_value();
+        homeRange = isInHomeRange(left);
+    }
+    return !homeRange && value==CORRIDOR;
 }

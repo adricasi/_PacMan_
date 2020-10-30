@@ -178,7 +178,7 @@ bool MapClass::isInHomeRange(Cell cell){
     int homeRow = m_initialCellHome.get_row();
     int homeColumn = m_initialCellHome.get_column();
 
-    if(row>=homeRow && row<homeRow+HOMEROWS && column>=homeColumn && column<homeColumn+HOMECOLUMNS){
+    if(row>=homeRow && row<homeRow+HOMEROWS && column>=homeColumn && column<homeColumn+(HOMECOLUMNS*2)-1){
         return true;
     }
     return false;

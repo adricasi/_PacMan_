@@ -2,18 +2,6 @@
 #include <stdio.h>
 #include <GL/glut.h>
 
-void Cell::drawCell(int maxRows, int maxColumns, int WIDTH, int HEIGHT){
-    int row = maxRows-1 - m_row;
-    glColor3f(0.8,0.8,0.8);
-    glBegin(GL_QUADS);
-    glVertex2i(m_column*WIDTH/maxColumns,row*HEIGHT/maxRows); 
-    glVertex2i((m_column+1)*WIDTH/maxColumns,row*HEIGHT/maxRows); 
-    glVertex2i((m_column+1)*WIDTH/maxColumns,(row+1)*HEIGHT/maxRows); 
-    glVertex2i(m_column*WIDTH/maxColumns,(row+1)*HEIGHT/maxRows); 
-    glEnd();
-    m_food.drawFood(maxRows, maxColumns, row, m_column, WIDTH, HEIGHT);
-}
-
 void Cell::initCell(int totalRows, int totalColumns, int cellRow, int cellColumn){
     /*
         ----Initialize the cell----
@@ -24,7 +12,7 @@ void Cell::initCell(int totalRows, int totalColumns, int cellRow, int cellColumn
 
         The cell must know their neighbours, their neighbours will be the other cells around it that the algorithm must visit.
     */
-
+    m_food.init_food();
     m_row = cellRow;
     m_column = cellColumn;
     m_value = WALL;
@@ -80,6 +68,15 @@ void Cell::visitHomeCell(int value){
 }
 
 //Get/Set
+
+void Cell::set_position(float x,float y){
+    m_x = x;
+    m_y = y;
+}  
+void Cell::set_size(float sizeX, float sizeY){
+    m_sizeX = sizeX;
+    m_sizeY = sizeY;
+}
 void Cell::set_row(int row){
     m_row = row;
 }
@@ -124,4 +121,34 @@ bool Cell::equal(Cell cell){
     }else{
         return false;
     }
+}
+
+
+//-----------------Draw-------------------------------------
+
+
+void Cell::drawCell(bool isHomeRange){
+
+    glColor3f(0.8,0.8,0.8);
+    glBegin(GL_QUADS);
+    glVertex2i(m_x-m_sizeX,m_y-m_sizeY); 
+    glVertex2i(m_x+m_sizeX,m_y-m_sizeY); 
+    glVertex2i(m_x+m_sizeX,m_y+m_sizeY); 
+    glVertex2i(m_x-m_sizeX,m_y+m_sizeY); 
+    glEnd();
+
+    //Draw food
+    if(!isHomeRange && m_food.get_exist()){
+        m_food.set_position(m_x,m_y);
+        m_food.set_size(m_sizeX/2.0,m_sizeY/2.0);
+        m_food.drawFood();
+    }
+}
+
+void Cell::eatFood(){
+    m_food.set_exist(false);
+}
+
+bool Cell::haveFood(){
+    return m_food.get_exist();
 }
