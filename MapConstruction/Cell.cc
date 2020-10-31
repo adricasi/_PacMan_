@@ -129,6 +129,42 @@ bool Cell::equal(Cell cell){
 
 void Cell::drawCell(bool isHomeRange){
 
+    glPolygonMode(GL_FRONT,GL_FILL);
+    glPolygonMode(GL_BACK,GL_LINE);
+
+    glColor3f(1.0, 0.0, 0.0);
+    glBegin(GL_QUADS);
+    glVertex3i(m_x+m_sizeX,m_y+m_sizeY,m_y+m_sizeY);
+    glVertex3i(m_x-m_sizeX,m_y+m_sizeY,m_y+m_sizeY);
+    glVertex3i(m_x-m_sizeX,m_y-m_sizeY,m_y+m_sizeY);
+    glVertex3i(m_x+m_sizeX,m_y-m_sizeY,m_y+m_sizeY);
+    glEnd();
+
+    glColor3f(1.0, 1.0, 0.0);
+    glBegin(GL_QUADS);
+    glVertex3i(m_x+m_sizeX,m_y-m_sizeY,m_y-m_sizeY);
+    glVertex3i(m_x-m_sizeX,m_y-m_sizeY,m_y-m_sizeY);
+    glVertex3i(m_x-m_sizeX,m_y+m_sizeY,m_y-m_sizeY);
+    glVertex3i(m_x+m_sizeX,m_y+m_sizeY,m_y-m_sizeY);
+    glEnd();
+
+    glColor3f(0.0, 0.0, 1.0);
+    glBegin(GL_QUADS);
+    glVertex3i(m_x+m_sizeX,m_y-m_sizeY,m_y+m_sizeY);
+    glVertex3i(m_x+m_sizeX,m_y-m_sizeY,m_y-m_sizeY);
+    glVertex3i(m_x+m_sizeX,m_y+m_sizeY,m_y+m_sizeY);
+    glVertex3i(m_x+m_sizeX,m_y+m_sizeY,m_y+m_sizeY);
+    glEnd();
+
+    glColor3f(0.0, 1.0, 0.0);
+    glBegin(GL_QUADS);
+    glVertex3i(m_x-m_sizeX,m_y+m_sizeY,m_y+m_sizeY);
+    glVertex3i(m_x-m_sizeX,m_y+m_sizeY,m_y+m_sizeY);
+    glVertex3i(m_x-m_sizeX,m_y-m_sizeY,m_y-m_sizeY);
+    glVertex3i(m_x-m_sizeX,m_y-m_sizeY,m_y+m_sizeY);
+    glEnd();
+
+    /*
     glColor3f(0.8,0.8,0.8);
     glBegin(GL_QUADS);
     glVertex2i(m_x-m_sizeX,m_y-m_sizeY); 
@@ -136,13 +172,17 @@ void Cell::drawCell(bool isHomeRange){
     glVertex2i(m_x+m_sizeX,m_y+m_sizeY); 
     glVertex2i(m_x-m_sizeX,m_y+m_sizeY); 
     glEnd();
+    /*
 
+    
+
+/*
     //Draw food
     if(!isHomeRange && m_food.get_exist()){
         m_food.set_position(m_x,m_y);
         m_food.set_size(m_sizeX/2.0,m_sizeY/2.0);
         m_food.drawFood();
-    }
+    }*/
 }
 
 void Cell::eatFood(){

@@ -80,7 +80,7 @@ void MapClass::drawMap(){
     for(int column=0;column<m_columns;column++){
         for(int row=0;row<m_rows;row++){
             Cell cell = m_map[row][column];
-            if( cell.get_value() == CORRIDOR ) {
+            if( cell.get_value() == WALL ) {
                 float x = get_cellPositonX(column, m_columns,m_width);
                 float y = get_cellPositonY(row, m_rows, m_height);
                    
