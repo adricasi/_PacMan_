@@ -27,5 +27,4 @@ int Stack::get_top(){
 
 void Stack::freeStack(){
   free(arr_stack);
-  arr_stack = NULL;
 }

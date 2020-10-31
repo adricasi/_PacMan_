@@ -69,23 +69,25 @@ int MapClass::getValue(int row, int column){
 }
 
 void MapClass::freeMap(){
-    free(m_map);
-    m_map = NULL;
     m_stack.freeStack();
+    for (int i=0; i<m_rows; i++){
+        free(m_map[i]); 
+    }
+    free(m_map);
 }
 
-void MapClass::drawMap(int WIDTH, int HEIGHT){
+void MapClass::drawMap(){
     for(int column=0;column<m_columns;column++){
         for(int row=0;row<m_rows;row++){
             Cell cell = m_map[row][column];
             if( cell.get_value() == CORRIDOR ) {
-                float x = get_cellPositonX(column, m_columns,WIDTH);
-                float y = get_cellPositonY(row, m_rows, HEIGHT);
+                float x = get_cellPositonX(column, m_columns,m_width);
+                float y = get_cellPositonY(row, m_rows, m_height);
                    
                 m_map[row][column].set_position(x, y);
 
-                float sizeX = get_cellSizeX(column, m_columns,WIDTH);
-                float sizeY = get_cellSizeY(row, m_rows, HEIGHT);
+                float sizeX = get_cellSizeX(column, m_columns,m_width);
+                float sizeY = get_cellSizeY(row, m_rows, m_height);
                 m_map[row][column].set_size(sizeX,sizeY);
 
                 m_map[row][column].drawCell(isInHomeRange(cell));

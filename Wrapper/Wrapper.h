@@ -14,29 +14,22 @@ void MapClass_createMap(MapClass* v);
 
 void MapClass_printMap(MapClass* v);
 
-int MapClass_getValue(MapClass* v, int row, int column);
+void MapClass_freeMemory(MapClass* v);
 
-void MapClass_freeMap(MapClass* v);
-
-void MapClass_drawMap(MapClass* v, int WIDTH, int HEIGHT);
+void MapClass_drawMap(MapClass* v);
 
 float MapClass_getCellPositionX(MapClass* v, int row, int column);
 
 float MapClass_getCellPositionY(MapClass* v, int row, int column);
 
-bool MapClass_availableCell(MapClass* v, int row, int column, int neighbour);
 
-//--------------------------------------------------------------
+//----------------------PacMan----------------------------------------
 
 typedef struct PacMan PacMan;
 
-PacMan* newPacMan(MapClass* map, int init_row, int init_column);
+PacMan* newPacMan(MapClass* map, int init_row, int init_column, int duration);
 
-void PacMan_setPosition(PacMan* v, int row, int column, float x, float y);
-
-void PacMan_setSize(PacMan* v, float sizeX, float sizeY);
-
-void PacMan_initMovement(PacMan* v, int destination_row,int destination_column, int duration);
+void PacMan_initMovement(PacMan* v);
 
 void PacMan_integrate(PacMan* v, long t);
 
@@ -46,8 +39,34 @@ int PacMan_getRow(PacMan* v);
 
 int PacMan_getColumn(PacMan* v);
 
-//------------------------Game--------------------------------------
-bool game_finished(PacMan* v);
+float PacMan_getX(PacMan* v);
+
+float PacMan_getY(PacMan* v);
+
+float PacMan_getSizeX(PacMan* v);
+
+float PacMan_getSizeY(PacMan* v);
+
+void PacMan_setMovementDirection(PacMan* v, int direction);
+
+bool PacMan_gameFinished(PacMan* v);
+
+
+//---------------------EnemiesController---------------------------------------
+
+typedef struct EnemiesController EnemiesController;
+
+EnemiesController* newEnemiesController(MapClass* map, int numEnemies, int duration);
+
+void EnemiesController_spawnEnemies(EnemiesController* v);
+
+void EnemiesController_drawEnemies(EnemiesController* v);
+
+void EnemiesController_integrateEnemies(EnemiesController* v, long t);
+
+bool EnemiesController_gameFinished(EnemiesController* v, float pacmanX, float pacmanY, float pacmanSizeX, float pacmanSizeY);
+
+void EnemiesController_freeMemory(EnemiesController* v);
 
 #ifdef __cplusplus
 }

@@ -1,5 +1,6 @@
 #include "../MapConstruction/MapClass.h"
 #include "../PacMan/PacMan.h"
+#include "../Enemies/Enemies.h"
 #include "Wrapper.h"
 
 extern "C" {
@@ -15,38 +16,23 @@ extern "C" {
             v->printMap();
         }
 
-        int MapClass_getValue(MapClass* v, int row, int column){
-            v->getValue(row, column);
-        }
-
-        void MapClass_freeMap(MapClass* v){
+        void MapClass_freeMemory(MapClass* v){
             v->freeMap();
         }
 
-        void MapClass_drawMap(MapClass* v, int WIDTH, int HEIGHT){
-            v->drawMap(WIDTH, HEIGHT);
+        void MapClass_drawMap(MapClass* v){
+            v->drawMap();
         }
 
-        bool MapClass_availableCell(MapClass* v, int row, int column, int neighbour){
-            v->availableCell(row, column, neighbour);
-        }
 
         //---------------------------------------------
 
-        PacMan* newPacMan(MapClass* map, int init_row, int init_column){
-            return new PacMan(map, init_row, init_column);
+        PacMan* newPacMan(MapClass* map, int init_row, int init_column, int duration){
+            return new PacMan(map, init_row, init_column, duration);
         }
 
-        void PacMan_setPosition(PacMan* v, int row, int column, float x, float y){
-            v->set_position(row, column, x, y);
-        }
-
-        void PacMan_setSize(PacMan* v, float sizeX, float sizeY){
-            v->set_size(sizeX,sizeY);
-        }
-
-        void PacMan_initMovement(PacMan* v, int destination_row,int destination_column, int duration){
-            v->init_movement(destination_row, destination_column,duration);
+        void PacMan_initMovement(PacMan* v){
+            v->init_movement();
         }
 
         void PacMan_integrate(PacMan* v, long t){
@@ -64,8 +50,53 @@ extern "C" {
         int PacMan_getColumn(PacMan* v){
             v->get_column();
         }
+        
+        float PacMan_getX(PacMan* v){
+            v->get_x();
+        }
+        
+        float PacMan_getY(PacMan* v){
+            v->get_y();
+        }
 
-        bool game_finished(PacMan* v){
+        float PacMan_getSizeX(PacMan* v){
+            v->get_sizeX();
+        }
+        
+        float PacMan_getSizeY(PacMan* v){
+            v->get_sizeY();
+        }
+
+        void PacMan_setMovementDirection(PacMan* v, int direction){
+            v->set_movementDirection(direction);
+        }
+
+        bool PacMan_gameFinished(PacMan* v){
             v->objectiveCompleted();
+        }
+
+        //---------------------EnemiesController---------------------------------------
+
+        EnemiesController* newEnemiesController(MapClass* map, int numEnemies, int duration){
+            return new EnemiesController(map, numEnemies, duration);
+        }
+
+        void EnemiesController_spawnEnemies(EnemiesController* v){
+            v->spawnEnemies();
+        }
+
+        void EnemiesController_drawEnemies(EnemiesController* v){
+            v->drawEnemies();
+        }
+
+        void EnemiesController_integrateEnemies(EnemiesController* v, long t){
+            v->integrateEnemies(t);
+        } 
+
+        bool EnemiesController_gameFinished(EnemiesController* v, float pacmanX, float pacmanY, float pacmanSizeX, float pacmanSizeY){
+            v->enemiesObjectiveCompleted(pacmanX, pacmanY, pacmanSizeX, pacmanSizeY);
+        }
+        void EnemiesController_freeMemory(EnemiesController* v){
+            v->freeEnemies();
         }
 }

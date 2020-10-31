@@ -1,13 +1,12 @@
-
-#include "PacMan.h"
+#include "Enemies.h"
 #include "../MapConstruction/MapClass.h"
 #include "../CommonFunctions/CommonFunctionsC++.h"
 #include <stdio.h>
 #include <GL/glut.h>
 
-PacMan::PacMan(MapClass* map, int init_row, int init_column, int duration){
+void GhostEnemy::initGhostEnemy( MapClass* map, int init_row, int init_column, int duration){
     m_map = map;
-    state=QUIET;
+    state = QUIET;
     time_remaining = 0;
     m_movementDuration = duration;
 
@@ -26,17 +25,19 @@ PacMan::PacMan(MapClass* map, int init_row, int init_column, int duration){
 
 
     set_position(init_row, init_column, positionX, positionY);
-    set_size(sizeX, sizeY);
-    eatFood();
+    set_size(sizeX, sizeY);   
 
+    init_movement();
 }
 
-//-------------Movement--------------------------------
 
-void PacMan::init_movement(){
+//--------------Movement--------------------
 
-    if(time_remaining<=0 && defineNextMovement()){
-        //init movement
+
+void GhostEnemy::init_movement(){
+    if(time_remaining<=0){
+        chooseMovementDirection();
+        nextCell();
         m_row = m_destinationRow;
         m_column = m_destinationColumn;
     
@@ -57,9 +58,8 @@ void PacMan::init_movement(){
     }
 }
 
-void PacMan::integrate(long t)
-{
-    
+void GhostEnemy::integrate(long t)
+{        
     if(state==MOVE && t<time_remaining)
     {
         m_x = m_x + vx*t;
@@ -73,66 +73,88 @@ void PacMan::integrate(long t)
         state=QUIET;
 
         time_remaining=0;
-        eatFood();
         init_movement();
     }
 }
 
-bool PacMan::defineNextMovement(){
-    //Define next movement, if next movement ordered is not available continue with the current movement if it is possible
-
-    if(m_map->availableCell(get_row(),get_column(),m_nextMovementDirection)){
-        m_currentMovementDirection = m_nextMovementDirection;
-    }else if(!(m_map->availableCell(get_row(),get_column(),m_currentMovementDirection))){
-        //Movement not available
-        return false;
-    }
-    nextCell();
-    return true;
-}
-
-void PacMan::nextCell(){
+void GhostEnemy::nextCell(){
     //Obtain the next cell 
 
-    if(m_currentMovementDirection==TOP){
+    if(m_movementDirection==TOP){
         m_destinationRow = m_row-1;
         m_destinationColumn = m_column;
 
-    }else if(m_currentMovementDirection==RIGHT){
+    }else if(m_movementDirection==RIGHT){
         m_destinationRow = m_row;
         m_destinationColumn = m_column+1;
 
-    }else if(m_currentMovementDirection==BOT){
+    }else if(m_movementDirection==BOT){
         m_destinationRow = m_row+1;
         m_destinationColumn = m_column;
 
-    }else if(m_currentMovementDirection==LEFT){
+    }else if(m_movementDirection==LEFT){
         m_destinationRow = m_row;
         m_destinationColumn = m_column-1;
     }
 }
 
-void PacMan::set_movementDirection(int direction){
-    m_nextMovementDirection = direction;
-}
+void GhostEnemy::chooseMovementDirection(){
+    //Choose a random available direction
 
-//---------------------------------------------------------
+    int availableCells[4];
+    int availableCellsSize = 0;
 
-void PacMan::eatFood(){
-    m_map->eatFood(m_row,m_column);
-}
+    int topValue = m_map->getValue(m_row-1,m_column);
+    int rightValue = m_map->getValue(m_row,m_column+1);
+    int botValue = m_map->getValue(m_row+1,m_column);
+    int leftValue = m_map->getValue(m_row,m_column-1);
 
-bool PacMan::objectiveCompleted(){
-    //Pacman wins when there is not more food on the map
-    if(m_map->allFoodEated()){
-        return true;
+    // Available directions
+    if(topValue == CORRIDOR){
+        availableCells[availableCellsSize] = TOP;
+        availableCellsSize = availableCellsSize+1; 
+        
+    }if(rightValue == CORRIDOR){
+        availableCells[availableCellsSize] = RIGHT;
+        availableCellsSize = availableCellsSize+1; 
+
+    }if(botValue == CORRIDOR){
+        availableCells[availableCellsSize] = BOT;
+        availableCellsSize = availableCellsSize+1; 
+
+    }if(leftValue == CORRIDOR){
+        availableCells[availableCellsSize] = LEFT;
+        availableCellsSize = availableCellsSize+1; 
     }
-    return false;
+
+    if(availableCellsSize > 0){
+        //Choose a random direction
+        int random= m_map->randomRange(0,availableCellsSize-1);
+        set_movementDirection(availableCells[random]);
+    }
 }
 
-void PacMan::draw()
+void GhostEnemy::set_movementDirection(int direction){
+    m_movementDirection = direction;
+}
+
+//---------------------------------------
+
+bool GhostEnemy::objectiveCompleted(float pacmanX, float pacmanY, float pacmanSizeX, float pacmanSizeY){
+    //If an enemy touch the pacman, enemies win
+
+    float pacmanLeftRange = pacmanX-pacmanSizeX;
+    float pacmanRightRange = pacmanX+pacmanSizeX;
+    float pacmanBotRange = pacmanY-pacmanSizeY;
+    float pacmanTopRange = pacmanY+pacmanSizeY;
+
+    return ((m_x>=pacmanLeftRange && m_x<=pacmanRightRange) && (m_y>=pacmanBotRange && m_y<=pacmanTopRange));
+}
+
+
+void GhostEnemy::draw()
 {
-    glColor3f(0.1,0.2,0.7);
+    glColor3f(0.7,0.2,0.1);
     glBegin(GL_QUADS);
     glVertex2i(m_x-m_sizeX,m_y-m_sizeY);
     glVertex2i(m_x+m_sizeX,m_y-m_sizeY);
@@ -141,8 +163,7 @@ void PacMan::draw()
     glEnd();
 }
 
-
-void PacMan::set_position(int row, int column, float x, float y){
+void GhostEnemy::set_position(int row, int column, float x, float y){
     // row and column defines the position in the map and x and y defines the position in the canvas
     m_x = x;
     m_y = y;
@@ -150,7 +171,7 @@ void PacMan::set_position(int row, int column, float x, float y){
     m_column = column;
 }
 
-void PacMan::set_size(float sizeX, float sizeY){
+void GhostEnemy::set_size(float sizeX, float sizeY){
     m_sizeX = sizeX;
     m_sizeY = sizeY;
 }
