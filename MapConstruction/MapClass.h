@@ -57,8 +57,8 @@ class Food{
 class Cell{
   private:
     //Variables
-    float m_x, m_y;   //-- Draw position
-    float m_sizeX,m_sizeY;
+    float m_x, m_y, m_z;   //-- Draw position
+    float m_sizeX,m_sizeY,m_sizeZ;
     int m_row, m_column; //-- Cell position
     int m_value;
     bool m_visited;
@@ -82,8 +82,8 @@ class Cell{
     bool haveFood();
 
     // get/set----------------------------------
-    void set_position(float x,float y);
-    void set_size(float sizeX, float sizeY);
+    void set_position(float x,float y,float z);
+    void set_size(float sizeX, float sizeY, float sizeZ);
     void set_row(int row);
     void set_column(int column);
     void set_value(int value);

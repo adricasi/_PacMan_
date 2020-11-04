@@ -23,6 +23,7 @@
 
 #define PI 3.1416
 
+#define glOrtho_range 0.7
 //-----------------------------------------------
 
 void display();;
@@ -34,8 +35,8 @@ void generateEnemies();
 void reset();
 
 /*--- Global variables that determine the viewpoint location ---*/
-int anglealpha = 0;
-int anglebeta = 0;
+int anglealpha = 90;
+int anglebeta = 60;
 
 //-----------------------------------------------
 
@@ -129,7 +130,7 @@ void PositionObserver(float alpha,float beta,int radi)
 
 void display()
 {
-  glClearColor(0.0,0.0,0.2,0.0);
+  glClearColor(1,1,1,0.0);
   glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 
   glMatrixMode(GL_MODELVIEW);
@@ -140,7 +141,7 @@ void display()
   //Projection parameters
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
-  glOrtho(-WIDTH*0.6,WIDTH*0.6,-HEIGHT*0.6,HEIGHT*0.6,10,2000);
+  glOrtho(-WIDTH*glOrtho_range,WIDTH*glOrtho_range,-HEIGHT*glOrtho_range,HEIGHT*glOrtho_range,10,2000);
 
   glMatrixMode(GL_MODELVIEW);
   MapClass_drawMap(map);  

@@ -83,12 +83,15 @@ void MapClass::drawMap(){
             if( cell.get_value() == WALL ) {
                 float x = get_cellPositonX(column, m_columns,m_width);
                 float y = get_cellPositonY(row, m_rows, m_height);
-                   
-                m_map[row][column].set_position(x, y);
+                float z = get_cellPositonZ(row, m_rows, m_height);
+                
+                m_map[row][column].set_position(x, y, z);
 
                 float sizeX = get_cellSizeX(column, m_columns,m_width);
                 float sizeY = get_cellSizeY(row, m_rows, m_height);
-                m_map[row][column].set_size(sizeX,sizeY);
+                float sizeZ = get_cellSizeZ(row, m_rows, m_height);
+
+                m_map[row][column].set_size(sizeX,sizeY,sizeZ);
 
                 m_map[row][column].drawCell(isInHomeRange(cell));
             }

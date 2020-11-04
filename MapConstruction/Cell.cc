@@ -69,13 +69,15 @@ void Cell::visitHomeCell(int value){
 
 //Get/Set
 
-void Cell::set_position(float x,float y){
+void Cell::set_position(float x,float y, float z){
     m_x = x;
     m_y = y;
+    m_z = z;
 }  
-void Cell::set_size(float sizeX, float sizeY){
+void Cell::set_size(float sizeX, float sizeY, float sizeZ){
     m_sizeX = sizeX;
     m_sizeY = sizeY;
+    m_sizeZ = sizeZ;
 }
 void Cell::set_row(int row){
     m_row = row;
@@ -130,51 +132,54 @@ bool Cell::equal(Cell cell){
 void Cell::drawCell(bool isHomeRange){
 
     glPolygonMode(GL_FRONT,GL_FILL);
+    //glPolygonMode(GL_BACK,GL_FILL);
     glPolygonMode(GL_BACK,GL_LINE);
 
-    glColor3f(1.0, 0.0, 0.0);
+    //FRONT
+    glColor3f(0.0,0.0,0.2);
     glBegin(GL_QUADS);
-    glVertex3i(m_x+m_sizeX,m_y+m_sizeY,m_y+m_sizeY);
-    glVertex3i(m_x-m_sizeX,m_y+m_sizeY,m_y+m_sizeY);
-    glVertex3i(m_x-m_sizeX,m_y-m_sizeY,m_y+m_sizeY);
-    glVertex3i(m_x+m_sizeX,m_y-m_sizeY,m_y+m_sizeY);
+    glVertex3i(m_x+m_sizeX,m_y+m_sizeY,m_z+m_sizeZ);
+    glVertex3i(m_x-m_sizeX,m_y+m_sizeY,m_z+m_sizeZ);
+    glVertex3i(m_x-m_sizeX,m_y-m_sizeY,m_z+m_sizeZ);
+    glVertex3i(m_x+m_sizeX,m_y-m_sizeY,m_z+m_sizeZ);
     glEnd();
-
-    glColor3f(1.0, 1.0, 0.0);
-    glBegin(GL_QUADS);
-    glVertex3i(m_x+m_sizeX,m_y-m_sizeY,m_y-m_sizeY);
-    glVertex3i(m_x-m_sizeX,m_y-m_sizeY,m_y-m_sizeY);
-    glVertex3i(m_x-m_sizeX,m_y+m_sizeY,m_y-m_sizeY);
-    glVertex3i(m_x+m_sizeX,m_y+m_sizeY,m_y-m_sizeY);
-    glEnd();
-
-    glColor3f(0.0, 0.0, 1.0);
-    glBegin(GL_QUADS);
-    glVertex3i(m_x+m_sizeX,m_y-m_sizeY,m_y+m_sizeY);
-    glVertex3i(m_x+m_sizeX,m_y-m_sizeY,m_y-m_sizeY);
-    glVertex3i(m_x+m_sizeX,m_y+m_sizeY,m_y+m_sizeY);
-    glVertex3i(m_x+m_sizeX,m_y+m_sizeY,m_y+m_sizeY);
-    glEnd();
-
-    glColor3f(0.0, 1.0, 0.0);
-    glBegin(GL_QUADS);
-    glVertex3i(m_x-m_sizeX,m_y+m_sizeY,m_y+m_sizeY);
-    glVertex3i(m_x-m_sizeX,m_y+m_sizeY,m_y+m_sizeY);
-    glVertex3i(m_x-m_sizeX,m_y-m_sizeY,m_y-m_sizeY);
-    glVertex3i(m_x-m_sizeX,m_y-m_sizeY,m_y+m_sizeY);
-    glEnd();
-
-    /*
-    glColor3f(0.8,0.8,0.8);
-    glBegin(GL_QUADS);
-    glVertex2i(m_x-m_sizeX,m_y-m_sizeY); 
-    glVertex2i(m_x+m_sizeX,m_y-m_sizeY); 
-    glVertex2i(m_x+m_sizeX,m_y+m_sizeY); 
-    glVertex2i(m_x-m_sizeX,m_y+m_sizeY); 
-    glEnd();
-    /*
-
     
+    //BACK
+    glColor3f(0.0,0.0,0.2);
+    glBegin(GL_QUADS);
+    glVertex3i(m_x+m_sizeX,m_y-m_sizeY,m_z-m_sizeZ);
+    glVertex3i(m_x-m_sizeX,m_y-m_sizeY,m_z-m_sizeZ);
+    glVertex3i(m_x-m_sizeX,m_y+m_sizeY,m_z-m_sizeZ);
+    glVertex3i(m_x+m_sizeX,m_y+m_sizeY,m_z-m_sizeZ);
+    glEnd();
+
+    //RIGHT
+    glColor3f(0.0,0.0,0.2);
+    glBegin(GL_QUADS);
+    glVertex3i(m_x+m_sizeX,m_y-m_sizeY,m_z+m_sizeZ);
+    glVertex3i(m_x+m_sizeX,m_y-m_sizeY,m_z-m_sizeZ);
+    glVertex3i(m_x+m_sizeX,m_y+m_sizeY,m_z-m_sizeZ);
+    glVertex3i(m_x+m_sizeX,m_y+m_sizeY,m_z+m_sizeZ);
+    glEnd();
+
+
+    //LEFT
+    glColor3f(0.0,0.0,0.2);
+    glBegin(GL_QUADS);
+    glVertex3i(m_x-m_sizeX,m_y+m_sizeY,m_z+m_sizeZ);
+    glVertex3i(m_x-m_sizeX,m_y+m_sizeY,m_z-m_sizeZ);
+    glVertex3i(m_x-m_sizeX,m_y-m_sizeY,m_z-m_sizeZ);
+    glVertex3i(m_x-m_sizeX,m_y-m_sizeY,m_z+m_sizeZ);
+    glEnd();
+
+    //TOP
+    glColor3f(0.0,0.0,0.2);
+    glBegin(GL_QUADS);
+    glVertex3i(m_x+m_sizeX,m_y+m_sizeY,m_z-m_sizeZ);
+    glVertex3i(m_x-m_sizeX,m_y+m_sizeY,m_z-m_sizeZ);
+    glVertex3i(m_x-m_sizeX,m_y+m_sizeY,m_z+m_sizeZ);
+    glVertex3i(m_x+m_sizeX,m_y+m_sizeY,m_z+m_sizeZ);
+    glEnd();
 
 /*
     //Draw food
