@@ -1,4 +1,5 @@
 #include "MapClass.h"
+#include "../CommonFunctions/CommonFunctionsC++.h"
 #include <stdio.h>
 #include <GL/glut.h>
 
@@ -129,65 +130,11 @@ bool Cell::equal(Cell cell){
 //-----------------Draw-------------------------------------
 
 
-void Cell::drawCell(bool isHomeRange){
-
-    glPolygonMode(GL_FRONT,GL_FILL);
-    //glPolygonMode(GL_BACK,GL_FILL);
-    glPolygonMode(GL_BACK,GL_LINE);
-
-    //FRONT
-    glColor3f(0.0,0.0,0.2);
-    glBegin(GL_QUADS);
-    glVertex3i(m_x+m_sizeX,m_y+m_sizeY,m_z+m_sizeZ);
-    glVertex3i(m_x-m_sizeX,m_y+m_sizeY,m_z+m_sizeZ);
-    glVertex3i(m_x-m_sizeX,m_y-m_sizeY,m_z+m_sizeZ);
-    glVertex3i(m_x+m_sizeX,m_y-m_sizeY,m_z+m_sizeZ);
-    glEnd();
-    
-    //BACK
-    glColor3f(0.0,0.0,0.2);
-    glBegin(GL_QUADS);
-    glVertex3i(m_x+m_sizeX,m_y-m_sizeY,m_z-m_sizeZ);
-    glVertex3i(m_x-m_sizeX,m_y-m_sizeY,m_z-m_sizeZ);
-    glVertex3i(m_x-m_sizeX,m_y+m_sizeY,m_z-m_sizeZ);
-    glVertex3i(m_x+m_sizeX,m_y+m_sizeY,m_z-m_sizeZ);
-    glEnd();
-
-    //RIGHT
-    glColor3f(0.0,0.0,0.2);
-    glBegin(GL_QUADS);
-    glVertex3i(m_x+m_sizeX,m_y-m_sizeY,m_z+m_sizeZ);
-    glVertex3i(m_x+m_sizeX,m_y-m_sizeY,m_z-m_sizeZ);
-    glVertex3i(m_x+m_sizeX,m_y+m_sizeY,m_z-m_sizeZ);
-    glVertex3i(m_x+m_sizeX,m_y+m_sizeY,m_z+m_sizeZ);
-    glEnd();
-
-
-    //LEFT
-    glColor3f(0.0,0.0,0.2);
-    glBegin(GL_QUADS);
-    glVertex3i(m_x-m_sizeX,m_y+m_sizeY,m_z+m_sizeZ);
-    glVertex3i(m_x-m_sizeX,m_y+m_sizeY,m_z-m_sizeZ);
-    glVertex3i(m_x-m_sizeX,m_y-m_sizeY,m_z-m_sizeZ);
-    glVertex3i(m_x-m_sizeX,m_y-m_sizeY,m_z+m_sizeZ);
-    glEnd();
-
-    //TOP
-    glColor3f(0.0,0.0,0.2);
-    glBegin(GL_QUADS);
-    glVertex3i(m_x+m_sizeX,m_y+m_sizeY,m_z-m_sizeZ);
-    glVertex3i(m_x-m_sizeX,m_y+m_sizeY,m_z-m_sizeZ);
-    glVertex3i(m_x-m_sizeX,m_y+m_sizeY,m_z+m_sizeZ);
-    glVertex3i(m_x+m_sizeX,m_y+m_sizeY,m_z+m_sizeZ);
-    glEnd();
-
-/*
-    //Draw food
-    if(!isHomeRange && m_food.get_exist()){
-        m_food.set_position(m_x,m_y);
-        m_food.set_size(m_sizeX/2.0,m_sizeY/2.0);
-        m_food.drawFood();
-    }*/
+void Cell::drawCell(){
+    float red = 0.0;
+    float green = 0.0;
+    float blue = 0.2;
+    draw_square(m_x, m_y, m_z, m_sizeX, m_sizeY, m_sizeZ, red, green, blue);
 }
 
 void Cell::eatFood(){
@@ -196,4 +143,12 @@ void Cell::eatFood(){
 
 bool Cell::haveFood(){
     return m_food.get_exist();
+}
+
+void Cell::drawFood(bool isHomeRange){
+    if(!isHomeRange && m_food.get_exist()){
+        m_food.set_position(m_x, m_y, m_z);
+        m_food.set_size(m_sizeX/2.5, m_sizeY/2.5, m_sizeZ/2.5);
+        m_food.drawFood();
+    }
 }

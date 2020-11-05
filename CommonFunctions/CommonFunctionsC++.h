@@ -9,3 +9,7 @@ float get_cellSizeX(int column, int maxColumns, int WIDTH);
 float get_cellSizeY(int row, int maxRows, int HEIGHT);
 
 float get_cellSizeZ(int row, int maxRows, int HEIGHT);
+
+void draw_square(float x,float y,float z,float sizeX,float sizeY,float sizeZ, float red, float green, float blue);
+
+void draw_sphere(float x,float y,float z,float sizeX,float sizeY,float sizeZ, float red, float green, float blue);

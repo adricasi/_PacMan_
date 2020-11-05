@@ -145,7 +145,7 @@ void display()
 
   glMatrixMode(GL_MODELVIEW);
   MapClass_drawMap(map);  
-  //PacMan_draw(pacMan);
+  PacMan_draw(pacMan);
   //EnemiesController_drawEnemies(enemiesController);
 
   glutSwapBuffers();

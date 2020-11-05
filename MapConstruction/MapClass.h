@@ -24,8 +24,8 @@ struct neighbour{
 //---------------------Food class-----------------------------------------------------------------------
 class Food{
   private:
-    float m_sizeX,m_sizeY;
-    float m_x,m_y;   //-- Draw position
+    float m_sizeX,m_sizeY,m_sizeZ;
+    float m_x,m_y,m_z;   //-- Draw position
     bool m_exist;
   public:
     void init_food(){
@@ -33,15 +33,17 @@ class Food{
     }
 
     void drawFood();
-    void set_position(int x,int y)
+    void set_position(int x,int y, int z)
     {
       m_x = x;
       m_y = y;
+      m_z = z;
     }
-    void set_size(float sizeX, float sizeY)
+    void set_size(float sizeX, float sizeY, float sizeZ)
     {
       m_sizeX = sizeX;
       m_sizeY = sizeY;
+      m_sizeZ = sizeZ;
     }
     void set_exist(bool exist){
       m_exist = exist;
@@ -70,7 +72,8 @@ class Cell{
     neighbour cell_path_left;
 
   public:
-    void drawCell(bool isHomeRange);
+    void drawCell();
+    void drawFood(bool isHomeRange);
     void initCell(int totalRows, int totalColumns, int cellRow, int cellColumn);
     void defineNeighbour(int totalRows, int totalColumns, int neighbourRow, int neighbourColumn, int neighbour);
     void visit();
