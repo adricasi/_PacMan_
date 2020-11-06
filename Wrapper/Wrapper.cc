@@ -44,27 +44,27 @@ extern "C" {
         }
 
         int PacMan_getRow(PacMan* v){
-            v->get_row();
+            return v->get_row();
         }
 
         int PacMan_getColumn(PacMan* v){
-            v->get_column();
+            return v->get_column();
         }
         
         float PacMan_getX(PacMan* v){
-            v->get_x();
+            return v->get_x();
         }
         
         float PacMan_getY(PacMan* v){
-            v->get_y();
+            return v->get_y();
         }
 
-        float PacMan_getSizeX(PacMan* v){
-            v->get_sizeX();
+        float PacMan_getZ(PacMan* v){
+            return v->get_z();
         }
-        
-        float PacMan_getSizeY(PacMan* v){
-            v->get_sizeY();
+       
+        float PacMan_getRadius(PacMan* v){
+            return v->get_radius();
         }
 
         void PacMan_setMovementDirection(PacMan* v, int direction){
@@ -72,7 +72,7 @@ extern "C" {
         }
 
         bool PacMan_gameFinished(PacMan* v){
-            v->objectiveCompleted();
+            return v->objectiveCompleted();
         }
 
         //---------------------EnemiesController---------------------------------------
@@ -93,8 +93,8 @@ extern "C" {
             v->integrateEnemies(t);
         } 
 
-        bool EnemiesController_gameFinished(EnemiesController* v, float pacmanX, float pacmanY, float pacmanSizeX, float pacmanSizeY){
-            v->enemiesObjectiveCompleted(pacmanX, pacmanY, pacmanSizeX, pacmanSizeY);
+        bool EnemiesController_gameFinished(EnemiesController* v, float pacmanX, float pacmanZ, float pacmanRadius){
+            return v->enemiesObjectiveCompleted(pacmanX, pacmanZ, pacmanRadius);
         }
         void EnemiesController_freeMemory(EnemiesController* v){
             v->freeEnemies();

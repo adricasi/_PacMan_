@@ -2,6 +2,7 @@
 #include "Wrapper/Wrapper.h"
 #include "CommonFunctions/CommonFunctionsC.h"
 #include <stdio.h>
+#include <math.h>
 
 
 #define NUM_ENEMIES 8
@@ -20,6 +21,9 @@
 #define RIGHT 2
 #define BOT 3
 
+#define PI 3.1416
+
+#define glOrtho_range 0.7
 //-----------------------------------------------
 
 void display();;
@@ -29,6 +33,10 @@ void generateMap();
 void generatePacMan();
 void generateEnemies();
 void reset();
+
+/*--- Global variables that determine the viewpoint location ---*/
+int anglealpha = 90;
+int anglebeta = 60;
 
 //-----------------------------------------------
 
@@ -50,17 +58,17 @@ int main(int argc,char *argv[])
   reset();
 
   glutInit(&argc, argv);
-  glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
+  glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
   glutInitWindowPosition(500, 100);
   glutInitWindowSize(WIDTH, HEIGHT);
   glutCreateWindow("PacMan board");
+  glEnable(GL_DEPTH_TEST);
 
   glutDisplayFunc(display);
   glutKeyboardFunc(keyboard);
   glutIdleFunc(idle);
 
-  glMatrixMode(GL_PROJECTION);
-  gluOrtho2D(0,WIDTH-1,0,HEIGHT-1);
+  //gluOrtho2D(0,WIDTH-1,0,HEIGHT-1);
 
   glutMainLoop();
   return 0;
@@ -79,11 +87,63 @@ void reset(){
 
 //------------------------------------------------------------
 
+void PositionObserver(float alpha,float beta,int radi)
+{
+  float x,y,z;
+  float upx,upy,upz;
+  float modul;
+
+  x = (float)radi*cos(alpha*2*PI/360.0)*cos(beta*2*PI/360.0);
+  y = (float)radi*sin(beta*2*PI/360.0);
+  z = (float)radi*sin(alpha*2*PI/360.0)*cos(beta*2*PI/360.0);
+
+  if (beta>0)
+    {
+      upx=-x;
+      upz=-z;
+      upy=(x*x+z*z)/y;
+    }
+  else if(beta==0)
+    {
+      upx=0;
+      upy=1;
+      upz=0;
+    }
+  else
+    {
+      upx=x;
+      upz=z;
+      upy=-(x*x+z*z)/y;
+    }
+
+
+  modul=sqrt(upx*upx+upy*upy+upz*upz);
+
+  upx=upx/modul;
+  upy=upy/modul;
+  upz=upz/modul;
+
+  gluLookAt(x,y,z,    0.0, 0.0, 0.0,     upx,upy,upz);
+}
+
+//------------------------------------------------------------
+
 void display()
 {
-  
-  glClearColor(0.0,0.0,0.2,0.0);
-  glClear(GL_COLOR_BUFFER_BIT);
+  glClearColor(1,1,1,0.0);
+  glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
+
+  glMatrixMode(GL_MODELVIEW);
+  glLoadIdentity();
+
+  PositionObserver(anglealpha,anglebeta,450);
+
+  //Projection parameters
+  glMatrixMode(GL_PROJECTION);
+  glLoadIdentity();
+  glOrtho(-WIDTH*glOrtho_range,WIDTH*glOrtho_range,-HEIGHT*glOrtho_range,HEIGHT*glOrtho_range,10,2000);
+
+  glMatrixMode(GL_MODELVIEW);
   MapClass_drawMap(map);  
   PacMan_draw(pacMan);
   EnemiesController_drawEnemies(enemiesController);
@@ -122,6 +182,16 @@ void keyboard(unsigned char c,int x,int y)
   }else if(c=='r'){
     reset();
   }
+
+  if (c=='i' && anglebeta<=(90-4))
+    anglebeta=(anglebeta+3);
+  else if (c=='k' && anglebeta>=(-90+4))
+    anglebeta=anglebeta-3;
+  else if (c=='j')
+    anglealpha=(anglealpha+3)%360;
+  else if (c=='l')
+    anglealpha=(anglealpha-3+360)%360;
+
 };
 
 
@@ -133,7 +203,7 @@ void idle()
     if(PacMan_gameFinished(pacMan)){
       gameFinished = true;
       drawWin();
-    }else if(EnemiesController_gameFinished(enemiesController, PacMan_getX(pacMan), PacMan_getY(pacMan), PacMan_getSizeX(pacMan), PacMan_getSizeY(pacMan))){
+    }else if(EnemiesController_gameFinished(enemiesController, PacMan_getX(pacMan), PacMan_getZ(pacMan), PacMan_getRadius(pacMan))){
       gameFinished = true;
       drawLose();
     }

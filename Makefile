@@ -19,7 +19,7 @@ chess: main.c
 	g++ -c Wrapper/Wrapper.cc -o CompiledFiles/Wrapper.o
 	gcc -c main.c -o CompiledFiles/main.o
 
-	g++ CompiledFiles/main.o CompiledFiles/Wrapper.o CompiledFiles/MapClassMainFunctions.o CompiledFiles/MapClassConstruction.o CompiledFiles/MapClassHomeConstruction.o CompiledFiles/MapClassGame.o CompiledFiles/Cell.o CompiledFiles/Stack.o CompiledFiles/CommonFunctionsC.o CompiledFiles/CommonFunctionsC++.o CompiledFiles/Food.o CompiledFiles/PacMan.o CompiledFiles/EnemiesController.o CompiledFiles/GhostEnemy.o -o main -lglut -lGLU -lGL -lm 
+	g++ CompiledFiles/main.o CompiledFiles/Wrapper.o CompiledFiles/MapClassMainFunctions.o CompiledFiles/MapClassConstruction.o CompiledFiles/MapClassHomeConstruction.o CompiledFiles/MapClassGame.o CompiledFiles/Cell.o CompiledFiles/Stack.o CompiledFiles/CommonFunctionsC.o CompiledFiles/CommonFunctionsC++.o CompiledFiles/Food.o CompiledFiles/PacMan.o CompiledFiles/EnemiesController.o CompiledFiles/GhostEnemy.o -o main -lglut -lGLU -lGL -lm -ljpeg
 
 	./main
 clean:
