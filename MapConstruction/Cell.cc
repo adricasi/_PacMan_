@@ -113,7 +113,7 @@ neighbour Cell::get_neighbour(int neighbour){
         return cell_path_right;
     }else if(neighbour == BOT){
         return cell_path_bot;
-    }else if(neighbour == LEFT){
+    }else{
         return cell_path_left;
     }
 }
