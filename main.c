@@ -203,7 +203,7 @@ void idle()
     if(PacMan_gameFinished(pacMan)){
       gameFinished = true;
       drawWin();
-    }else if(EnemiesController_gameFinished(enemiesController, PacMan_getX(pacMan), PacMan_getY(pacMan), PacMan_getSizeX(pacMan), PacMan_getSizeY(pacMan))){
+    }else if(EnemiesController_gameFinished(enemiesController, PacMan_getX(pacMan), PacMan_getZ(pacMan), PacMan_getRadius(pacMan))){
       gameFinished = true;
       drawLose();
     }

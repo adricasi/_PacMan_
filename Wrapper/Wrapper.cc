@@ -59,12 +59,12 @@ extern "C" {
             v->get_y();
         }
 
-        float PacMan_getSizeX(PacMan* v){
-            v->get_sizeX();
+        float PacMan_getZ(PacMan* v){
+            v->get_z();
         }
-        
-        float PacMan_getSizeY(PacMan* v){
-            v->get_sizeY();
+       
+        float PacMan_getRadius(PacMan* v){
+            v->get_radius();
         }
 
         void PacMan_setMovementDirection(PacMan* v, int direction){
@@ -93,8 +93,8 @@ extern "C" {
             v->integrateEnemies(t);
         } 
 
-        bool EnemiesController_gameFinished(EnemiesController* v, float pacmanX, float pacmanY, float pacmanSizeX, float pacmanSizeY){
-            v->enemiesObjectiveCompleted(pacmanX, pacmanY, pacmanSizeX, pacmanSizeY);
+        bool EnemiesController_gameFinished(EnemiesController* v, float pacmanX, float pacmanZ, float pacmanRadius){
+            v->enemiesObjectiveCompleted(pacmanX, pacmanZ, pacmanRadius);
         }
         void EnemiesController_freeMemory(EnemiesController* v){
             v->freeEnemies();
