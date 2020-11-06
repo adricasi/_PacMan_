@@ -108,75 +108,24 @@ void draw_square(float x,float y,float z,float sizeX,float sizeY,float sizeZ, fl
 }
 
 
-void draw_sphere(float x,float y,float z,float sizeX,float sizeY,float sizeZ, float red, float green, float blue){
-    glPolygonMode(GL_FRONT,GL_FILL);
-    glPolygonMode(GL_BACK,GL_FILL);
-    //glPolygonMode(GL_BACK,GL_LINE);
-
-    //FRONT
-    glColor3f(red,green,blue);
-    glBegin(GL_QUADS);
-    glVertex3i(x+sizeX,y+sizeY,z+sizeZ);
-    glVertex3i(x-sizeX,y+sizeY,z+sizeZ);
-    glVertex3i(x-sizeX,y-sizeY,z+sizeZ);
-    glVertex3i(x+sizeX,y-sizeY,z+sizeZ);
-    glEnd();
+void draw_sphere(float x,float y,float z,float radius, float red, float green, float blue){
     
-    //BACK
+    int slices = 25;
+    int stacks = 25;
+
+    // Create a new quadric and render it normally
+    GLUquadricObj *sphere = gluNewQuadric();
+    gluQuadricDrawStyle(sphere, GLU_FILL);
+
     glColor3f(red,green,blue);
-    glBegin(GL_QUADS);
-    glVertex3i(x+sizeX,y-sizeY,z-sizeZ);
-    glVertex3i(x-sizeX,y-sizeY,z-sizeZ);
-    glVertex3i(x-sizeX,y+sizeY,z-sizeZ);
-    glVertex3i(x+sizeX,y+sizeY,z-sizeZ);
-    glEnd();
+    
+    glPushMatrix();
+    glTranslated(x, y, z);
+    gluSphere(sphere, radius, slices, stacks);
+    //gluDeleteQuadric(sphere);
+    glPopMatrix();
 
-    //RIGHT
-    glColor3f(red,green,blue);
-    glBegin(GL_QUADS);
-    glVertex3i(x+sizeX,y-sizeY,z+sizeZ);
-    glVertex3i(x+sizeX,y-sizeY,z-sizeZ);
-    glVertex3i(x+sizeX,y+sizeY,z-sizeZ);
-    glVertex3i(x+sizeX,y+sizeY,z+sizeZ);
-    glEnd();
-
-
-    //LEFT
-    glColor3f(red,green,blue);
-    glBegin(GL_QUADS);
-    glVertex3i(x-sizeX,y+sizeY,z+sizeZ);
-    glVertex3i(x-sizeX,y+sizeY,z-sizeZ);
-    glVertex3i(x-sizeX,y-sizeY,z-sizeZ);
-    glVertex3i(x-sizeX,y-sizeY,z+sizeZ);
-    glEnd();
-
-    //Made bot and top more brightly
-    if(red < 1){
-        red = red+0.1;
-    }
-    if(green < 1){
-        green = green+0.1;
-    }
-    if(blue < 1){
-        blue = blue+0.1;
-    }
-
-    //TOP
-    glColor3f(red,green,blue);
-    glBegin(GL_QUADS);
-    glVertex3i(x+sizeX,y+sizeY,z-sizeZ);
-    glVertex3i(x-sizeX,y+sizeY,z-sizeZ);
-    glVertex3i(x-sizeX,y+sizeY,z+sizeZ);
-    glVertex3i(x+sizeX,y+sizeY,z+sizeZ);
-    glEnd();
-
-    //BOT
-    glColor3f(red,green,blue);
-    glBegin(GL_QUADS);
-    glVertex3i(x+sizeX,y-sizeY,z-sizeZ);
-    glVertex3i(x-sizeX,y-sizeY,z-sizeZ);
-    glVertex3i(x-sizeX,y-sizeY,z+sizeZ);
-    glVertex3i(x+sizeX,y-sizeY,z+sizeZ);
-    glEnd();
+    // Free the quadric object
+    gluDeleteQuadric(sphere);
 }
 

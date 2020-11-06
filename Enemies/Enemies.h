@@ -15,11 +15,13 @@ class GhostEnemy {
     MapClass* m_map;
     int m_row,m_column;   //-- Current position
     int m_destinationRow, m_destinationColumn;
-    float m_x,m_y;   //-- Current position
+    float m_x,m_y,m_z;   //-- Current position
     float vx,vy; //-- Velocity vector
     int state;
     float m_sizeDivision;
-    float m_sizeX,m_sizeY;
+    float m_sizeX,m_sizeY,m_sizeZ;
+    float m_radius;
+
 
     long time_remaining;
 
@@ -35,8 +37,8 @@ class GhostEnemy {
         bool objectiveCompleted(float pacmanX, float pacmanY, float pacmanSizeX, float pacmanSizeY);
 
         void set_movementDirection(int direction);
-        void set_position(int row, int column, float x, float y);
-        void set_size(float sizeX, float sizeY);
+        void set_position(int row, int column, float x, float y, float z);
+        void set_size(float sizeX, float sizeY, float sizeZ, float radius);
 
         int get_row(){
             return m_row;

@@ -21,6 +21,7 @@ class PacMan {
 
     float m_sizeDivision;
     float m_sizeX,m_sizeY,m_sizeZ;
+    float m_radius;
 
     long time_remaining;
 
@@ -38,7 +39,7 @@ public:
     bool objectiveCompleted();
 
     void set_position(int row, int column, float x, float y, float z);
-    void set_size(float sizeX, float sizeY, float sizeZ);
+    void set_size(float sizeX, float sizeY, float sizeZ, float radius);
     void set_movementDirection(int direction);
 
     int get_row(){

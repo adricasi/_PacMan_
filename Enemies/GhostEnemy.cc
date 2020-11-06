@@ -20,12 +20,15 @@ void GhostEnemy::initGhostEnemy( MapClass* map, int init_row, int init_column, i
 
     float positionX = get_cellPositonX(init_column, num_columns, width);
     float positionY = get_cellPositonY(init_row, num_rows, height);
+    float positionZ = get_cellPositonZ(init_row, num_rows, height);
+
     float sizeX = get_cellSizeX(init_column, num_columns, width)/m_sizeDivision;
     float sizeY = get_cellSizeY(init_row, num_rows, height)/m_sizeDivision;
+    float sizeZ = get_cellSizeZ(init_row, num_rows, height)/m_sizeDivision;
+    float radius = get_cellSizeX(init_column, num_columns, width)/m_sizeDivision;
 
-
-    set_position(init_row, init_column, positionX, positionY);
-    set_size(sizeX, sizeY);   
+    set_position(init_row, init_column, positionX, positionY, positionZ);
+    set_size(sizeX, sizeY, sizeZ, radius);   
 
     init_movement();
 }
@@ -154,24 +157,24 @@ bool GhostEnemy::objectiveCompleted(float pacmanX, float pacmanY, float pacmanSi
 
 void GhostEnemy::draw()
 {
-    glColor3f(0.7,0.2,0.1);
-    glBegin(GL_QUADS);
-    glVertex2i(m_x-m_sizeX,m_y-m_sizeY);
-    glVertex2i(m_x+m_sizeX,m_y-m_sizeY);
-    glVertex2i(m_x+m_sizeX,m_y+m_sizeY);
-    glVertex2i(m_x-m_sizeX,m_y+m_sizeY);
-    glEnd();
+    float red = 0.7;
+    float green = 0.2;
+    float blue = 0.1;
+    draw_sphere(m_x, m_y, m_z, m_radius, red, green, blue);
 }
 
-void GhostEnemy::set_position(int row, int column, float x, float y){
+void GhostEnemy::set_position(int row, int column, float x, float y, float z){
     // row and column defines the position in the map and x and y defines the position in the canvas
     m_x = x;
     m_y = y;
+    m_z = z;
     m_row = row;
     m_column = column;
 }
 
-void GhostEnemy::set_size(float sizeX, float sizeY){
+void GhostEnemy::set_size(float sizeX, float sizeY, float sizeZ, float radius){
     m_sizeX = sizeX;
     m_sizeY = sizeY;
+    m_sizeZ = sizeZ;
+    m_radius = radius;
 }

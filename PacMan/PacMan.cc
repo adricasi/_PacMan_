@@ -22,13 +22,16 @@ PacMan::PacMan(MapClass* map, int init_row, int init_column, int duration){
     float positionX = get_cellPositonX(init_column, num_columns, width);
     float positionY = get_cellPositonY(init_row, num_rows, height);
     float positionZ = get_cellPositonZ(init_row, num_rows, height);
+
     float sizeX = get_cellSizeX(init_column, num_columns, width)/m_sizeDivision;
     float sizeY = get_cellSizeY(init_row, num_rows, height)/m_sizeDivision;
     float sizeZ = get_cellSizeZ(init_row, num_rows, height)/m_sizeDivision;
+    float radius = get_cellSizeX(init_column, num_columns, width)/m_sizeDivision;
+
 
 
     set_position(init_row, init_column, positionX, positionY, positionZ);
-    set_size(sizeX, sizeY, sizeZ);
+    set_size(sizeX, sizeY, sizeZ, radius);
     eatFood();
 
 }
@@ -137,7 +140,7 @@ void PacMan::draw()
     float red = 0.1;
     float green = 0.2;
     float blue = 0.7;
-    draw_square(m_x, m_y, m_z, m_sizeX, m_sizeY, m_sizeZ, red, green, blue);
+    draw_sphere(m_x, m_y, m_z, m_radius, red, green, blue);
 }
 
 
@@ -150,8 +153,9 @@ void PacMan::set_position(int row, int column, float x, float y, float z){
     m_column = column;
 }
 
-void PacMan::set_size(float sizeX, float sizeY, float sizeZ){
+void PacMan::set_size(float sizeX, float sizeY, float sizeZ, float radius){
     m_sizeX = sizeX;
     m_sizeY = sizeY;
     m_sizeZ = sizeZ;
+    m_radius = radius;
 }

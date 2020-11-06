@@ -146,7 +146,7 @@ void display()
   glMatrixMode(GL_MODELVIEW);
   MapClass_drawMap(map);  
   PacMan_draw(pacMan);
-  //EnemiesController_drawEnemies(enemiesController);
+  EnemiesController_drawEnemies(enemiesController);
 
   glutSwapBuffers();
 }
@@ -255,5 +255,5 @@ void generatePacMan(){
 //-------------------------------------
 void  generateEnemies(){
   enemiesController = newEnemiesController(map, NUM_ENEMIES, MOVEMENT_DURATION);
-  //EnemiesController_spawnEnemies(enemiesController);
+  EnemiesController_spawnEnemies(enemiesController);
 }
