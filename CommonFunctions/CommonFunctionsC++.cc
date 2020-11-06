@@ -96,7 +96,9 @@ void draw_square(float x,float y,float z,float sizeX,float sizeY,float sizeZ, fl
     glVertex3i(x-sizeX,y+sizeY,z+sizeZ);
     glVertex3i(x+sizeX,y+sizeY,z+sizeZ);
     glEnd();
+}
 
+void draw_floor(float x,float y,float z,float sizeX,float sizeY,float sizeZ, float red, float green, float blue){
     //BOT
     glColor3f(red,green,blue);
     glBegin(GL_QUADS);

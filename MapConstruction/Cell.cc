@@ -130,11 +130,21 @@ bool Cell::equal(Cell cell){
 //-----------------Draw-------------------------------------
 
 
-void Cell::drawCell(){
-    float red = 0.0;
-    float green = 0.0;
-    float blue = 0.2;
-    draw_square(m_x, m_y, m_z, m_sizeX, m_sizeY, m_sizeZ, red, green, blue);
+void Cell::drawCell(bool isHomeRange){
+    if(m_value == WALL){
+        float red = 0.2;
+        float green = 0.0;
+        float blue = 0.3;
+        draw_square(m_x, m_y, m_z, m_sizeX, m_sizeY, m_sizeZ, red, green, blue);
+
+    }else if(m_value == CORRIDOR){
+        drawFood(isHomeRange);
+    }
+
+    float red = 1;
+    float green = 0.95;
+    float blue = 1;
+    draw_floor(m_x, m_y, m_z, m_sizeX, m_sizeY, m_sizeZ, red, green, blue);
 }
 
 void Cell::eatFood(){
