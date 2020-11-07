@@ -3,6 +3,7 @@
 #include "CommonFunctions/CommonFunctionsC.h"
 #include <stdio.h>
 #include <math.h>
+#include "jpeglib.h"
 
 
 #define NUM_ENEMIES 8
@@ -68,7 +69,14 @@ int main(int argc,char *argv[])
   glutKeyboardFunc(keyboard);
   glutIdleFunc(idle);
 
-  //gluOrtho2D(0,WIDTH-1,0,HEIGHT-1);
+  glBindTexture(GL_TEXTURE_2D,0);
+  LoadTexture("images/pared.jpg",64);
+
+  glBindTexture(GL_TEXTURE_2D,1);
+  LoadTexture("images/pared.jpg",64);
+
+  glBindTexture(GL_TEXTURE_2D,2);
+  LoadTexture("images/floor.jpg",64);
 
   glutMainLoop();
   return 0;

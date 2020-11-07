@@ -13,3 +13,8 @@ float get_cellSizeY(int row, int maxRows, int HEIGHT);
 void drawWin();
 
 void drawLose();
+
+//Textures
+void ReadJPEG(char *filename,unsigned char **image,int *width, int *height);
+
+void LoadTexture(char *filename,int dim);
