@@ -70,10 +70,10 @@ int main(int argc,char *argv[])
   glutIdleFunc(idle);
 
   glBindTexture(GL_TEXTURE_2D,0);
-  LoadTexture("images/pared.jpg",64);
+  LoadTexture("images/wall.jpg",64);
 
   glBindTexture(GL_TEXTURE_2D,1);
-  LoadTexture("images/pared.jpg",64);
+  LoadTexture("images/roof.jpg",64);
 
   glBindTexture(GL_TEXTURE_2D,2);
   LoadTexture("images/floor.jpg",64);
