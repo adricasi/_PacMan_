@@ -13,4 +13,5 @@ void Food::drawFood(){
     float minTexturePositionY = 0.0;
     
     draw_square(m_x, m_y, m_z, m_sizeX, m_sizeY, m_sizeZ, red, green, blue, maxTexturePositionX, minTexturePositionX, maxTexturePositionY, minTexturePositionY);
+
 }

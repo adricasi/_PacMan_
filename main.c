@@ -25,6 +25,11 @@
 #define PI 3.1416
 
 #define glOrtho_range 0.7
+
+#define WALLTEXTURE 0
+#define ROOFTEXTURE 1
+#define FLOORTEXTURE 2
+
 //-----------------------------------------------
 
 void display();;
@@ -69,13 +74,13 @@ int main(int argc,char *argv[])
   glutKeyboardFunc(keyboard);
   glutIdleFunc(idle);
 
-  glBindTexture(GL_TEXTURE_2D,0);
+  glBindTexture(GL_TEXTURE_2D,WALLTEXTURE);
   LoadTexture("images/wall.jpg",64);
 
-  glBindTexture(GL_TEXTURE_2D,1);
+  glBindTexture(GL_TEXTURE_2D,ROOFTEXTURE);
   LoadTexture("images/roof.jpg",64);
 
-  glBindTexture(GL_TEXTURE_2D,2);
+  glBindTexture(GL_TEXTURE_2D,FLOORTEXTURE);
   LoadTexture("images/floor.jpg",64);
 
   glutMainLoop();

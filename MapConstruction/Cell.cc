@@ -141,6 +141,7 @@ void Cell::drawCell(bool isHomeRange){
         float green = 0.0;
         float blue = 0.3;
 
+        glEnable(GL_TEXTURE_2D);
         draw_wall(m_x, m_y, m_z, m_sizeX, m_sizeY, m_sizeZ, red, green, blue, maxTexturePositionX, minTexturePositionX, maxTexturePositionY, minTexturePositionY);
         glDisable(GL_TEXTURE_2D);
 
@@ -153,7 +154,7 @@ void Cell::drawCell(bool isHomeRange){
     float blue = 1;
 
     //Define floor texture
-    glBindTexture(GL_TEXTURE_2D,2);
+    glEnable(GL_TEXTURE_2D);
     draw_floor(m_x, m_y, m_z, m_sizeX, m_sizeY, m_sizeZ, red, green, blue, maxTexturePositionX, minTexturePositionX, maxTexturePositionY, minTexturePositionY);
     glDisable(GL_TEXTURE_2D);
 }
