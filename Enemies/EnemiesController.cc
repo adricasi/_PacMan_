@@ -31,9 +31,9 @@ void EnemiesController::integrateEnemies(long t){
     }
 }
 
-bool EnemiesController::enemiesObjectiveCompleted(float pacmanX, float pacmanY, float pacmanSizeX, float pacmanSizeY){
+bool EnemiesController::enemiesObjectiveCompleted(float pacmanX, float pacmanY, float pacmanRadius){
     for(int i=0; i<m_numEnemies; i++){
-        if(m_ghostEnemies[i].objectiveCompleted(pacmanX,pacmanY,pacmanSizeX,pacmanSizeY)){
+        if(m_ghostEnemies[i].objectiveCompleted(pacmanX,pacmanY,pacmanRadius)){
            return true; 
         }
     }

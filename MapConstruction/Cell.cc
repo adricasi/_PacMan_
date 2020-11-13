@@ -1,4 +1,5 @@
 #include "MapClass.h"
+#include "../CommonFunctions/CommonFunctionsC++.h"
 #include <stdio.h>
 #include <GL/glut.h>
 
@@ -69,13 +70,15 @@ void Cell::visitHomeCell(int value){
 
 //Get/Set
 
-void Cell::set_position(float x,float y){
+void Cell::set_position(float x,float y, float z){
     m_x = x;
     m_y = y;
+    m_z = z;
 }  
-void Cell::set_size(float sizeX, float sizeY){
+void Cell::set_size(float sizeX, float sizeY, float sizeZ){
     m_sizeX = sizeX;
     m_sizeY = sizeY;
+    m_sizeZ = sizeZ;
 }
 void Cell::set_row(int row){
     m_row = row;
@@ -110,7 +113,7 @@ neighbour Cell::get_neighbour(int neighbour){
         return cell_path_right;
     }else if(neighbour == BOT){
         return cell_path_bot;
-    }else if(neighbour == LEFT){
+    }else{
         return cell_path_left;
     }
 }
@@ -128,21 +131,32 @@ bool Cell::equal(Cell cell){
 
 
 void Cell::drawCell(bool isHomeRange){
+    float maxTexturePositionX = 1.0;
+    float minTexturePositionX = 0.0;
+    float maxTexturePositionY = 1.0;
+    float minTexturePositionY = 0.0;
 
-    glColor3f(0.8,0.8,0.8);
-    glBegin(GL_QUADS);
-    glVertex2i(m_x-m_sizeX,m_y-m_sizeY); 
-    glVertex2i(m_x+m_sizeX,m_y-m_sizeY); 
-    glVertex2i(m_x+m_sizeX,m_y+m_sizeY); 
-    glVertex2i(m_x-m_sizeX,m_y+m_sizeY); 
-    glEnd();
+    if(m_value == WALL){
+        float red = 0.2;
+        float green = 0.0;
+        float blue = 0.3;
 
-    //Draw food
-    if(!isHomeRange && m_food.get_exist()){
-        m_food.set_position(m_x,m_y);
-        m_food.set_size(m_sizeX/2.0,m_sizeY/2.0);
-        m_food.drawFood();
+        glEnable(GL_TEXTURE_2D);
+        draw_wall(m_x, m_y, m_z, m_sizeX, m_sizeY, m_sizeZ, red, green, blue, maxTexturePositionX, minTexturePositionX, maxTexturePositionY, minTexturePositionY);
+        glDisable(GL_TEXTURE_2D);
+
+    }else if(m_value == CORRIDOR){
+        drawFood(isHomeRange);
     }
+
+    float red = 1;
+    float green = 0.95;
+    float blue = 1;
+
+    //Define floor texture
+    glEnable(GL_TEXTURE_2D);
+    draw_floor(m_x, m_y, m_z, m_sizeX, m_sizeY, m_sizeZ, red, green, blue, maxTexturePositionX, minTexturePositionX, maxTexturePositionY, minTexturePositionY);
+    glDisable(GL_TEXTURE_2D);
 }
 
 void Cell::eatFood(){
@@ -151,4 +165,12 @@ void Cell::eatFood(){
 
 bool Cell::haveFood(){
     return m_food.get_exist();
+}
+
+void Cell::drawFood(bool isHomeRange){
+    if(!isHomeRange && m_food.get_exist()){
+        m_food.set_position(m_x, m_y, m_z);
+        m_food.set_size(m_sizeX/2.5, m_sizeY/2.5, m_sizeZ/2.5);
+        m_food.drawFood();
+    }
 }

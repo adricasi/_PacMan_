@@ -80,18 +80,19 @@ void MapClass::drawMap(){
     for(int column=0;column<m_columns;column++){
         for(int row=0;row<m_rows;row++){
             Cell cell = m_map[row][column];
-            if( cell.get_value() == CORRIDOR ) {
-                float x = get_cellPositonX(column, m_columns,m_width);
-                float y = get_cellPositonY(row, m_rows, m_height);
-                   
-                m_map[row][column].set_position(x, y);
 
-                float sizeX = get_cellSizeX(column, m_columns,m_width);
-                float sizeY = get_cellSizeY(row, m_rows, m_height);
-                m_map[row][column].set_size(sizeX,sizeY);
+            //Set cell position and size
+            float x = get_cellPositonX(column, m_columns,m_width);
+            float y = get_cellPositonY(row, m_rows, m_height);
+            float z = get_cellPositonZ(row, m_rows, m_height);
+            m_map[row][column].set_position(x, y, z);
 
-                m_map[row][column].drawCell(isInHomeRange(cell));
-            }
+            float sizeX = get_cellSizeX(column, m_columns,m_width);
+            float sizeY = get_cellSizeY(row, m_rows, m_height);
+            float sizeZ = get_cellSizeZ(row, m_rows, m_height);
+            m_map[row][column].set_size(sizeX,sizeY,sizeZ);
+            
+            m_map[row][column].drawCell(isInHomeRange(cell));
         }
     }
 }

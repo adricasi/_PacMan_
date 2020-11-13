@@ -43,9 +43,9 @@ float PacMan_getX(PacMan* v);
 
 float PacMan_getY(PacMan* v);
 
-float PacMan_getSizeX(PacMan* v);
+float PacMan_getZ(PacMan* v);
 
-float PacMan_getSizeY(PacMan* v);
+float PacMan_getRadius(PacMan* v);
 
 void PacMan_setMovementDirection(PacMan* v, int direction);
 
@@ -64,7 +64,7 @@ void EnemiesController_drawEnemies(EnemiesController* v);
 
 void EnemiesController_integrateEnemies(EnemiesController* v, long t);
 
-bool EnemiesController_gameFinished(EnemiesController* v, float pacmanX, float pacmanY, float pacmanSizeX, float pacmanSizeY);
+bool EnemiesController_gameFinished(EnemiesController* v, float pacmanX, float pacmanZ, float pacmanRadius);
 
 void EnemiesController_freeMemory(EnemiesController* v);
 

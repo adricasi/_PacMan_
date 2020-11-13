@@ -15,12 +15,12 @@ class PacMan {
     MapClass* m_map;
     int m_row,m_column;   //-- Current position
     int m_destinationRow, m_destinationColumn;
-    float m_x,m_y;   //-- Current position
-    float vx,vy; //-- Velocity vector
+    float m_x,m_y,m_z;   //-- Current position
+    float vx,vz; //-- Velocity vector
     int state;
 
     float m_sizeDivision;
-    float m_sizeX,m_sizeY;
+    float m_radius;
 
     long time_remaining;
 
@@ -37,8 +37,8 @@ public:
     void eatFood();
     bool objectiveCompleted();
 
-    void set_position(int row, int column, float x, float y);
-    void set_size(float sizeX, float sizeY);
+    void set_position(int row, int column, float x, float y, float z);
+    void set_radius(float radius);
     void set_movementDirection(int direction);
 
     int get_row(){
@@ -53,11 +53,11 @@ public:
     float get_x(){
         return m_x;
     }
-    float get_sizeX(){
-        return m_sizeX;
+    float get_z(){
+        return m_z;
     }
-    float get_sizeY(){
-        return m_sizeY;
+    float get_radius(){
+        return m_radius;
     }
 };
 

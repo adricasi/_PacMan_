@@ -20,12 +20,12 @@ void GhostEnemy::initGhostEnemy( MapClass* map, int init_row, int init_column, i
 
     float positionX = get_cellPositonX(init_column, num_columns, width);
     float positionY = get_cellPositonY(init_row, num_rows, height);
-    float sizeX = get_cellSizeX(init_column, num_columns, width)/m_sizeDivision;
-    float sizeY = get_cellSizeY(init_row, num_rows, height)/m_sizeDivision;
+    float positionZ = get_cellPositonZ(init_row, num_rows, height);
 
+    float radius = get_radiusSphere(init_row, init_column, num_rows, num_columns, height, width)/m_sizeDivision;
 
-    set_position(init_row, init_column, positionX, positionY);
-    set_size(sizeX, sizeY);   
+    set_position(init_row, init_column, positionX, positionY, positionZ);
+    set_radius(radius);   
 
     init_movement();
 }
@@ -47,10 +47,10 @@ void GhostEnemy::init_movement(){
         int width = m_map->get_width();
 
         float destination_x = get_cellPositonX(m_destinationColumn, num_columns, width);
-        float destination_y = get_cellPositonY(m_destinationRow, num_rows, height);
+        float destination_z = get_cellPositonZ(m_destinationRow, num_rows, height);
 
         vx = (destination_x - m_x)/m_movementDuration;
-        vy = (destination_y - m_y)/m_movementDuration;
+        vz = (destination_z - m_z)/m_movementDuration;
 
         state=MOVE;
         
@@ -63,13 +63,13 @@ void GhostEnemy::integrate(long t)
     if(state==MOVE && t<time_remaining)
     {
         m_x = m_x + vx*t;
-        m_y = m_y + vy*t;
+        m_z = m_z + vz*t;
         time_remaining-=t;
     }
     else if(state==MOVE && t>=time_remaining)
     {
         m_x = m_x + vx*time_remaining;
-        m_y = m_y + vy*time_remaining;
+        m_z = m_z + vz*time_remaining;
         state=QUIET;
 
         time_remaining=0;
@@ -140,38 +140,35 @@ void GhostEnemy::set_movementDirection(int direction){
 
 //---------------------------------------
 
-bool GhostEnemy::objectiveCompleted(float pacmanX, float pacmanY, float pacmanSizeX, float pacmanSizeY){
+bool GhostEnemy::objectiveCompleted(float pacmanX, float pacmanZ, float pacmanRadius){
     //If an enemy touch the pacman, enemies win
 
-    float pacmanLeftRange = pacmanX-pacmanSizeX;
-    float pacmanRightRange = pacmanX+pacmanSizeX;
-    float pacmanBotRange = pacmanY-pacmanSizeY;
-    float pacmanTopRange = pacmanY+pacmanSizeY;
+    float pacmanLeftRange = pacmanX-pacmanRadius;
+    float pacmanRightRange = pacmanX+pacmanRadius;
+    float pacmanBotRange = pacmanZ-pacmanRadius;
+    float pacmanTopRange = pacmanZ+pacmanRadius;
 
-    return ((m_x>=pacmanLeftRange && m_x<=pacmanRightRange) && (m_y>=pacmanBotRange && m_y<=pacmanTopRange));
+    return ((m_x>=pacmanLeftRange && m_x<=pacmanRightRange) && (m_z>=pacmanBotRange && m_z<=pacmanTopRange));
 }
 
 
 void GhostEnemy::draw()
 {
-    glColor3f(0.7,0.2,0.1);
-    glBegin(GL_QUADS);
-    glVertex2i(m_x-m_sizeX,m_y-m_sizeY);
-    glVertex2i(m_x+m_sizeX,m_y-m_sizeY);
-    glVertex2i(m_x+m_sizeX,m_y+m_sizeY);
-    glVertex2i(m_x-m_sizeX,m_y+m_sizeY);
-    glEnd();
+    float red = 0.7;
+    float green = 0.2;
+    float blue = 0.1;
+    draw_sphere(m_x, m_y, m_z, m_radius, red, green, blue);
 }
 
-void GhostEnemy::set_position(int row, int column, float x, float y){
+void GhostEnemy::set_position(int row, int column, float x, float y, float z){
     // row and column defines the position in the map and x and y defines the position in the canvas
     m_x = x;
     m_y = y;
+    m_z = z;
     m_row = row;
     m_column = column;
 }
 
-void GhostEnemy::set_size(float sizeX, float sizeY){
-    m_sizeX = sizeX;
-    m_sizeY = sizeY;
+void GhostEnemy::set_radius(float radius){
+    m_radius = radius;
 }
