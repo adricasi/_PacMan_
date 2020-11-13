@@ -22,7 +22,7 @@ void GhostEnemy::initGhostEnemy( MapClass* map, int init_row, int init_column, i
     float positionY = get_cellPositonY(init_row, num_rows, height);
     float positionZ = get_cellPositonZ(init_row, num_rows, height);
 
-    float radius = get_cellSizeX(init_column, num_columns, width)/m_sizeDivision;
+    float radius = get_radiusSphere(init_row, init_column, num_rows, num_columns, height, width)/m_sizeDivision;
 
     set_position(init_row, init_column, positionX, positionY, positionZ);
     set_radius(radius);   

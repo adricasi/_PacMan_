@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <GL/glut.h>
+#include <math.h>
 
 float get_cellPositonX(int column, int maxColumns, int WIDTH){
     float x = ((column+0.5)*WIDTH/maxColumns)-WIDTH/2;
@@ -35,7 +36,83 @@ float get_cellSizeZ(int row, int maxRows, int HEIGHT){
     return sizeZ;
 }
 
-void draw_square(float x,float y,float z,float sizeX,float sizeY,float sizeZ, float red, float green, float blue){
+float get_radiusSphere(int row, int column, int maxRows, int maxColumns, int HEIGHT, int WIDTH){
+    float sizeWidth = ((column+1)*WIDTH/maxColumns-column*WIDTH/maxColumns)/2.0;
+    float sizeHeight = ((row+1)*HEIGHT/maxRows-row*HEIGHT/maxRows)/2.0;
+
+    return fmin(sizeWidth,sizeHeight);
+}
+
+void draw_wall(float x,float y,float z,float sizeX,float sizeY,float sizeZ, float red, float green, float blue, float maxTexturePositionX, float minTexturePositionX, float maxTexturePositionY, float minTexturePositionY){
+    glPolygonMode(GL_FRONT,GL_FILL);
+    glPolygonMode(GL_BACK,GL_FILL);
+    //glPolygonMode(GL_BACK,GL_LINE);
+    
+    //Define wall texture
+    glBindTexture(GL_TEXTURE_2D,WALLTEXTURE);
+
+    //FRONT
+    glColor3f(red,green,blue);
+    glBegin(GL_QUADS);
+    glTexCoord2f(maxTexturePositionX,minTexturePositionY);glVertex3i(x+sizeX,y+sizeY,z+sizeZ);
+    glTexCoord2f(minTexturePositionX,minTexturePositionY);glVertex3i(x-sizeX,y+sizeY,z+sizeZ);
+    glTexCoord2f(minTexturePositionX,maxTexturePositionY);glVertex3i(x-sizeX,y-sizeY,z+sizeZ);
+    glTexCoord2f(maxTexturePositionX,maxTexturePositionY);glVertex3i(x+sizeX,y-sizeY,z+sizeZ);
+    glEnd();
+    
+    //BACK
+    glColor3f(red,green,blue);
+    glBegin(GL_QUADS);
+    glTexCoord2f(maxTexturePositionX,maxTexturePositionY);glVertex3i(x+sizeX,y-sizeY,z-sizeZ);
+    glTexCoord2f(minTexturePositionX,maxTexturePositionY);glVertex3i(x-sizeX,y-sizeY,z-sizeZ);
+    glTexCoord2f(minTexturePositionX,minTexturePositionY);glVertex3i(x-sizeX,y+sizeY,z-sizeZ);
+    glTexCoord2f(maxTexturePositionX,minTexturePositionY);glVertex3i(x+sizeX,y+sizeY,z-sizeZ);
+    glEnd();
+
+    //RIGHT
+    glColor3f(red,green,blue);
+    glBegin(GL_QUADS);
+    glTexCoord2f(minTexturePositionX,maxTexturePositionY);glVertex3i(x+sizeX,y-sizeY,z+sizeZ);
+    glTexCoord2f(maxTexturePositionX,maxTexturePositionY);glVertex3i(x+sizeX,y-sizeY,z-sizeZ);
+    glTexCoord2f(maxTexturePositionX,minTexturePositionY);glVertex3i(x+sizeX,y+sizeY,z-sizeZ);
+    glTexCoord2f(minTexturePositionX,minTexturePositionY);glVertex3i(x+sizeX,y+sizeY,z+sizeZ);
+    glEnd();
+
+
+    //LEFT
+    glColor3f(red,green,blue);
+    glBegin(GL_QUADS);
+    glTexCoord2f(minTexturePositionX,minTexturePositionY);glVertex3i(x-sizeX,y+sizeY,z+sizeZ);
+    glTexCoord2f(maxTexturePositionX,minTexturePositionY);glVertex3i(x-sizeX,y+sizeY,z-sizeZ);
+    glTexCoord2f(maxTexturePositionX,maxTexturePositionY);glVertex3i(x-sizeX,y-sizeY,z-sizeZ);
+    glTexCoord2f(minTexturePositionX,maxTexturePositionY);glVertex3i(x-sizeX,y-sizeY,z+sizeZ);
+    glEnd();
+    
+    glBindTexture(GL_TEXTURE_2D,ROOFTEXTURE);
+    //TOP
+    glColor3f(red,green,blue);
+    glBegin(GL_QUADS);
+    glTexCoord2f(maxTexturePositionX,minTexturePositionY);glVertex3i(x+sizeX,y+sizeY,z-sizeZ);
+    glTexCoord2f(minTexturePositionX,minTexturePositionY);glVertex3i(x-sizeX,y+sizeY,z-sizeZ);
+    glTexCoord2f(minTexturePositionX,maxTexturePositionY);glVertex3i(x-sizeX,y+sizeY,z+sizeZ);
+    glTexCoord2f(maxTexturePositionX,maxTexturePositionY);glVertex3i(x+sizeX,y+sizeY,z+sizeZ);
+    glEnd();
+}
+
+
+void draw_floor(float x,float y,float z,float sizeX,float sizeY,float sizeZ, float red, float green, float blue, float maxTexturePositionX, float minTexturePositionX, float maxTexturePositionY, float minTexturePositionY){
+    glBindTexture(GL_TEXTURE_2D,FLOORTEXTURE);
+    //BOT
+    glColor3f(red,green,blue);
+    glBegin(GL_QUADS);
+    glTexCoord2f(maxTexturePositionX,minTexturePositionY);glVertex3i(x+sizeX,y-sizeY,z-sizeZ);
+    glTexCoord2f(minTexturePositionX,minTexturePositionY);glVertex3i(x-sizeX,y-sizeY,z-sizeZ);
+    glTexCoord2f(minTexturePositionX,maxTexturePositionY);glVertex3i(x-sizeX,y-sizeY,z+sizeZ);
+    glTexCoord2f(maxTexturePositionX,maxTexturePositionY);glVertex3i(x+sizeX,y-sizeY,z+sizeZ);
+    glEnd();
+}
+
+void draw_square(float x,float y,float z,float sizeX,float sizeY,float sizeZ, float red, float green, float blue, float maxTexturePositionX, float minTexturePositionX, float maxTexturePositionY, float minTexturePositionY){
     glPolygonMode(GL_FRONT,GL_FILL);
     glPolygonMode(GL_BACK,GL_FILL);
     //glPolygonMode(GL_BACK,GL_LINE);
@@ -43,38 +120,38 @@ void draw_square(float x,float y,float z,float sizeX,float sizeY,float sizeZ, fl
     //FRONT
     glColor3f(red,green,blue);
     glBegin(GL_QUADS);
-    glVertex3i(x+sizeX,y+sizeY,z+sizeZ);
-    glVertex3i(x-sizeX,y+sizeY,z+sizeZ);
-    glVertex3i(x-sizeX,y-sizeY,z+sizeZ);
-    glVertex3i(x+sizeX,y-sizeY,z+sizeZ);
+    glTexCoord2f(maxTexturePositionX,minTexturePositionY);glVertex3i(x+sizeX,y+sizeY,z+sizeZ);
+    glTexCoord2f(minTexturePositionX,minTexturePositionY);glVertex3i(x-sizeX,y+sizeY,z+sizeZ);
+    glTexCoord2f(minTexturePositionX,maxTexturePositionY);glVertex3i(x-sizeX,y-sizeY,z+sizeZ);
+    glTexCoord2f(maxTexturePositionX,maxTexturePositionY);glVertex3i(x+sizeX,y-sizeY,z+sizeZ);
     glEnd();
     
     //BACK
     glColor3f(red,green,blue);
     glBegin(GL_QUADS);
-    glVertex3i(x+sizeX,y-sizeY,z-sizeZ);
-    glVertex3i(x-sizeX,y-sizeY,z-sizeZ);
-    glVertex3i(x-sizeX,y+sizeY,z-sizeZ);
-    glVertex3i(x+sizeX,y+sizeY,z-sizeZ);
+    glTexCoord2f(maxTexturePositionX,maxTexturePositionY);glVertex3i(x+sizeX,y-sizeY,z-sizeZ);
+    glTexCoord2f(minTexturePositionX,maxTexturePositionY);glVertex3i(x-sizeX,y-sizeY,z-sizeZ);
+    glTexCoord2f(minTexturePositionX,minTexturePositionY);glVertex3i(x-sizeX,y+sizeY,z-sizeZ);
+    glTexCoord2f(maxTexturePositionX,minTexturePositionY);glVertex3i(x+sizeX,y+sizeY,z-sizeZ);
     glEnd();
 
     //RIGHT
     glColor3f(red,green,blue);
     glBegin(GL_QUADS);
-    glVertex3i(x+sizeX,y-sizeY,z+sizeZ);
-    glVertex3i(x+sizeX,y-sizeY,z-sizeZ);
-    glVertex3i(x+sizeX,y+sizeY,z-sizeZ);
-    glVertex3i(x+sizeX,y+sizeY,z+sizeZ);
+    glTexCoord2f(minTexturePositionX,maxTexturePositionY);glVertex3i(x+sizeX,y-sizeY,z+sizeZ);
+    glTexCoord2f(maxTexturePositionX,maxTexturePositionY);glVertex3i(x+sizeX,y-sizeY,z-sizeZ);
+    glTexCoord2f(maxTexturePositionX,minTexturePositionY);glVertex3i(x+sizeX,y+sizeY,z-sizeZ);
+    glTexCoord2f(minTexturePositionX,minTexturePositionY);glVertex3i(x+sizeX,y+sizeY,z+sizeZ);
     glEnd();
 
 
     //LEFT
     glColor3f(red,green,blue);
     glBegin(GL_QUADS);
-    glVertex3i(x-sizeX,y+sizeY,z+sizeZ);
-    glVertex3i(x-sizeX,y+sizeY,z-sizeZ);
-    glVertex3i(x-sizeX,y-sizeY,z-sizeZ);
-    glVertex3i(x-sizeX,y-sizeY,z+sizeZ);
+    glTexCoord2f(minTexturePositionX,minTexturePositionY);glVertex3i(x-sizeX,y+sizeY,z+sizeZ);
+    glTexCoord2f(maxTexturePositionX,minTexturePositionY);glVertex3i(x-sizeX,y+sizeY,z-sizeZ);
+    glTexCoord2f(maxTexturePositionX,maxTexturePositionY);glVertex3i(x-sizeX,y-sizeY,z-sizeZ);
+    glTexCoord2f(minTexturePositionX,maxTexturePositionY);glVertex3i(x-sizeX,y-sizeY,z+sizeZ);
     glEnd();
 
     //Made bot and top more brightly
@@ -91,21 +168,19 @@ void draw_square(float x,float y,float z,float sizeX,float sizeY,float sizeZ, fl
     //TOP
     glColor3f(red,green,blue);
     glBegin(GL_QUADS);
-    glVertex3i(x+sizeX,y+sizeY,z-sizeZ);
-    glVertex3i(x-sizeX,y+sizeY,z-sizeZ);
-    glVertex3i(x-sizeX,y+sizeY,z+sizeZ);
-    glVertex3i(x+sizeX,y+sizeY,z+sizeZ);
+    glTexCoord2f(maxTexturePositionX,minTexturePositionY);glVertex3i(x+sizeX,y+sizeY,z-sizeZ);
+    glTexCoord2f(minTexturePositionX,minTexturePositionY);glVertex3i(x-sizeX,y+sizeY,z-sizeZ);
+    glTexCoord2f(minTexturePositionX,maxTexturePositionY);glVertex3i(x-sizeX,y+sizeY,z+sizeZ);
+    glTexCoord2f(maxTexturePositionX,maxTexturePositionY);glVertex3i(x+sizeX,y+sizeY,z+sizeZ);
     glEnd();
-}
 
-void draw_floor(float x,float y,float z,float sizeX,float sizeY,float sizeZ, float red, float green, float blue){
     //BOT
     glColor3f(red,green,blue);
     glBegin(GL_QUADS);
-    glVertex3i(x+sizeX,y-sizeY,z-sizeZ);
-    glVertex3i(x-sizeX,y-sizeY,z-sizeZ);
-    glVertex3i(x-sizeX,y-sizeY,z+sizeZ);
-    glVertex3i(x+sizeX,y-sizeY,z+sizeZ);
+    glTexCoord2f(maxTexturePositionX,minTexturePositionY);glVertex3i(x+sizeX,y-sizeY,z-sizeZ);
+    glTexCoord2f(minTexturePositionX,minTexturePositionY);glVertex3i(x-sizeX,y-sizeY,z-sizeZ);
+    glTexCoord2f(minTexturePositionX,maxTexturePositionY);glVertex3i(x-sizeX,y-sizeY,z+sizeZ);
+    glTexCoord2f(maxTexturePositionX,maxTexturePositionY);glVertex3i(x+sizeX,y-sizeY,z+sizeZ);
     glEnd();
 }
 

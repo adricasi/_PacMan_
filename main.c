@@ -3,6 +3,7 @@
 #include "CommonFunctions/CommonFunctionsC.h"
 #include <stdio.h>
 #include <math.h>
+#include "jpeglib.h"
 
 
 #define NUM_ENEMIES 8
@@ -24,6 +25,11 @@
 #define PI 3.1416
 
 #define glOrtho_range 0.7
+
+#define WALLTEXTURE 0
+#define ROOFTEXTURE 1
+#define FLOORTEXTURE 2
+
 //-----------------------------------------------
 
 void display();;
@@ -68,7 +74,14 @@ int main(int argc,char *argv[])
   glutKeyboardFunc(keyboard);
   glutIdleFunc(idle);
 
-  //gluOrtho2D(0,WIDTH-1,0,HEIGHT-1);
+  glBindTexture(GL_TEXTURE_2D,WALLTEXTURE);
+  LoadTexture("images/wall.jpg",64);
+
+  glBindTexture(GL_TEXTURE_2D,ROOFTEXTURE);
+  LoadTexture("images/roof.jpg",64);
+
+  glBindTexture(GL_TEXTURE_2D,FLOORTEXTURE);
+  LoadTexture("images/floor.jpg",64);
 
   glutMainLoop();
   return 0;
