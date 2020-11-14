@@ -1,10 +1,4 @@
-#include "MapClass.h"
-#include "../CommonFunctions/CommonFunctionsC++.h"
-#include <stdbool.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <time.h>
-#include <GL/glut.h>
+#include "Map.h"
 
 time_t t;
 
@@ -12,8 +6,6 @@ time_t t;
 MapClass::MapClass(int rows, int columns,int height, int width){
     m_rows = rows;
     m_columns = columns;
-    m_height = height;
-    m_width = width;
     m_cellsToVisit = 0;
 
     m_initialCellHome.set_row( m_rows/2 - (1 - HOMEROWS%2 + HOMEROWS/2));
@@ -28,7 +20,6 @@ MapClass::MapClass(int rows, int columns,int height, int width){
     }
 }
 
-//Main functions//-----------------------------------------------
 void MapClass::createMap(){
     // Intializes random number generator
     srand((unsigned) time(&t));
@@ -82,14 +73,14 @@ void MapClass::drawMap(){
             Cell cell = m_map[row][column];
 
             //Set cell position and size
-            float x = get_cellPositonX(column, m_columns,m_width);
-            float y = get_cellPositonY(row, m_rows, m_height);
-            float z = get_cellPositonZ(row, m_rows, m_height);
+            float x = get_cellPositonX(column, m_columns);
+            float y = get_cellPositonY(row, m_rows);
+            float z = get_cellPositonZ(row, m_rows);
             m_map[row][column].set_position(x, y, z);
 
-            float sizeX = get_cellSizeX(column, m_columns,m_width);
-            float sizeY = get_cellSizeY(row, m_rows, m_height);
-            float sizeZ = get_cellSizeZ(row, m_rows, m_height);
+            float sizeX = get_cellSizeX(column, m_columns);
+            float sizeY = get_cellSizeY(row, m_rows);
+            float sizeZ = get_cellSizeZ(row, m_rows);
             m_map[row][column].set_size(sizeX,sizeY,sizeZ);
             
             m_map[row][column].drawCell(isInHomeRange(cell));

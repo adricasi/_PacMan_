@@ -1,32 +1,7 @@
 #include "Enemies.h"
-#include "../MapConstruction/MapClass.h"
-#include "../CommonFunctions/CommonFunctionsC++.h"
-#include <stdio.h>
-#include <GL/glut.h>
 
 void GhostEnemy::initGhostEnemy( MapClass* map, int init_row, int init_column, int duration){
-    m_map = map;
-    state = QUIET;
-    time_remaining = 0;
-    m_movementDuration = duration;
-
-    m_sizeDivision = 1.5;
-
-    //------------------------
-    int num_columns = m_map->get_numColumns();
-    int num_rows = m_map->get_numRows();
-    int height = m_map->get_height();
-    int width = m_map->get_width();
-
-    float positionX = get_cellPositonX(init_column, num_columns, width);
-    float positionY = get_cellPositonY(init_row, num_rows, height);
-    float positionZ = get_cellPositonZ(init_row, num_rows, height);
-
-    float radius = get_radiusSphere(init_row, init_column, num_rows, num_columns, height, width)/m_sizeDivision;
-
-    set_position(init_row, init_column, positionX, positionY, positionZ);
-    set_radius(radius);   
-
+    initPlayer(map, init_row, init_column, duration);
     init_movement();
 }
 
@@ -43,11 +18,9 @@ void GhostEnemy::init_movement(){
     
         int num_columns = m_map->get_numColumns();
         int num_rows = m_map->get_numRows();
-        int height = m_map->get_height();
-        int width = m_map->get_width();
 
-        float destination_x = get_cellPositonX(m_destinationColumn, num_columns, width);
-        float destination_z = get_cellPositonZ(m_destinationRow, num_rows, height);
+        float destination_x = get_cellPositonX(m_destinationColumn, num_columns);
+        float destination_z = get_cellPositonZ(m_destinationRow, num_rows);
 
         vx = (destination_x - m_x)/m_movementDuration;
         vz = (destination_z - m_z)/m_movementDuration;
@@ -157,18 +130,5 @@ void GhostEnemy::draw()
     float red = 0.7;
     float green = 0.2;
     float blue = 0.1;
-    draw_sphere(m_x, m_y, m_z, m_radius, red, green, blue);
-}
-
-void GhostEnemy::set_position(int row, int column, float x, float y, float z){
-    // row and column defines the position in the map and x and y defines the position in the canvas
-    m_x = x;
-    m_y = y;
-    m_z = z;
-    m_row = row;
-    m_column = column;
-}
-
-void GhostEnemy::set_radius(float radius){
-    m_radius = radius;
+    drawPlayer(red,green,blue);
 }

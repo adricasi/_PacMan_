@@ -1,5 +1,4 @@
-#include "MapClass.h"
-#include <stdlib.h>
+#include "Stack.h"
 
 void Stack::initStack(int maxSize) {
     top = 0;

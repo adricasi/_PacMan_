@@ -1,8 +1,4 @@
-#include <GL/glut.h>
-#include "CommonFunctionsC.h"
-#include <stdio.h>
-#include <stdbool.h>
-#include "jpeglib.h"
+#include "MainManager.h"
 
 void ReadJPEG(char *filename,unsigned char **image,int *width, int *height){
 

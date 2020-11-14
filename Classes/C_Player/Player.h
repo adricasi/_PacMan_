@@ -1,16 +1,13 @@
-#ifndef __PACMAN_H
-#define __PACMAN_H
-//-----------------------------------------------
-#define MOVE 1
-#define QUIET 2
-//-----------------------------------------------
+#include "../C_Map/Map.h"
 
-typedef struct MapClass MapClass;
-class PacMan {
+#ifndef __PLAYER_H
+#define __PLAYER_H
+
+class Player{
+
+public:
+
     int m_movementDuration;
-
-    int m_currentMovementDirection;
-    int m_nextMovementDirection;
 
     MapClass* m_map;
     int m_row,m_column;   //-- Current position
@@ -24,22 +21,13 @@ class PacMan {
 
     long time_remaining;
 
-public:
 
-    PacMan(MapClass* map, int init_row, int init_column, int duration);
-    
-    void init_movement();
-    void integrate(long t);
-    void nextCell();
-    bool defineNextMovement();
+    void initPlayer(MapClass* map, int init_row, int init_column, int duration);
 
-    void draw();
-    void eatFood();
-    bool objectiveCompleted();
+    void drawPlayer(float red,float green, float blue);
 
     void set_position(int row, int column, float x, float y, float z);
     void set_radius(float radius);
-    void set_movementDirection(int direction);
 
     int get_row(){
         return m_row;
