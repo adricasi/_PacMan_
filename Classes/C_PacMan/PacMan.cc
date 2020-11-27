@@ -109,3 +109,39 @@ void PacMan::draw()
     float blue = 0.7;
     drawPlayer(red,green,blue);
 }
+
+void PacMan::drawFieldOfViewLight(){
+    GLint position[4] = {m_x,m_y+m_radius,m_z,1};
+    getFieldOfViewDirection();
+
+    GLfloat color[4]={1.0,1.0,1.0,1};
+
+    glLightfv(GL_LIGHT1,GL_DIFFUSE,color);
+    glLightiv(GL_LIGHT1,GL_POSITION,position);
+
+    glLightfv (GL_LIGHT1,GL_SPOT_DIRECTION, m_lightDirection);
+
+    glLightf(GL_LIGHT1,GL_CONSTANT_ATTENUATION,1.0);
+    glLightf(GL_LIGHT1,GL_LINEAR_ATTENUATION,0.0);
+    glLightf(GL_LIGHT1,GL_QUADRATIC_ATTENUATION,0.0);
+    glLightf (GL_LIGHT1, GL_SPOT_CUTOFF,45);
+
+    glEnable(GL_LIGHT1);
+}
+
+void PacMan::getFieldOfViewDirection(){
+    GLfloat direction[3];
+    if(m_currentMovementDirection == TOP){
+        m_lightDirection[0]=0; m_lightDirection[1]=0; m_lightDirection[2]=-1; 
+
+    }else if(m_currentMovementDirection == BOT){
+        m_lightDirection[0]=0; m_lightDirection[1]=0; m_lightDirection[2]=1; 
+
+    }else if(m_currentMovementDirection == LEFT){
+        m_lightDirection[0]=-1; m_lightDirection[1]=0; m_lightDirection[2]=0;
+
+    }else{
+        m_lightDirection[0]=1; m_lightDirection[1]=0; m_lightDirection[2]=0; 
+
+    }
+}

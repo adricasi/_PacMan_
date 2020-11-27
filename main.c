@@ -133,7 +133,7 @@ void display()
 
   //Lights
   ambientLight();
-
+  PacMan_drawFieldOfViewLight(pacMan);
 
   MapClass_drawMap(map);  
   PacMan_draw(pacMan);

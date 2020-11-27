@@ -99,7 +99,6 @@ void draw_wall(float x,float y,float z,float sizeX,float sizeY,float sizeZ, floa
     glEnd();
 }
 
-
 void draw_floor(float x,float y,float z,float sizeX,float sizeY,float sizeZ, float red, float green, float blue, float maxTexturePositionX, float minTexturePositionX, float maxTexturePositionY, float minTexturePositionY){
     GLfloat material[4] = {red,green,blue,1};
     glMaterialfv(GL_FRONT_AND_BACK,GL_AMBIENT_AND_DIFFUSE,material);
