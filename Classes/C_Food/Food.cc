@@ -1,7 +1,5 @@
-#include "MapClass.h"
-#include <stdio.h>
-#include <GL/glut.h>
-#include "../CommonFunctions/CommonFunctionsC++.h"
+#include "Food.h"
+
 
 void Food::drawFood(){
     float red = 0.8;
@@ -13,5 +11,4 @@ void Food::drawFood(){
     float minTexturePositionY = 0.0;
     
     draw_square(m_x, m_y, m_z, m_sizeX, m_sizeY, m_sizeZ, red, green, blue, maxTexturePositionX, minTexturePositionX, maxTexturePositionY, minTexturePositionY);
-
 }

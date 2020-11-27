@@ -1,8 +1,5 @@
 
-#include "MapClass.h"
-#include <stdbool.h>
-#include <stdio.h>
-#include <stdlib.h>
+#include "Map.h"
 
 void MapClass::createHome(){
     // Create home in the map

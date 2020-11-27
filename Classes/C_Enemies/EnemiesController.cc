@@ -1,7 +1,4 @@
 #include "Enemies.h"
-#include "../MapConstruction/MapClass.h"
-#include <stdio.h>
-#include <stdlib.h>
 
 EnemiesController::EnemiesController(MapClass* map, int numEnemies, int duration){
     m_map = map;

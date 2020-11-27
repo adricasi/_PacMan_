@@ -1,10 +1,13 @@
 #include <stdbool.h>
+
 #ifndef __WRAPPER_H
 #define __WRAPPER_H
 
 #ifdef __cplusplus
 extern "C" {
 #endif
+
+//----------------------Map----------------------------------------
 
 typedef struct MapClass MapClass;
 

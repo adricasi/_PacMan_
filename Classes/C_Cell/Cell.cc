@@ -1,7 +1,4 @@
-#include "MapClass.h"
-#include "../CommonFunctions/CommonFunctionsC++.h"
-#include <stdio.h>
-#include <GL/glut.h>
+#include "Cell.h"
 
 void Cell::initCell(int totalRows, int totalColumns, int cellRow, int cellColumn){
     /*

@@ -1,42 +1,38 @@
-#include "CommonFunctionsC++.h"
-#include <stdio.h>
-#include <stdbool.h>
-#include <GL/glut.h>
-#include <math.h>
+#include "CommonFunctions.h"
 
-float get_cellPositonX(int column, int maxColumns, int WIDTH){
+float get_cellPositonX(int column, int maxColumns){
     float x = ((column+0.5)*WIDTH/maxColumns)-WIDTH/2;
     return x;    
 }
 
-float get_cellPositonY(int row, int maxRows, int HEIGHT){
+float get_cellPositonY(int row, int maxRows){
     float y = 0;                    
     return y;
 }
 
-float get_cellPositonZ(int row, int maxRows, int HEIGHT){
+float get_cellPositonZ(int row, int maxRows){
     float z = ((row+0.5)*HEIGHT/maxRows)-HEIGHT/2;                    
     return z;
 }
 
 //------------------------------------------------------------------
 
-float get_cellSizeX(int column, int maxColumns, int WIDTH){
+float get_cellSizeX(int column, int maxColumns){
     float sizeX = ((column+1)*WIDTH/maxColumns-column*WIDTH/maxColumns)/2.0;
     return sizeX;
 }
 
-float get_cellSizeY(int row, int maxRows, int HEIGHT){
+float get_cellSizeY(int row, int maxRows){
     float sizeY = ((row+1)*HEIGHT/maxRows-row*HEIGHT/maxRows)/2.0;
     return sizeY;
 }
 
-float get_cellSizeZ(int row, int maxRows, int HEIGHT){
+float get_cellSizeZ(int row, int maxRows){
     float sizeZ = ((row+1)*HEIGHT/maxRows-row*HEIGHT/maxRows)/2.0;
     return sizeZ;
 }
 
-float get_radiusSphere(int row, int column, int maxRows, int maxColumns, int HEIGHT, int WIDTH){
+float get_radiusSphere(int row, int column, int maxRows, int maxColumns){
     float sizeWidth = ((column+1)*WIDTH/maxColumns-column*WIDTH/maxColumns)/2.0;
     float sizeHeight = ((row+1)*HEIGHT/maxRows-row*HEIGHT/maxRows)/2.0;
 
