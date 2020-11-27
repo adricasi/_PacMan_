@@ -27,3 +27,17 @@ void drawLose(){
     glClear(GL_COLOR_BUFFER_BIT);
     glutSwapBuffers();
 }
+
+void ambientLight(){
+    GLint position[4];
+    GLfloat color[4];
+    GLfloat diffuse[4] = {0.0,0.0,0.0,0.0};
+
+    position[0]=0; position[1]=0; position[2]=0; position[3]=1; 
+    glLightiv(GL_LIGHT0,GL_POSITION,position);
+
+    color[0]=0.3; color[1]=0.3; color[2]=0.3; color[3]=1;
+    glLightfv(GL_LIGHT0,GL_AMBIENT,color);
+    glLightfv (GL_LIGHT0, GL_DIFFUSE, diffuse);
+    glEnable(GL_LIGHT0);
+}

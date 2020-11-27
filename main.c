@@ -41,6 +41,7 @@ int main(int argc,char *argv[])
   glutInitWindowSize(WIDTH, HEIGHT);
   glutCreateWindow("PacMan board");
   glEnable(GL_DEPTH_TEST);
+  glEnable(GL_LIGHTING);
 
   glutDisplayFunc(display);
   glutKeyboardFunc(keyboard);
@@ -54,7 +55,7 @@ int main(int argc,char *argv[])
 
   glBindTexture(GL_TEXTURE_2D,FLOORTEXTURE);
   LoadTexture("Images/floor.jpg",64);
-
+  
   glutMainLoop();
   return 0;
 }
@@ -129,6 +130,11 @@ void display()
   glOrtho(-WIDTH*glOrtho_range,WIDTH*glOrtho_range,-HEIGHT*glOrtho_range,HEIGHT*glOrtho_range,10,2000);
 
   glMatrixMode(GL_MODELVIEW);
+
+  //Lights
+  ambientLight();
+
+
   MapClass_drawMap(map);  
   PacMan_draw(pacMan);
   EnemiesController_drawEnemies(enemiesController);

@@ -3,6 +3,7 @@
 #include <stdbool.h>
 #include "jpeglib.h"
 #include <math.h>
+#include "../Constants.h"
 
 //--------------Main Manager----------------------
 _Bool isPar(int number);
@@ -12,6 +13,8 @@ int getMargin(int minimumNumber);
 void drawWin();
 
 void drawLose();
+
+void ambientLight();
 
 //--------------Texture Manager----------------------
 
