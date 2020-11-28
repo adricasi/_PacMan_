@@ -41,7 +41,7 @@ float get_radiusSphere(int row, int column, int maxRows, int maxColumns){
 
 void draw_wall(float x,float y,float z,float sizeX,float sizeY,float sizeZ, float red, float green, float blue, float maxTexturePositionX, float minTexturePositionX, float maxTexturePositionY, float minTexturePositionY){
     
-    GLfloat material[4] = {red,green,blue,1};
+    GLfloat material[4] = {red,green,blue,1.0};
     glMaterialfv(GL_FRONT_AND_BACK,GL_AMBIENT_AND_DIFFUSE,material);
 
     glPolygonMode(GL_FRONT,GL_FILL);
@@ -100,13 +100,13 @@ void draw_wall(float x,float y,float z,float sizeX,float sizeY,float sizeZ, floa
 }
 
 void draw_floor(float x,float y,float z,float sizeX,float sizeY,float sizeZ, float red, float green, float blue, float maxTexturePositionX, float minTexturePositionX, float maxTexturePositionY, float minTexturePositionY){
-    GLfloat material[4] = {red,green,blue,1};
+    GLfloat material[4] = {red,green,blue,1.0};
     glMaterialfv(GL_FRONT_AND_BACK,GL_AMBIENT_AND_DIFFUSE,material);
 
     glBindTexture(GL_TEXTURE_2D,FLOORTEXTURE);
     //BOT
     glBegin(GL_QUADS);
-    glNormal3f(0,-1,0);
+    glNormal3f(0,1,0);
     glTexCoord2f(maxTexturePositionX,minTexturePositionY);glVertex3i(x+sizeX,y-sizeY,z-sizeZ);
     glTexCoord2f(minTexturePositionX,minTexturePositionY);glVertex3i(x-sizeX,y-sizeY,z-sizeZ);
     glTexCoord2f(minTexturePositionX,maxTexturePositionY);glVertex3i(x-sizeX,y-sizeY,z+sizeZ);
@@ -115,7 +115,7 @@ void draw_floor(float x,float y,float z,float sizeX,float sizeY,float sizeZ, flo
 }
 
 void draw_square(float x,float y,float z,float sizeX,float sizeY,float sizeZ, float red, float green, float blue, float maxTexturePositionX, float minTexturePositionX, float maxTexturePositionY, float minTexturePositionY){
-    GLfloat material[4] = {red,green,blue,1};
+    GLfloat material[4] = {red,green,blue,1.0};
     glMaterialfv(GL_FRONT_AND_BACK,GL_AMBIENT_AND_DIFFUSE,material);
 
     glPolygonMode(GL_FRONT,GL_FILL);
@@ -159,19 +159,6 @@ void draw_square(float x,float y,float z,float sizeX,float sizeY,float sizeZ, fl
     glTexCoord2f(minTexturePositionX,maxTexturePositionY);glVertex3i(x-sizeX,y-sizeY,z+sizeZ);
     glEnd();
 
-    //Made bot and top more brightly
-    if(red < 1){
-        red = red+0.1;
-    }
-    if(green < 1){
-        green = green+0.1;
-    }
-    if(blue < 1){
-        blue = blue+0.1;
-    }
-    material[0]=red; material[1]=green; material[2]=blue; 
-    glMaterialfv(GL_FRONT_AND_BACK,GL_AMBIENT_AND_DIFFUSE,material);
-
     //TOP
     glBegin(GL_QUADS);
     glNormal3f(0,1,0);
@@ -194,7 +181,7 @@ void draw_square(float x,float y,float z,float sizeX,float sizeY,float sizeZ, fl
 
 
 void draw_sphere(float x,float y,float z,float radius, float red, float green, float blue){
-    GLfloat material[4] = {red,green,blue,1};
+    GLfloat material[4] = {red,green,blue,1.0};
     glMaterialfv(GL_FRONT_AND_BACK,GL_AMBIENT_AND_DIFFUSE,material);
 
     int slices = 25;

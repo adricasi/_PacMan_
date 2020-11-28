@@ -111,10 +111,14 @@ void PacMan::draw()
 }
 
 void PacMan::drawFieldOfViewLight(){
-    GLint position[4] = {m_x,m_y+m_radius,m_z,1};
+    int x_position = m_x;
+    int y_position = m_y + m_radius;
+    int z_position = m_z;
+
+    GLint position[4] = {x_position,y_position,z_position,1};
     getFieldOfViewDirection();
 
-    GLfloat color[4]={1.0,1.0,1.0,1};
+    GLfloat color[4]={1.0,1.0,1.0,1.0};
 
     glLightfv(GL_LIGHT1,GL_DIFFUSE,color);
     glLightiv(GL_LIGHT1,GL_POSITION,position);
@@ -124,7 +128,9 @@ void PacMan::drawFieldOfViewLight(){
     glLightf(GL_LIGHT1,GL_CONSTANT_ATTENUATION,1.0);
     glLightf(GL_LIGHT1,GL_LINEAR_ATTENUATION,0.0);
     glLightf(GL_LIGHT1,GL_QUADRATIC_ATTENUATION,0.0);
-    glLightf (GL_LIGHT1, GL_SPOT_CUTOFF,45);
+
+    glLightf(GL_LIGHT1, GL_SPOT_CUTOFF,35);
+    glLightf(GL_LIGHT1,GL_SPOT_EXPONENT,25);
 
     glEnable(GL_LIGHT1);
 }

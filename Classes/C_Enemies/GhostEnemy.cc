@@ -127,8 +127,8 @@ bool GhostEnemy::objectiveCompleted(float pacmanX, float pacmanZ, float pacmanRa
 
 void GhostEnemy::draw()
 {
-    float red = 0.7;
-    float green = 0.2;
-    float blue = 0.1;
+    float red = 0.9;
+    float green = 0.9;
+    float blue = 0.8;
     drawPlayer(red,green,blue);
 }
