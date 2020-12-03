@@ -16,9 +16,10 @@ void PacMan::init_movement(){
     
         int num_columns = m_map->get_numColumns();
         int num_rows = m_map->get_numRows();
+        float cellSize = m_map->get_cellSizeObtained();
 
-        float destination_x = get_cellPositonX(m_destinationColumn, num_columns);
-        float destination_z = get_cellPositonZ(m_destinationRow, num_rows);
+        float destination_x = get_cellPositonX(m_destinationColumn, num_columns, cellSize);
+        float destination_z = get_cellPositonZ(m_destinationRow, num_rows, cellSize);
 
         vx = (destination_x - m_x)/m_movementDuration;
         vz = (destination_z - m_z)/m_movementDuration;

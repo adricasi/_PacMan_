@@ -9,10 +9,12 @@ void Player::initPlayer( MapClass* map, int init_row, int init_column, int durat
     //------------------------
     int num_columns = m_map->get_numColumns();
     int num_rows = m_map->get_numRows();
+    float cellSize = m_map->get_cellSizeObtained();
 
-    float positionX = get_cellPositonX(init_column, num_columns);
+
+    float positionX = get_cellPositonX(init_column, num_columns, cellSize);
     float positionY = get_cellPositonY(init_row, num_rows);
-    float positionZ = get_cellPositonZ(init_row, num_rows);
+    float positionZ = get_cellPositonZ(init_row, num_rows, cellSize);
 
     float radius = get_radiusSphere(init_row, init_column, num_rows, num_columns)/m_sizeDivision;
 

@@ -17,7 +17,9 @@ MapClass::MapClass(int rows, int columns,int height, int width){
     m_map = (Cell **)malloc(rows * sizeof(Cell *)); 
     for (int i=0; i<rows; i++){
          m_map[i] = (Cell *)malloc(columns * sizeof(Cell)); 
-    }
+    }    
+
+    m_cellSize = get_cellSize(m_rows,m_columns);
 }
 
 void MapClass::createMap(){
@@ -73,15 +75,12 @@ void MapClass::drawMap(){
             Cell cell = m_map[row][column];
 
             //Set cell position and size
-            float x = get_cellPositonX(column, m_columns);
+            float x = get_cellPositonX(column, m_columns, m_cellSize);
             float y = get_cellPositonY(row, m_rows);
-            float z = get_cellPositonZ(row, m_rows);
+            float z = get_cellPositonZ(row, m_rows, m_cellSize);
             m_map[row][column].set_position(x, y, z);
 
-            float sizeX = get_cellSizeX(column, m_columns);
-            float sizeY = get_cellSizeY(row, m_rows);
-            float sizeZ = get_cellSizeZ(row, m_rows);
-            m_map[row][column].set_size(sizeX,sizeY,sizeZ);
+            m_map[row][column].set_size(m_cellSize);
             
             m_map[row][column].drawCell(isInHomeRange(cell), m_rows, m_columns);
         }
