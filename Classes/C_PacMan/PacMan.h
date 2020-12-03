@@ -7,6 +7,7 @@
 class PacMan : public Player{
     int m_currentMovementDirection;
     int m_nextMovementDirection;
+    GLfloat m_lightDirection[3];
 
 public:
 
@@ -18,6 +19,9 @@ public:
     bool defineNextMovement();
 
     void draw();
+    void drawFieldOfViewLight();
+    void getFieldOfViewDirection();
+
     void eatFood();
     bool objectiveCompleted();
 

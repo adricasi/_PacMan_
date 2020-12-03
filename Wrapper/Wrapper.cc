@@ -79,6 +79,10 @@ extern "C" {
         return v->objectiveCompleted();
     }
 
+    void PacMan_drawFieldOfViewLight(PacMan* v){
+        return v->drawFieldOfViewLight();
+    }
+
 
     //---------------------EnemiesController---------------------------------------
 

@@ -83,7 +83,7 @@ void MapClass::drawMap(){
             float sizeZ = get_cellSizeZ(row, m_rows);
             m_map[row][column].set_size(sizeX,sizeY,sizeZ);
             
-            m_map[row][column].drawCell(isInHomeRange(cell));
+            m_map[row][column].drawCell(isInHomeRange(cell), m_rows, m_columns);
         }
     }
 }

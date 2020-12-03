@@ -5,12 +5,14 @@
 
 class Food{
   private:
-    float m_sizeX,m_sizeY,m_sizeZ;
+    float m_radius;
     float m_x,m_y,m_z;   //-- Draw position
     bool m_exist;
+    float m_sizeDivision;
   public:
     void init_food(){
       m_exist = true;
+      m_sizeDivision = 2.5;
     }
 
     void drawFood();
@@ -20,17 +22,17 @@ class Food{
       m_y = y;
       m_z = z;
     }
-    void set_size(float sizeX, float sizeY, float sizeZ)
-    {
-      m_sizeX = sizeX;
-      m_sizeY = sizeY;
-      m_sizeZ = sizeZ;
+    void set_radius(float radius){
+        m_radius = radius;
     }
     void set_exist(bool exist){
       m_exist = exist;
     }
     bool get_exist(){
       return m_exist;
+    }
+    float get_sizeDivision(){
+      return m_sizeDivision;
     }
 };
 
