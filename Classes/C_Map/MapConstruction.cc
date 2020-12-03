@@ -1,8 +1,4 @@
-#include "MapClass.h"
-#include <stdbool.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <time.h>
+#include "Map.h"
 
 void MapClass::initMap(){
     for(int row=0; row<m_rows; row++){

@@ -1,26 +1,29 @@
 chess: main.c
-	gcc -c CommonFunctions/CommonFunctionsC.c -o CompiledFiles/CommonFunctionsC.o
-	gcc -c CommonFunctions/TextureManager.c -o CompiledFiles/TextureManager.o
-	g++ -c CommonFunctions/CommonFunctionsC++.cc -o CompiledFiles/CommonFunctionsC++.o
+	gcc -c 	MainManager/MainManager.c -o CompiledFiles/MainManager.o
+	gcc -c 	MainManager/TextureManager.c -o CompiledFiles/TextureManager.o
 
-	g++ -c PacMan/PacMan.cc -o CompiledFiles/PacMan.o
+	g++ -c Classes/CommonFunctions/CommonFunctions.cc -o CompiledFiles/CommonFunctions.o
 
-	g++ -c Enemies/EnemiesController.cc -o CompiledFiles/EnemiesController.o
-	g++ -c Enemies/GhostEnemy.cc -o CompiledFiles/GhostEnemy.o
+	g++ -c Classes/C_Player/Player.cc -o CompiledFiles/Player.o
 
-	g++ -c MapConstruction/Food.cc -o CompiledFiles/Food.o
-	g++ -c MapConstruction/Cell.cc -o CompiledFiles/Cell.o
-	g++ -c MapConstruction/Stack.cc -o CompiledFiles/Stack.o
+	g++ -c Classes/C_PacMan/PacMan.cc -o CompiledFiles/PacMan.o
 
-	g++ -c MapConstruction/MapClassMainFunctions.cc -o CompiledFiles/MapClassMainFunctions.o
-	g++ -c MapConstruction/MapClassConstruction.cc -o CompiledFiles/MapClassConstruction.o
-	g++ -c MapConstruction/MapClassHomeConstruction.cc -o CompiledFiles/MapClassHomeConstruction.o
-	g++ -c MapConstruction/MapClassGame.cc -o CompiledFiles/MapClassGame.o
+	g++ -c Classes/C_Enemies/EnemiesController.cc -o CompiledFiles/EnemiesController.o
+	g++ -c Classes/C_Enemies/GhostEnemy.cc -o CompiledFiles/GhostEnemy.o
+
+	g++ -c Classes/C_Food/Food.cc -o CompiledFiles/Food.o
+	g++ -c Classes/C_Cell/Cell.cc -o CompiledFiles/Cell.o
+	g++ -c Classes/C_Stack/Stack.cc -o CompiledFiles/Stack.o
+
+	g++ -c Classes/C_Map/MapMainFunctions.cc -o CompiledFiles/MapMainFunctions.o
+	g++ -c Classes/C_Map/MapConstruction.cc -o CompiledFiles/MapConstruction.o
+	g++ -c Classes/C_Map/MapHomeConstruction.cc -o CompiledFiles/MapHomeConstruction.o
+	g++ -c Classes/C_Map/MapGame.cc -o CompiledFiles/MapGame.o
 
 	g++ -c Wrapper/Wrapper.cc -o CompiledFiles/Wrapper.o
 	gcc -c main.c -o CompiledFiles/main.o
 
-	g++ CompiledFiles/main.o CompiledFiles/Wrapper.o CompiledFiles/MapClassMainFunctions.o CompiledFiles/MapClassConstruction.o CompiledFiles/MapClassHomeConstruction.o CompiledFiles/MapClassGame.o CompiledFiles/Cell.o CompiledFiles/Stack.o CompiledFiles/CommonFunctionsC.o CompiledFiles/CommonFunctionsC++.o CompiledFiles/TextureManager.o CompiledFiles/Food.o CompiledFiles/PacMan.o CompiledFiles/EnemiesController.o CompiledFiles/GhostEnemy.o -o main -lglut -lGLU -lGL -lm -ljpeg
+	g++ CompiledFiles/main.o CompiledFiles/Wrapper.o CompiledFiles/MapMainFunctions.o CompiledFiles/MapConstruction.o CompiledFiles/MapHomeConstruction.o CompiledFiles/MapGame.o CompiledFiles/Cell.o CompiledFiles/Stack.o CompiledFiles/CommonFunctions.o CompiledFiles/MainManager.o CompiledFiles/TextureManager.o CompiledFiles/Food.o CompiledFiles/PacMan.o CompiledFiles/EnemiesController.o CompiledFiles/Player.o CompiledFiles/GhostEnemy.o -o main -lglut -lGLU -lGL -lm -ljpeg
 
 	./main
 clean:

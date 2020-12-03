@@ -1,3 +1,6 @@
+#include "../C_Map/Map.h"
+#include "../C_Player/Player.h"
+
 #ifndef __ENEMIES_H
 #define __ENEMIES_H
 //-----------------------------------------------
@@ -5,24 +8,9 @@
 #define QUIET 2
 //-----------------------------------------------
 
-typedef struct MapClass MapClass;
+class GhostEnemy : public Player{
 
-class GhostEnemy {
-
-    int m_movementDuration;
     int m_movementDirection;
-
-    MapClass* m_map;
-    int m_row,m_column;   //-- Current position
-    int m_destinationRow, m_destinationColumn;
-    float m_x,m_y,m_z;   //-- Current position
-    float vx,vz; //-- Velocity vector
-    int state;
-    
-    float m_sizeDivision;
-    float m_radius;
-
-    long time_remaining;
 
     public:
         void initGhostEnemy(MapClass* map, int init_row, int init_column, int duration);
@@ -36,15 +24,6 @@ class GhostEnemy {
         bool objectiveCompleted(float pacmanX, float pacmanZ, float pacmanRadius);
 
         void set_movementDirection(int direction);
-        void set_position(int row, int column, float x, float y, float z);
-        void set_radius(float radius);
-
-        int get_row(){
-            return m_row;
-        }
-        int get_column(){
-            return m_column;
-        }
 };
 
 class EnemiesController {

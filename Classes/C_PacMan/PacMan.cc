@@ -1,34 +1,8 @@
-
 #include "PacMan.h"
-#include "../MapConstruction/MapClass.h"
-#include "../CommonFunctions/CommonFunctionsC++.h"
-#include <stdio.h>
-#include <GL/glut.h>
 
 PacMan::PacMan(MapClass* map, int init_row, int init_column, int duration){
-    m_map = map;
-    state=QUIET;
-    time_remaining = 0;
-    m_movementDuration = duration;
-
-    m_sizeDivision = 1.5;
-
-    //------------------------
-    int num_columns = m_map->get_numColumns();
-    int num_rows = m_map->get_numRows();
-    int height = m_map->get_height();
-    int width = m_map->get_width();
-
-    float positionX = get_cellPositonX(init_column, num_columns, width);
-    float positionY = get_cellPositonY(init_row, num_rows, height);
-    float positionZ = get_cellPositonZ(init_row, num_rows, height);
-
-    float radius = get_radiusSphere(init_row, init_column, num_rows, num_columns, height, width)/m_sizeDivision;
-
-    set_position(init_row, init_column, positionX, positionY, positionZ);
-    set_radius(radius);
+    initPlayer(map, init_row, init_column, duration);
     eatFood();
-
 }
 
 //-------------Movement--------------------------------
@@ -42,11 +16,10 @@ void PacMan::init_movement(){
     
         int num_columns = m_map->get_numColumns();
         int num_rows = m_map->get_numRows();
-        int height = m_map->get_height();
-        int width = m_map->get_width();
+        float cellSize = m_map->get_cellSizeObtained();
 
-        float destination_x = get_cellPositonX(m_destinationColumn, num_columns, width);
-        float destination_z = get_cellPositonZ(m_destinationRow, num_rows, height);
+        float destination_x = get_cellPositonX(m_destinationColumn, num_columns, cellSize);
+        float destination_z = get_cellPositonZ(m_destinationRow, num_rows, cellSize);
 
         vx = (destination_x - m_x)/m_movementDuration;
         vz = (destination_z - m_z)/m_movementDuration;
@@ -135,19 +108,70 @@ void PacMan::draw()
     float red = 0.1;
     float green = 0.2;
     float blue = 0.7;
-    draw_sphere(m_x, m_y, m_z, m_radius, red, green, blue);
+    drawPlayer(red,green,blue);
 }
 
+void PacMan::drawFieldOfViewLight(){
+    int x_position = m_x;
+    int y_position = m_y;
+    int z_position = m_z;
 
-void PacMan::set_position(int row, int column, float x, float y, float z){
-    // row and column defines the position in the map and x and y defines the position in the canvas
-    m_x = x;
-    m_y = y;
-    m_z = z;
-    m_row = row;
-    m_column = column;
+    GLint position[4] = {x_position,y_position,z_position,1};
+    getFieldOfViewDirection();
+
+    GLfloat color[4]={1.0,1.0,1.0,1.0};
+
+    glLightfv(GL_LIGHT1,GL_DIFFUSE,color);
+    glLightiv(GL_LIGHT1,GL_POSITION,position);
+
+    glLightfv (GL_LIGHT1,GL_SPOT_DIRECTION, m_lightDirection);
+
+    glLightf(GL_LIGHT1,GL_CONSTANT_ATTENUATION,1.0);
+    glLightf(GL_LIGHT1,GL_LINEAR_ATTENUATION,0.02);
+    glLightf(GL_LIGHT1,GL_QUADRATIC_ATTENUATION,0.0);
+
+    glLightf(GL_LIGHT1, GL_SPOT_CUTOFF,35);
+    glLightf(GL_LIGHT1,GL_SPOT_EXPONENT,15);
+
+    glEnable(GL_LIGHT1);
 }
 
-void PacMan::set_radius(float radius){
-    m_radius = radius;
+void PacMan::drawSelfLight(){
+    int x_position = m_x;
+    int y_position = m_y+m_radius*2;
+    int z_position = m_z;
+
+    GLint position[4] = {x_position,y_position,z_position,1};
+    getFieldOfViewDirection();
+
+    GLfloat color[4]={1.0,1.0,1.0,1.0};
+
+    float direction[3] = {0.0,-1.0,0.0};
+
+    glLightfv(GL_LIGHT2,GL_DIFFUSE,color);
+    glLightiv(GL_LIGHT2,GL_POSITION,position);
+    glLightfv (GL_LIGHT2,GL_SPOT_DIRECTION, direction);
+
+    glLightf(GL_LIGHT2,GL_CONSTANT_ATTENUATION,1.0);
+    glLightf(GL_LIGHT2,GL_LINEAR_ATTENUATION,0.15);
+    glLightf(GL_LIGHT2,GL_QUADRATIC_ATTENUATION,0.0);
+
+    glEnable(GL_LIGHT2);
+}
+
+void PacMan::getFieldOfViewDirection(){
+    GLfloat direction[3];
+    if(m_currentMovementDirection == TOP){
+        m_lightDirection[0]=0; m_lightDirection[1]=0; m_lightDirection[2]=-1; 
+
+    }else if(m_currentMovementDirection == BOT){
+        m_lightDirection[0]=0; m_lightDirection[1]=0; m_lightDirection[2]=1; 
+
+    }else if(m_currentMovementDirection == LEFT){
+        m_lightDirection[0]=-1; m_lightDirection[1]=0; m_lightDirection[2]=0;
+
+    }else{
+        m_lightDirection[0]=1; m_lightDirection[1]=0; m_lightDirection[2]=0; 
+
+    }
 }

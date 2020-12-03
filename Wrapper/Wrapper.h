@@ -1,10 +1,13 @@
 #include <stdbool.h>
+
 #ifndef __WRAPPER_H
 #define __WRAPPER_H
 
 #ifdef __cplusplus
 extern "C" {
 #endif
+
+//----------------------Map----------------------------------------
 
 typedef struct MapClass MapClass;
 
@@ -51,6 +54,7 @@ void PacMan_setMovementDirection(PacMan* v, int direction);
 
 bool PacMan_gameFinished(PacMan* v);
 
+void PacMan_Lights(PacMan* v);
 
 //---------------------EnemiesController---------------------------------------
 
