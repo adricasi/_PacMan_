@@ -116,7 +116,7 @@ void PositionObserver(float alpha,float beta,int radi)
 
 void display()
 {
-  glClearColor(1,1,1,0.0);
+  glClearColor(0.03,0,0.03,0.0);
   glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 
   glMatrixMode(GL_MODELVIEW);
@@ -133,7 +133,7 @@ void display()
 
   //Lights
   ambientLight();
-  PacMan_drawFieldOfViewLight(pacMan);
+  PacMan_Lights(pacMan);
 
   MapClass_drawMap(map);  
   PacMan_draw(pacMan);

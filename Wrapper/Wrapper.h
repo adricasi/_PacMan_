@@ -54,8 +54,7 @@ void PacMan_setMovementDirection(PacMan* v, int direction);
 
 bool PacMan_gameFinished(PacMan* v);
 
-void PacMan_drawFieldOfViewLight(PacMan* v);
-
+void PacMan_Lights(PacMan* v);
 
 //---------------------EnemiesController---------------------------------------
 
