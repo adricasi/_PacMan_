@@ -25,8 +25,8 @@ class Cell{
     neighbour cell_path_left;
 
   public:
-    void drawCell(bool isHomeRange);
-    void drawFood(bool isHomeRange);
+    void drawCell(bool isHomeRange, int maxRows, int maxColumns);
+    void drawFood(bool isHomeRange, int maxRows, int maxColumns);
     void initCell(int totalRows, int totalColumns, int cellRow, int cellColumn);
     void defineNeighbour(int totalRows, int totalColumns, int neighbourRow, int neighbourColumn, int neighbour);
     void visit();
