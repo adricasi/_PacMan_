@@ -16,9 +16,10 @@ void PacMan::init_movement(){
     
         int num_columns = m_map->get_numColumns();
         int num_rows = m_map->get_numRows();
+        float cellSize = m_map->get_cellSizeObtained();
 
-        float destination_x = get_cellPositonX(m_destinationColumn, num_columns);
-        float destination_z = get_cellPositonZ(m_destinationRow, num_rows);
+        float destination_x = get_cellPositonX(m_destinationColumn, num_columns, cellSize);
+        float destination_z = get_cellPositonZ(m_destinationRow, num_rows, cellSize);
 
         vx = (destination_x - m_x)/m_movementDuration;
         vz = (destination_z - m_z)/m_movementDuration;
@@ -112,7 +113,7 @@ void PacMan::draw()
 
 void PacMan::drawFieldOfViewLight(){
     int x_position = m_x;
-    int y_position = m_y + m_radius;
+    int y_position = m_y;
     int z_position = m_z;
 
     GLint position[4] = {x_position,y_position,z_position,1};
@@ -126,13 +127,36 @@ void PacMan::drawFieldOfViewLight(){
     glLightfv (GL_LIGHT1,GL_SPOT_DIRECTION, m_lightDirection);
 
     glLightf(GL_LIGHT1,GL_CONSTANT_ATTENUATION,1.0);
-    glLightf(GL_LIGHT1,GL_LINEAR_ATTENUATION,0.0);
+    glLightf(GL_LIGHT1,GL_LINEAR_ATTENUATION,0.02);
     glLightf(GL_LIGHT1,GL_QUADRATIC_ATTENUATION,0.0);
 
     glLightf(GL_LIGHT1, GL_SPOT_CUTOFF,35);
-    glLightf(GL_LIGHT1,GL_SPOT_EXPONENT,25);
+    glLightf(GL_LIGHT1,GL_SPOT_EXPONENT,15);
 
     glEnable(GL_LIGHT1);
+}
+
+void PacMan::drawSelfLight(){
+    int x_position = m_x;
+    int y_position = m_y+m_radius*2;
+    int z_position = m_z;
+
+    GLint position[4] = {x_position,y_position,z_position,1};
+    getFieldOfViewDirection();
+
+    GLfloat color[4]={1.0,1.0,1.0,1.0};
+
+    float direction[3] = {0.0,-1.0,0.0};
+
+    glLightfv(GL_LIGHT2,GL_DIFFUSE,color);
+    glLightiv(GL_LIGHT2,GL_POSITION,position);
+    glLightfv (GL_LIGHT2,GL_SPOT_DIRECTION, direction);
+
+    glLightf(GL_LIGHT2,GL_CONSTANT_ATTENUATION,1.0);
+    glLightf(GL_LIGHT2,GL_LINEAR_ATTENUATION,0.15);
+    glLightf(GL_LIGHT2,GL_QUADRATIC_ATTENUATION,0.0);
+
+    glEnable(GL_LIGHT2);
 }
 
 void PacMan::getFieldOfViewDirection(){

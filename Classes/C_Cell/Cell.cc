@@ -72,10 +72,8 @@ void Cell::set_position(float x,float y, float z){
     m_y = y;
     m_z = z;
 }  
-void Cell::set_size(float sizeX, float sizeY, float sizeZ){
-    m_sizeX = sizeX;
-    m_sizeY = sizeY;
-    m_sizeZ = sizeZ;
+void Cell::set_size(float size){
+    m_size = size;
 }
 void Cell::set_row(int row){
     m_row = row;
@@ -140,7 +138,7 @@ void Cell::drawCell(bool isHomeRange, int maxRows, int maxColumns){
 
 
         glEnable(GL_TEXTURE_2D);
-        draw_wall(m_x, m_y, m_z, m_sizeX, m_sizeY, m_sizeZ, red, green, blue, maxTexturePositionX, minTexturePositionX, maxTexturePositionY, minTexturePositionY);
+        draw_wall(m_x, m_y, m_z, m_size, red, green, blue, maxTexturePositionX, minTexturePositionX, maxTexturePositionY, minTexturePositionY);
         glDisable(GL_TEXTURE_2D);
 
     }else if(m_value == CORRIDOR){
@@ -149,7 +147,7 @@ void Cell::drawCell(bool isHomeRange, int maxRows, int maxColumns){
 
     //Define floor texture
     glEnable(GL_TEXTURE_2D);
-    draw_floor(m_x, m_y, m_z, m_sizeX, m_sizeY, m_sizeZ, red, green, blue, maxTexturePositionX, minTexturePositionX, maxTexturePositionY, minTexturePositionY);
+    draw_floor(m_x, m_y, m_z, m_size, red, green, blue, maxTexturePositionX, minTexturePositionX, maxTexturePositionY, minTexturePositionY);
     glDisable(GL_TEXTURE_2D);
 }
 

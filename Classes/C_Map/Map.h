@@ -8,6 +8,7 @@ class MapClass{
   private:
     //Variables
     int m_rows, m_columns;
+    float m_cellSize;
 
     int m_cellsToVisit;
     bool m_breackWallToConnect = false;
@@ -75,6 +76,10 @@ class MapClass{
 
     int get_numColumns(){
       return m_columns;
+    }
+    
+    float get_cellSizeObtained(){
+      return m_cellSize;
     }
 
 };

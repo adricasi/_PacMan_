@@ -1,8 +1,8 @@
 #include "CommonFunctions.h"
 
-float get_cellPositonX(int column, int maxColumns){
-    float x = ((column+0.5)*WIDTH/maxColumns)-WIDTH/2;
-    return x;    
+float get_cellPositonX(int column, int maxColumns, float cellSize){
+    float position = (column*cellSize*2) - maxColumns*cellSize + cellSize;
+    return position;    
 }
 
 float get_cellPositonY(int row, int maxRows){
@@ -10,26 +10,16 @@ float get_cellPositonY(int row, int maxRows){
     return y;
 }
 
-float get_cellPositonZ(int row, int maxRows){
-    float z = ((row+0.5)*HEIGHT/maxRows)-HEIGHT/2;                    
-    return z;
+float get_cellPositonZ(int row, int maxRows, float cellSize){
+    float position = (row*cellSize*2) - maxRows*cellSize + cellSize;
+    return position;
 }
 
 //------------------------------------------------------------------
 
-float get_cellSizeX(int column, int maxColumns){
-    float sizeX = ((column+1)*WIDTH/maxColumns-column*WIDTH/maxColumns)/2.0;
-    return sizeX;
-}
-
-float get_cellSizeY(int row, int maxRows){
-    float sizeY = ((row+1)*HEIGHT/maxRows-row*HEIGHT/maxRows)/2.0;
-    return sizeY;
-}
-
-float get_cellSizeZ(int row, int maxRows){
-    float sizeZ = ((row+1)*HEIGHT/maxRows-row*HEIGHT/maxRows)/2.0;
-    return sizeZ;
+float get_cellSize(int maxRows,int maxColumns){
+    float size = (HEIGHT/maxRows + WIDTH/maxColumns)/4.0;
+    return size;
 }
 
 float get_radiusSphere(int row, int column, int maxRows, int maxColumns){
@@ -39,7 +29,9 @@ float get_radiusSphere(int row, int column, int maxRows, int maxColumns){
     return fmin(sizeWidth,sizeHeight);
 }
 
-void draw_wall(float x,float y,float z,float sizeX,float sizeY,float sizeZ, float red, float green, float blue, float maxTexturePositionX, float minTexturePositionX, float maxTexturePositionY, float minTexturePositionY){
+//------------------------------------------------------------------
+
+void draw_wall(float x,float y,float z,float size, float red, float green, float blue, float maxTexturePositionX, float minTexturePositionX, float maxTexturePositionY, float minTexturePositionY){
     
     GLfloat material[4] = {red,green,blue,1.0};
     glMaterialfv(GL_FRONT_AND_BACK,GL_AMBIENT_AND_DIFFUSE,material);
@@ -54,52 +46,52 @@ void draw_wall(float x,float y,float z,float sizeX,float sizeY,float sizeZ, floa
     //FRONT
     glBegin(GL_QUADS);
     glNormal3f(0,0,1);
-    glTexCoord2f(maxTexturePositionX,minTexturePositionY);glVertex3i(x+sizeX,y+sizeY,z+sizeZ);
-    glTexCoord2f(minTexturePositionX,minTexturePositionY);glVertex3i(x-sizeX,y+sizeY,z+sizeZ);
-    glTexCoord2f(minTexturePositionX,maxTexturePositionY);glVertex3i(x-sizeX,y-sizeY,z+sizeZ);
-    glTexCoord2f(maxTexturePositionX,maxTexturePositionY);glVertex3i(x+sizeX,y-sizeY,z+sizeZ);
+    glTexCoord2f(maxTexturePositionX,minTexturePositionY);glVertex3i(x+size,y+size,z+size);
+    glTexCoord2f(minTexturePositionX,minTexturePositionY);glVertex3i(x-size,y+size,z+size);
+    glTexCoord2f(minTexturePositionX,maxTexturePositionY);glVertex3i(x-size,y-size,z+size);
+    glTexCoord2f(maxTexturePositionX,maxTexturePositionY);glVertex3i(x+size,y-size,z+size);
     glEnd();
     
     //BACK
     glBegin(GL_QUADS);
     glNormal3f(0,0,-1);
-    glTexCoord2f(maxTexturePositionX,maxTexturePositionY);glVertex3i(x+sizeX,y-sizeY,z-sizeZ);
-    glTexCoord2f(minTexturePositionX,maxTexturePositionY);glVertex3i(x-sizeX,y-sizeY,z-sizeZ);
-    glTexCoord2f(minTexturePositionX,minTexturePositionY);glVertex3i(x-sizeX,y+sizeY,z-sizeZ);
-    glTexCoord2f(maxTexturePositionX,minTexturePositionY);glVertex3i(x+sizeX,y+sizeY,z-sizeZ);
+    glTexCoord2f(maxTexturePositionX,maxTexturePositionY);glVertex3i(x+size,y-size,z-size);
+    glTexCoord2f(minTexturePositionX,maxTexturePositionY);glVertex3i(x-size,y-size,z-size);
+    glTexCoord2f(minTexturePositionX,minTexturePositionY);glVertex3i(x-size,y+size,z-size);
+    glTexCoord2f(maxTexturePositionX,minTexturePositionY);glVertex3i(x+size,y+size,z-size);
     glEnd();
 
     //RIGHT
     glBegin(GL_QUADS);
     glNormal3f(1,0,0);
-    glTexCoord2f(minTexturePositionX,maxTexturePositionY);glVertex3i(x+sizeX,y-sizeY,z+sizeZ);
-    glTexCoord2f(maxTexturePositionX,maxTexturePositionY);glVertex3i(x+sizeX,y-sizeY,z-sizeZ);
-    glTexCoord2f(maxTexturePositionX,minTexturePositionY);glVertex3i(x+sizeX,y+sizeY,z-sizeZ);
-    glTexCoord2f(minTexturePositionX,minTexturePositionY);glVertex3i(x+sizeX,y+sizeY,z+sizeZ);
+    glTexCoord2f(minTexturePositionX,maxTexturePositionY);glVertex3i(x+size,y-size,z+size);
+    glTexCoord2f(maxTexturePositionX,maxTexturePositionY);glVertex3i(x+size,y-size,z-size);
+    glTexCoord2f(maxTexturePositionX,minTexturePositionY);glVertex3i(x+size,y+size,z-size);
+    glTexCoord2f(minTexturePositionX,minTexturePositionY);glVertex3i(x+size,y+size,z+size);
     glEnd();
 
 
     //LEFT
     glBegin(GL_QUADS);
     glNormal3f(-1,0,0);
-    glTexCoord2f(minTexturePositionX,minTexturePositionY);glVertex3i(x-sizeX,y+sizeY,z+sizeZ);
-    glTexCoord2f(maxTexturePositionX,minTexturePositionY);glVertex3i(x-sizeX,y+sizeY,z-sizeZ);
-    glTexCoord2f(maxTexturePositionX,maxTexturePositionY);glVertex3i(x-sizeX,y-sizeY,z-sizeZ);
-    glTexCoord2f(minTexturePositionX,maxTexturePositionY);glVertex3i(x-sizeX,y-sizeY,z+sizeZ);
+    glTexCoord2f(minTexturePositionX,minTexturePositionY);glVertex3i(x-size,y+size,z+size);
+    glTexCoord2f(maxTexturePositionX,minTexturePositionY);glVertex3i(x-size,y+size,z-size);
+    glTexCoord2f(maxTexturePositionX,maxTexturePositionY);glVertex3i(x-size,y-size,z-size);
+    glTexCoord2f(minTexturePositionX,maxTexturePositionY);glVertex3i(x-size,y-size,z+size);
     glEnd();
     
     glBindTexture(GL_TEXTURE_2D,ROOFTEXTURE);
     //TOP
     glBegin(GL_QUADS);
     glNormal3f(0,1,0);
-    glTexCoord2f(maxTexturePositionX,minTexturePositionY);glVertex3i(x+sizeX,y+sizeY,z-sizeZ);
-    glTexCoord2f(minTexturePositionX,minTexturePositionY);glVertex3i(x-sizeX,y+sizeY,z-sizeZ);
-    glTexCoord2f(minTexturePositionX,maxTexturePositionY);glVertex3i(x-sizeX,y+sizeY,z+sizeZ);
-    glTexCoord2f(maxTexturePositionX,maxTexturePositionY);glVertex3i(x+sizeX,y+sizeY,z+sizeZ);
+    glTexCoord2f(maxTexturePositionX,minTexturePositionY);glVertex3i(x+size,y+size,z-size);
+    glTexCoord2f(minTexturePositionX,minTexturePositionY);glVertex3i(x-size,y+size,z-size);
+    glTexCoord2f(minTexturePositionX,maxTexturePositionY);glVertex3i(x-size,y+size,z+size);
+    glTexCoord2f(maxTexturePositionX,maxTexturePositionY);glVertex3i(x+size,y+size,z+size);
     glEnd();
 }
 
-void draw_floor(float x,float y,float z,float sizeX,float sizeY,float sizeZ, float red, float green, float blue, float maxTexturePositionX, float minTexturePositionX, float maxTexturePositionY, float minTexturePositionY){
+void draw_floor(float x,float y,float z,float size, float red, float green, float blue, float maxTexturePositionX, float minTexturePositionX, float maxTexturePositionY, float minTexturePositionY){
     GLfloat material[4] = {red,green,blue,1.0};
     glMaterialfv(GL_FRONT_AND_BACK,GL_AMBIENT_AND_DIFFUSE,material);
 
@@ -107,10 +99,10 @@ void draw_floor(float x,float y,float z,float sizeX,float sizeY,float sizeZ, flo
     //BOT
     glBegin(GL_QUADS);
     glNormal3f(0,1,0);
-    glTexCoord2f(maxTexturePositionX,minTexturePositionY);glVertex3i(x+sizeX,y-sizeY,z-sizeZ);
-    glTexCoord2f(minTexturePositionX,minTexturePositionY);glVertex3i(x-sizeX,y-sizeY,z-sizeZ);
-    glTexCoord2f(minTexturePositionX,maxTexturePositionY);glVertex3i(x-sizeX,y-sizeY,z+sizeZ);
-    glTexCoord2f(maxTexturePositionX,maxTexturePositionY);glVertex3i(x+sizeX,y-sizeY,z+sizeZ);
+    glTexCoord2f(maxTexturePositionX,minTexturePositionY);glVertex3i(x+size,y-size,z-size);
+    glTexCoord2f(minTexturePositionX,minTexturePositionY);glVertex3i(x-size,y-size,z-size);
+    glTexCoord2f(minTexturePositionX,maxTexturePositionY);glVertex3i(x-size,y-size,z+size);
+    glTexCoord2f(maxTexturePositionX,maxTexturePositionY);glVertex3i(x+size,y-size,z+size);
     glEnd();
 }
 

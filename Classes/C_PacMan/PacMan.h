@@ -20,6 +20,7 @@ public:
 
     void draw();
     void drawFieldOfViewLight();
+    void drawSelfLight();
     void getFieldOfViewDirection();
 
     void eatFood();
